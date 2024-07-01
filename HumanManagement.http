@@ -1,0 +1,6 @@
+@HumanManagement_HostAddress = http://localhost:5271
+
+GET {{HumanManagement_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
