@@ -9,6 +9,9 @@ namespace HumanManagement.Common.Helper
         public MappingProfiles()
         {
             CreateMap<Bank, BankDto>();
+            CreateMap<BankDto, Bank>();
+            CreateMap<BankBranch, BankBranchDto>();
+            CreateMap<BankBranchDto, BankBranch>();
         }
     }
 }

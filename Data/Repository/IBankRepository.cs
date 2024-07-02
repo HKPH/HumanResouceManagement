@@ -1,6 +1,6 @@
 ﻿using HumanManagement.Models;
-
-namespace HumanManagement.Services.Interfaces
+using HumanManagement.Models.Dto;
+namespace HumanManagement.Data.Repository
 {
     public interface IBankRepository
     {
@@ -10,5 +10,8 @@ namespace HumanManagement.Services.Interfaces
 
         bool CreateBank(Bank bank);
         bool Save();
+        Bank checkBankByName(BankDto bank);
+        bool UpdateBank(Bank bank);
+        bool DeleteBank(Bank bank);
     }
 }

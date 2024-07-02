@@ -1,6 +1,7 @@
 ﻿using HumanManagement.Data;
 using HumanManagement.Models;
-using HumanManagement.Services.Interfaces;
+
+using HumanManagement.Models.Dto;
 
 namespace HumanManagement.Data.Repository
 {
@@ -37,6 +38,22 @@ namespace HumanManagement.Data.Repository
         {
             var saved=_context.SaveChanges();
             return saved > 0 ? true : false;
+        }
+        public Bank checkBankByName(BankDto bank)
+        {
+            return GetBanks().Where(c => c.Name.Trim().ToUpper() == bank.Name.TrimEnd().ToUpper()).FirstOrDefault();
+        }
+
+        public bool UpdateBank(Bank bank)
+        {
+            _context.Update(bank);
+            return Save();
+        }
+
+        public bool DeleteBank(Bank bank)
+        {
+            _context.Remove(bank);
+            return Save();
         }
     }
 }   

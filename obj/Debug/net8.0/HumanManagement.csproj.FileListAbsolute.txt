@@ -136,3 +136,4 @@ D:\Project\ASP.NET\VMOInter\HumanManagement\obj\Debug\net8.0\HumanManagement.gen
 D:\Project\ASP.NET\VMOInter\HumanManagement\obj\Debug\net8.0\ref\HumanManagement.dll
 D:\Project\ASP.NET\VMOInter\HumanManagement\bin\Debug\net8.0\AutoMapper.dll
 D:\Project\ASP.NET\VMOInter\HumanManagement\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\Project\ASP.NET\VMOInter\HumanManagement\obj\Debug\net8.0\HumanManagement.sourcelink.json
