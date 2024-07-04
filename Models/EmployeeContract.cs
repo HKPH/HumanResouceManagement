@@ -20,6 +20,4 @@ public partial class EmployeeContract
     public virtual ContractType? ContractType { get; set; }
 
     public virtual Employee? Employee { get; set; }
-
-    public virtual ICollection<Reminder> Reminders { get; set; } = new List<Reminder>();
 }

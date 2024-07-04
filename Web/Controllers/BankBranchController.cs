@@ -12,11 +12,11 @@ namespace HumanManagement.Web.Controllers
     [ApiController]
     public class BankBranchController: ControllerBase
     {
-        public readonly BankBranchRepository _bankBranchRepository;
-        public readonly BankRepository _bankRepository;
+        public readonly IBankBranchRepository _bankBranchRepository;
+        public readonly IBankRepository _bankRepository;
         public readonly IMapper _mapper;
 
-        public BankBranchController(BankBranchRepository bankBranchRepository,IMapper mapper, BankRepository bankRepository) 
+        public BankBranchController(IBankBranchRepository bankBranchRepository,IMapper mapper, IBankRepository bankRepository) 
         {
             _mapper = mapper;
             _bankBranchRepository = bankBranchRepository;

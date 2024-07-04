@@ -16,4 +16,8 @@ public partial class Salary
     public int? EmployeeId { get; set; }
 
     public virtual Employee? Employee { get; set; }
+
+    public virtual ICollection<SalaryAllowance> SalaryAllowances { get; set; } = new List<SalaryAllowance>();
+
+    public virtual ICollection<SalaryBenefit> SalaryBenefits { get; set; } = new List<SalaryBenefit>();
 }

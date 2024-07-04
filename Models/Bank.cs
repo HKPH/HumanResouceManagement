@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HumanManagement.Models;
 
-public class Bank
+public partial class Bank
 {
     public int BankId { get; set; }
 

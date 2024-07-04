@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using HumanManagement.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HumanManagement.Data;
+namespace HumanManagement.Models;
 
-public partial class DBContext : DbContext
+public partial class HumanManagementContext : DbContext
 {
-    public DBContext()
+    public HumanManagementContext()
     {
     }
 
-    public DBContext(DbContextOptions<DBContext> options)
+    public HumanManagementContext(DbContextOptions<HumanManagementContext> options)
         : base(options)
     {
     }

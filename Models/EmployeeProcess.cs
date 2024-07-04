@@ -12,4 +12,6 @@ public partial class EmployeeProcess
     public int? EmployeeId { get; set; }
 
     public virtual Employee? Employee { get; set; }
+
+    public virtual ICollection<EmployeeFamily> EmployeeFamilies { get; set; } = new List<EmployeeFamily>();
 }

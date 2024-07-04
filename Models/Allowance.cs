@@ -13,5 +13,5 @@ public partial class Allowance
 
     public decimal? Amount { get; set; }
 
-    public virtual ICollection<EmployeeAllowance> EmployeeAllowances { get; set; } = new List<EmployeeAllowance>();
+    public virtual ICollection<SalaryAllowance> SalaryAllowances { get; set; } = new List<SalaryAllowance>();
 }

@@ -15,5 +15,11 @@ public partial class EmployeeFamily
 
     public int? EmployeeId { get; set; }
 
-    public virtual Employee? Employee { get; set; }
+    public int? EmployeeProcessId { get; set; }
+
+    public bool? DependentDeduction { get; set; }
+
+    public DateOnly? EffectiveDate { get; set; }
+
+    public virtual EmployeeProcess? EmployeeProcess { get; set; }
 }

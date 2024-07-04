@@ -14,6 +14,4 @@ public partial class Decision
     public DateOnly? EffectiveDate { get; set; }
 
     public virtual ICollection<EmployeeDecision> EmployeeDecisions { get; set; } = new List<EmployeeDecision>();
-
-    public virtual ICollection<Reminder> Reminders { get; set; } = new List<Reminder>();
 }

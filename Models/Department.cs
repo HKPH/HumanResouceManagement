@@ -9,5 +9,7 @@ public partial class Department
 
     public string? Name { get; set; }
 
+    public virtual ICollection<DepartmentJobTitle> DepartmentJobTitles { get; set; } = new List<DepartmentJobTitle>();
+
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 }
