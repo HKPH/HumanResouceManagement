@@ -2,6 +2,7 @@
 using HumanManagement.Models;
 
 using HumanManagement.Models.Dto;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
 {
@@ -21,17 +22,17 @@ namespace HumanManagement.Data.Repository
 
         public Bank GetBankById(int bankId)
         {
-            return _context.Banks.Where(b => b.BankId == bankId).FirstOrDefault();
+            return _context.Banks.Where(b => b.Id == bankId).FirstOrDefault();
         }
 
         public ICollection<Bank> GetBanks()
         {
-            return _context.Banks.OrderBy(b => b.BankId).ToList();
+            return _context.Banks.OrderBy(b => b.Id).ToList();
         }
 
         public bool HasBank(int bankId)
         {
-            return _context.Banks.Any(b => b.BankId == bankId);
+            return _context.Banks.Any(b => b.Id == bankId);
         }
 
         public bool Save()
@@ -55,5 +56,11 @@ namespace HumanManagement.Data.Repository
             _context.Remove(bank);
             return Save();
         }
+
+        public ICollection<Bank> GetBanksByActive(bool active)
+        {
+            return _context.Banks.Where(b=> b.Active==active).OrderBy(b => b.Id).ToList();
+        }
     }
+
 }   

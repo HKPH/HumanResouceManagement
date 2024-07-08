@@ -7,15 +7,16 @@ namespace HumanManagement.Data.Repository
     public interface IBankBranchRepository
     {
         ICollection<BankBranch> GetBankBranches();
-        BankBranch GetBankBranchById(int BankBranchId);
-        bool HasBankBranch(int BankBranchId);
+        BankBranch GetBankBranchById(int bankBranchId);
+        bool HasBankBranch(int bankBranchId);
         bool CreateBankBranch(BankBranch bankBranch);
         bool UpdateBankBranch(BankBranch bankBranch);
         BankBranch checkBankBranchByName(BankBranchDto bankBranch);
         bool Save();
-        bool DeleteBankBranch(BankBranch BankBranch);
+        bool DeleteBankBranch(BankBranch bankBranch);
         bool DeleteBankBranches(List<BankBranch> bankBranches); 
-        List<BankBranch> GetAllBankBranchesByBankId(int BankId);
+        List<BankBranch> GetAllBankBranchesByBankId(int bankId);
+        ICollection<BankBranch> GetBankBranchesByActive(bool active);
         
 
     }

@@ -5,7 +5,7 @@ namespace HumanManagement.Models;
 
 public partial class Attachment
 {
-    public int AttachmentId { get; set; }
+    public int Id { get; set; }
 
     public string? FileName { get; set; }
 

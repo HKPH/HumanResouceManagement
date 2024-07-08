@@ -5,7 +5,7 @@ namespace HumanManagement.Models;
 
 public partial class Account
 {
-    public int AccountId { get; set; }
+    public int Id { get; set; }
 
     public string? Username { get; set; }
 
@@ -18,6 +18,8 @@ public partial class Account
     public DateOnly? CreateDate { get; set; }
 
     public int? EmployeeId { get; set; }
+
+    public bool? Active { get; set; }
 
     public virtual Employee? Employee { get; set; }
 }

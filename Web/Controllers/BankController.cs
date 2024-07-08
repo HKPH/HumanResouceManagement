@@ -2,14 +2,13 @@
 using HumanManagement.Data.Repository;
 using HumanManagement.Models;
 using HumanManagement.Models.Dto;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Web.Controllers
 {
 
-    [Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BankController : ControllerBase
     {
@@ -40,6 +39,15 @@ namespace HumanManagement.Web.Controllers
                 return BadRequest(ModelState);
             return Ok(bank);
         }
+        [HttpGet("active/{active}")]
+        public IActionResult GetBankByActive(bool active)
+        {
+            var banks=_mapper.Map<List<BankDto>>(_bankRepository.GetBanksByActive(active));
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+            return Ok(banks);
+
+        }
         [HttpPost]
         public IActionResult CreateBank([FromBody] BankDto bankCreate)
         {
@@ -55,20 +63,21 @@ namespace HumanManagement.Web.Controllers
             }
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            bankCreate.Active = true;
             var bankMap = _mapper.Map<Bank>(bankCreate);
             if (!_bankRepository.CreateBank(bankMap))
             {
                 ModelState.AddModelError("", "Bank cant crate");
                 return StatusCode(500, ModelState);
             }
-            return Ok("Successfully crated");
+            return Ok("Successfully created");
 
 
         }
         [HttpPut("{bankId}")]
-        public IActionResult UpdateBank(int bankId, [FromBody] BankDto bankUpadate)
+        public IActionResult UpdateBank(int bankId, [FromBody] BankDto bankUpdate)
         {
-            if (bankUpadate == null)
+            if (bankUpdate == null)
             {
                 return BadRequest(ModelState);
             }
@@ -80,7 +89,7 @@ namespace HumanManagement.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var bankMap=_mapper.Map<Bank>(bankUpadate);
+            var bankMap=_mapper.Map<Bank>(bankUpdate);
             if(!_bankRepository.UpdateBank(bankMap))
             {
                 ModelState.AddModelError("", "Can't update bank");
@@ -123,6 +132,26 @@ namespace HumanManagement.Web.Controllers
                 ModelState.AddModelError("", $"An error occurred: {ex.Message}");
                 return StatusCode(500, ModelState);
             }
+        }
+        [HttpPut("active/{bankId}")]
+        public IActionResult ChangeBankActive(int bankId,[FromBody] bool active)
+        {
+            var bank=_bankRepository.GetBankById(bankId);
+            if(bank== null)
+            {
+                return NotFound();
+            }    
+            bank.Active = active;
+            if (!_bankRepository.UpdateBank(bank))
+            {
+                ModelState.AddModelError("", $"Can't change bank status to {active}");
+                return StatusCode(500, ModelState);
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok($"Bank status changes to {active}");
         }
 
 

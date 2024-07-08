@@ -5,7 +5,7 @@ namespace HumanManagement.Models;
 
 public partial class SalaryBenefit
 {
-    public int SalaryId { get; set; }
+    public int BalaryId { get; set; }
 
     public int BenefitId { get; set; }
 
@@ -13,7 +13,11 @@ public partial class SalaryBenefit
 
     public DateOnly CreateDate { get; set; }
 
-    public virtual Benefit Benefit { get; set; } = null!;
+    public int? CreaterId { get; set; }
 
-    public virtual Salary Salary { get; set; } = null!;
+    public bool? Active { get; set; }
+
+    public virtual Salary Balary { get; set; } = null!;
+
+    public virtual Benefit Benefit { get; set; } = null!;
 }

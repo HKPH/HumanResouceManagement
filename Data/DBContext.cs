@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using HumanManagement.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HumanManagement.Data;
+namespace HumanManagement.Models;
 
 public partial class DBContext : DbContext
 {
@@ -11,14 +10,12 @@ public partial class DBContext : DbContext
     {
     }
 
-    public DBContext(DbContextOptions<DBContext> options)
+    public DBContext(DbContextOptions<HumanManagementContext> options)
         : base(options)
     {
     }
 
     public virtual DbSet<Account> Accounts { get; set; }
-
-    public virtual DbSet<Address> Addresses { get; set; }
 
     public virtual DbSet<Allowance> Allowances { get; set; }
 
@@ -34,8 +31,6 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<ContractType> ContractTypes { get; set; }
 
-    public virtual DbSet<Decision> Decisions { get; set; }
-
     public virtual DbSet<Department> Departments { get; set; }
 
     public virtual DbSet<DepartmentJobTitle> DepartmentJobTitles { get; set; }
@@ -48,7 +43,7 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<EmployeeContract> EmployeeContracts { get; set; }
 
-    public virtual DbSet<EmployeeDecision> EmployeeDecisions { get; set; }
+    public virtual DbSet<EmployeeCv> EmployeeCvs { get; set; }
 
     public virtual DbSet<EmployeeFamily> EmployeeFamilies { get; set; }
 
@@ -76,7 +71,7 @@ public partial class DBContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__Account__349DA5A611A9F248");
+            entity.HasKey(e => e.Id).HasName("PK__Account__349DA5A611A9F248");
 
             entity.ToTable("Account");
 
@@ -90,25 +85,9 @@ public partial class DBContext : DbContext
                 .HasConstraintName("FK__Account__Employe__6B24EA82");
         });
 
-        modelBuilder.Entity<Address>(entity =>
-        {
-            entity.HasKey(e => e.AddressId).HasName("PK__Address__091C2AFB0EE1145E");
-
-            entity.ToTable("Address");
-
-            entity.Property(e => e.Country).HasMaxLength(50);
-            entity.Property(e => e.District).HasMaxLength(50);
-            entity.Property(e => e.Province).HasMaxLength(50);
-            entity.Property(e => e.Ward).HasMaxLength(50);
-
-            entity.HasOne(d => d.Employee).WithMany(p => p.Addresses)
-                .HasForeignKey(d => d.EmployeeId)
-                .HasConstraintName("FK_Address_Employee");
-        });
-
         modelBuilder.Entity<Allowance>(entity =>
         {
-            entity.HasKey(e => e.AllowanceId).HasName("PK__Allowanc__7B12D1A182532F09");
+            entity.HasKey(e => e.Id).HasName("PK__Allowanc__7B12D1A182532F09");
 
             entity.ToTable("Allowance");
 
@@ -119,7 +98,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<Asset>(entity =>
         {
-            entity.HasKey(e => e.AssetId).HasName("PK__Asset__434923528AE47358");
+            entity.HasKey(e => e.Id).HasName("PK__Asset__434923528AE47358");
 
             entity.ToTable("Asset");
 
@@ -130,7 +109,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<Attachment>(entity =>
         {
-            entity.HasKey(e => e.AttachmentId).HasName("PK__Attachme__442C64BE83211A44");
+            entity.HasKey(e => e.Id).HasName("PK__Attachme__442C64BE83211A44");
 
             entity.ToTable("Attachment");
 
@@ -144,7 +123,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<Bank>(entity =>
         {
-            entity.HasKey(e => e.BankId).HasName("PK__Bank__AA08CB13BC0613B0");
+            entity.HasKey(e => e.Id).HasName("PK__Bank__AA08CB13BC0613B0");
 
             entity.ToTable("Bank");
 
@@ -158,7 +137,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<BankBranch>(entity =>
         {
-            entity.HasKey(e => e.BankBranchId).HasName("PK__BankBran__135DBAB545BDCC58");
+            entity.HasKey(e => e.Id).HasName("PK__BankBran__135DBAB545BDCC58");
 
             entity.ToTable("BankBranch");
 
@@ -175,7 +154,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<Benefit>(entity =>
         {
-            entity.HasKey(e => e.BenefitId).HasName("PK__Benefit__5754C6DA9CA4DE24");
+            entity.HasKey(e => e.Id).HasName("PK__Benefit__5754C6DA9CA4DE24");
 
             entity.ToTable("Benefit");
 
@@ -186,7 +165,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<ContractType>(entity =>
         {
-            entity.HasKey(e => e.ContractTypeId).HasName("PK__Contract__68A61565FC0C918F");
+            entity.HasKey(e => e.Id).HasName("PK__Contract__68A61565FC0C918F");
 
             entity.ToTable("ContractType");
 
@@ -194,18 +173,9 @@ public partial class DBContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(100);
         });
 
-        modelBuilder.Entity<Decision>(entity =>
-        {
-            entity.HasKey(e => e.DecisionId).HasName("PK__Decision__C0F2898668F0DE99");
-
-            entity.ToTable("Decision");
-
-            entity.Property(e => e.Detail).HasMaxLength(255);
-        });
-
         modelBuilder.Entity<Department>(entity =>
         {
-            entity.HasKey(e => e.DepartmentId).HasName("PK__Departme__B2079BED86A84897");
+            entity.HasKey(e => e.Id).HasName("PK__Departme__B2079BED86A84897");
 
             entity.ToTable("Department");
 
@@ -217,8 +187,6 @@ public partial class DBContext : DbContext
             entity.HasKey(e => new { e.DepartmentId, e.JobTitleId }).HasName("PK__Departme__92F3201724377229");
 
             entity.ToTable("Department_JobTitle");
-
-            entity.Property(e => e.Active).HasColumnName("active");
 
             entity.HasOne(d => d.Department).WithMany(p => p.DepartmentJobTitles)
                 .HasForeignKey(d => d.DepartmentId)
@@ -233,7 +201,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<Discipline>(entity =>
         {
-            entity.HasKey(e => e.DisciplineId).HasName("PK__Discipli__290937705FD007D3");
+            entity.HasKey(e => e.Id).HasName("PK__Discipli__290937705FD007D3");
 
             entity.ToTable("Discipline");
 
@@ -246,13 +214,12 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.EmployeeId).HasName("PK__Employee__7AD04F111C062C22");
+            entity.HasKey(e => e.Id).HasName("PK__Employee__7AD04F111C062C22");
 
             entity.ToTable("Employee");
 
             entity.Property(e => e.Dob).HasColumnName("DOB");
             entity.Property(e => e.Email).HasMaxLength(100);
-            entity.Property(e => e.Gender).HasMaxLength(10);
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.PhoneNumber).HasMaxLength(15);
 
@@ -294,7 +261,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<EmployeeContract>(entity =>
         {
-            entity.HasKey(e => e.EmployeeContractId).HasName("PK__Employee__E17E04F6C9193CBA");
+            entity.HasKey(e => e.Id).HasName("PK__Employee__E17E04F6C9193CBA");
 
             entity.ToTable("EmployeeContract");
 
@@ -307,48 +274,40 @@ public partial class DBContext : DbContext
                 .HasConstraintName("FK__EmployeeC__Emplo__4222D4EF");
         });
 
-        modelBuilder.Entity<EmployeeDecision>(entity =>
+        modelBuilder.Entity<EmployeeCv>(entity =>
         {
-            entity.HasKey(e => new { e.MakerId, e.ReciverId, e.DecisionId }).HasName("PK__Employee__F3048702779B2CDA");
+            entity.HasKey(e => e.Id).HasName("PK__Address__091C2AFB0EE1145E");
 
-            entity.ToTable("Employee_Decision");
+            entity.ToTable("EmployeeCV");
 
-            entity.HasOne(d => d.Decision).WithMany(p => p.EmployeeDecisions)
-                .HasForeignKey(d => d.DecisionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Employee___Decis__68487DD7");
+            entity.Property(e => e.Country).HasMaxLength(50);
+            entity.Property(e => e.District).HasMaxLength(50);
+            entity.Property(e => e.Province).HasMaxLength(50);
+            entity.Property(e => e.Ward).HasMaxLength(50);
 
-            entity.HasOne(d => d.Maker).WithMany(p => p.EmployeeDecisionMakers)
-                .HasForeignKey(d => d.MakerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Employee___Maker__66603565");
-
-            entity.HasOne(d => d.Reciver).WithMany(p => p.EmployeeDecisionRecivers)
-                .HasForeignKey(d => d.ReciverId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Employee___Reciv__6754599E");
+            entity.HasOne(d => d.Employee).WithMany(p => p.EmployeeCvs)
+                .HasForeignKey(d => d.EmployeeId)
+                .HasConstraintName("FK_Address_Employee");
         });
 
         modelBuilder.Entity<EmployeeFamily>(entity =>
         {
-            entity.HasKey(e => e.EmployeeFamilyId).HasName("PK__Employee__19368B1BC5A1E352");
+            entity.HasKey(e => e.Id).HasName("PK__Employee__19368B1BC5A1E352");
 
             entity.ToTable("EmployeeFamily");
 
-            entity.Property(e => e.DependentDeduction).HasColumnName("dependentDeduction");
             entity.Property(e => e.Dob).HasColumnName("DOB");
-            entity.Property(e => e.EffectiveDate).HasColumnName("effectiveDate");
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Note).HasMaxLength(255);
 
-            entity.HasOne(d => d.EmployeeProcess).WithMany(p => p.EmployeeFamilies)
-                .HasForeignKey(d => d.EmployeeProcessId)
-                .HasConstraintName("FK_EmployeeFamily_EmployeeProcess");
+            entity.HasOne(d => d.Employee).WithMany(p => p.EmployeeFamilies)
+                .HasForeignKey(d => d.EmployeeId)
+                .HasConstraintName("FK_EmployeeFamily_Employee");
         });
 
         modelBuilder.Entity<EmployeeProcess>(entity =>
         {
-            entity.HasKey(e => e.EmployeeProcessId).HasName("PK__Employee__C393BC8625B6F0F0");
+            entity.HasKey(e => e.Id).HasName("PK__Employee__C393BC8625B6F0F0");
 
             entity.ToTable("EmployeeProcess");
 
@@ -374,7 +333,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<JobTitle>(entity =>
         {
-            entity.HasKey(e => e.JobTitleId).HasName("PK__JobTitle__35382FE964263AB0");
+            entity.HasKey(e => e.Id).HasName("PK__JobTitle__35382FE964263AB0");
 
             entity.ToTable("JobTitle");
 
@@ -384,7 +343,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<Resignation>(entity =>
         {
-            entity.HasKey(e => e.ResignationId).HasName("PK__Resignat__CD4E6DB55AB1B1A8");
+            entity.HasKey(e => e.Id).HasName("PK__Resignat__CD4E6DB55AB1B1A8");
 
             entity.ToTable("Resignation");
 
@@ -397,7 +356,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<Reward>(entity =>
         {
-            entity.HasKey(e => e.RewardId).HasName("PK__Reward__825015B9D2507171");
+            entity.HasKey(e => e.Id).HasName("PK__Reward__825015B9D2507171");
 
             entity.ToTable("Reward");
 
@@ -411,12 +370,13 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<Salary>(entity =>
         {
-            entity.HasKey(e => e.SalaryId).HasName("PK__Salary__4BE20457FD15762D");
+            entity.HasKey(e => e.Id).HasName("PK__Salary__4BE20457FD15762D");
 
             entity.ToTable("Salary");
 
             entity.Property(e => e.BaseSalary).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.FinalSalary).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.Note).HasMaxLength(50);
 
             entity.HasOne(d => d.Employee).WithMany(p => p.Salaries)
                 .HasForeignKey(d => d.EmployeeId)
@@ -428,11 +388,6 @@ public partial class DBContext : DbContext
             entity.HasKey(e => new { e.SalaryId, e.AllowanceId }).HasName("PK__Salary_A__1B12D0903AC06272");
 
             entity.ToTable("Salary_Allowance");
-
-            entity.Property(e => e.SalaryId).HasColumnName("salaryId");
-            entity.Property(e => e.AllowanceId).HasColumnName("allowanceId");
-            entity.Property(e => e.CreateDate).HasColumnName("createDate");
-            entity.Property(e => e.Received).HasColumnName("received");
 
             entity.HasOne(d => d.Allowance).WithMany(p => p.SalaryAllowances)
                 .HasForeignKey(d => d.AllowanceId)
@@ -447,24 +402,19 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<SalaryBenefit>(entity =>
         {
-            entity.HasKey(e => new { e.SalaryId, e.BenefitId }).HasName("PK__Salary_B__666E6055862FC369");
+            entity.HasKey(e => new { e.BalaryId, e.BenefitId }).HasName("PK__Salary_B__666E6055862FC369");
 
             entity.ToTable("Salary_Benefit");
 
-            entity.Property(e => e.SalaryId).HasColumnName("salaryId");
-            entity.Property(e => e.BenefitId).HasColumnName("benefitId");
-            entity.Property(e => e.CreateDate).HasColumnName("createDate");
-            entity.Property(e => e.Received).HasColumnName("received");
+            entity.HasOne(d => d.Balary).WithMany(p => p.SalaryBenefits)
+                .HasForeignKey(d => d.BalaryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Salary_Be__salar__3B40CD36");
 
             entity.HasOne(d => d.Benefit).WithMany(p => p.SalaryBenefits)
                 .HasForeignKey(d => d.BenefitId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Salary_Be__benef__3C34F16F");
-
-            entity.HasOne(d => d.Salary).WithMany(p => p.SalaryBenefits)
-                .HasForeignKey(d => d.SalaryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Salary_Be__salar__3B40CD36");
         });
 
         OnModelCreatingPartial(modelBuilder);

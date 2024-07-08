@@ -5,11 +5,11 @@ namespace HumanManagement.Models;
 
 public partial class Employee
 {
-    public int EmployeeId { get; set; }
+    public int Id { get; set; }
 
     public string? Name { get; set; }
 
-    public string? Gender { get; set; }
+    public int? Gender { get; set; }
 
     public DateOnly? Dob { get; set; }
 
@@ -25,9 +25,9 @@ public partial class Employee
 
     public int? JobTitleId { get; set; }
 
-    public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
+    public bool? Active { get; set; }
 
-    public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
+    public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
 
     public virtual ICollection<Attachment> Attachments { get; set; } = new List<Attachment>();
 
@@ -41,9 +41,9 @@ public partial class Employee
 
     public virtual ICollection<EmployeeContract> EmployeeContracts { get; set; } = new List<EmployeeContract>();
 
-    public virtual ICollection<EmployeeDecision> EmployeeDecisionMakers { get; set; } = new List<EmployeeDecision>();
+    public virtual ICollection<EmployeeCv> EmployeeCvs { get; set; } = new List<EmployeeCv>();
 
-    public virtual ICollection<EmployeeDecision> EmployeeDecisionRecivers { get; set; } = new List<EmployeeDecision>();
+    public virtual ICollection<EmployeeFamily> EmployeeFamilies { get; set; } = new List<EmployeeFamily>();
 
     public virtual ICollection<EmployeeProcess> EmployeeProcesses { get; set; } = new List<EmployeeProcess>();
 

@@ -1,6 +1,6 @@
 ﻿using HumanManagement.Models;
 using HumanManagement.Models.Dto;
-
+using Microsoft.EntityFrameworkCore;
 namespace HumanManagement.Data.Repository
 {
     public class BankBranchRepository : IBankBranchRepository
@@ -40,18 +40,19 @@ namespace HumanManagement.Data.Repository
 
         public BankBranch GetBankBranchById(int bankBranchId)
         {
-            var bankBranch=_context.BankBranches.Where(b=> b.BankBranchId == bankBranchId).FirstOrDefault();
-            return bankBranch;
+            return _context.BankBranches.Where(b=> b.Id == bankBranchId).FirstOrDefault();
         }
 
         public ICollection<BankBranch> GetBankBranches()
         {
-            return _context.BankBranches.OrderBy(b=> b.BankBranchId).ToList();
+            return _context.BankBranches
+                           .OrderBy(b => b.Id)
+                           .ToList();
         }
 
         public bool HasBankBranch(int bankBranchId)
         {
-            return _context.BankBranches.Any(b=> b.BankBranchId== bankBranchId);
+            return _context.BankBranches.Any(b=> b.Id== bankBranchId);
 
         }
 
@@ -65,6 +66,10 @@ namespace HumanManagement.Data.Repository
         {
             _context.Update(bankBranch);
             return Save();
+        }
+        public ICollection<BankBranch> GetBankBranchesByActive(bool active)
+        {
+            return _context.BankBranches.Where(_b => _b.Active == active).ToList();
         }
     }
 }

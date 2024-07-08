@@ -17,5 +17,7 @@ public partial class HealthCare
 
     public string? Email { get; set; }
 
+    public bool? Active { get; set; }
+
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 }

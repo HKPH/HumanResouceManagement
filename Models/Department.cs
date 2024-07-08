@@ -5,9 +5,11 @@ namespace HumanManagement.Models;
 
 public partial class Department
 {
-    public int DepartmentId { get; set; }
+    public int Id { get; set; }
 
     public string? Name { get; set; }
+
+    public bool? Active { get; set; }
 
     public virtual ICollection<DepartmentJobTitle> DepartmentJobTitles { get; set; } = new List<DepartmentJobTitle>();
 

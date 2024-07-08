@@ -13,6 +13,10 @@ public partial class SalaryAllowance
 
     public int AllowanceId { get; set; }
 
+    public int? CreaterId { get; set; }
+
+    public bool? Active { get; set; }
+
     public virtual Allowance Allowance { get; set; } = null!;
 
     public virtual Salary Salary { get; set; } = null!;

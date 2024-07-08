@@ -5,9 +5,9 @@ namespace HumanManagement.Data.Repository
     public interface IBankRepository
     {
         ICollection<Bank> GetBanks();
+        ICollection<Bank> GetBanksByActive(bool active);
         Bank GetBankById(int bankId);
         bool HasBank(int bankId);
-
         bool CreateBank(Bank bank);
         bool Save();
         Bank checkBankByName(BankDto bank);

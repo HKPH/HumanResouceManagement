@@ -5,7 +5,7 @@ namespace HumanManagement.Models.Dto;
 
 public class BankDto
 {
-    public int BankId { get; set; }
+    public int Id { get; set; }
 
     public string? Name { get; set; }
 
@@ -18,4 +18,8 @@ public class BankDto
     public string? Email { get; set; }
 
     public string? Web { get; set; }
+
+    public bool? Active { get; set; }
+
+
 }

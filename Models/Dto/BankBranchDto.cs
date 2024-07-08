@@ -5,7 +5,7 @@ namespace HumanManagement.Models.Dto;
 
 public partial class BankBranchDto
 {
-    public int BankBranchId { get; set; }
+    public int Id { get; set; }
 
     public string? Name { get; set; }
 
@@ -17,6 +17,9 @@ public partial class BankBranchDto
 
     public string? Email { get; set; }
 
+    public int? BankId { get; set; }
+
+    public bool? Active { get; set; }
 
 
 }

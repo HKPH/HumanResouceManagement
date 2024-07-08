@@ -5,7 +5,7 @@ namespace HumanManagement.Models;
 
 public partial class BankBranch
 {
-    public int BankBranchId { get; set; }
+    public int Id { get; set; }
 
     public string? Name { get; set; }
 
@@ -18,6 +18,8 @@ public partial class BankBranch
     public string? Email { get; set; }
 
     public int? BankId { get; set; }
+
+    public bool? Active { get; set; }
 
     public virtual Bank? Bank { get; set; }
 

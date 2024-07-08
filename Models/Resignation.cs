@@ -5,7 +5,7 @@ namespace HumanManagement.Models;
 
 public partial class Resignation
 {
-    public int ResignationId { get; set; }
+    public int Id { get; set; }
 
     public string? Reason { get; set; }
 

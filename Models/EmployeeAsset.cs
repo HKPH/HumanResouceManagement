@@ -17,6 +17,12 @@ public partial class EmployeeAsset
 
     public int EmployeeId { get; set; }
 
+    public int? CreaterId { get; set; }
+
+    public DateOnly? CreateDate { get; set; }
+
+    public bool? Active { get; set; }
+
     public virtual Asset Asset { get; set; } = null!;
 
     public virtual Employee Employee { get; set; } = null!;
