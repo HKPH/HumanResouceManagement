@@ -5,7 +5,7 @@ namespace HumanManagement.Models;
 
 public partial class HealthCare
 {
-    public int HealthCareId { get; set; }
+    public int Id { get; set; }
 
     public string? Name { get; set; }
 

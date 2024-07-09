@@ -320,7 +320,7 @@ public partial class HumanManagementContext : DbContext
 
         modelBuilder.Entity<HealthCare>(entity =>
         {
-            entity.HasKey(e => e.HealthCareId).HasName("PK__HealthCa__F7AD66FD06DCB0EB");
+            entity.HasKey(e => e.Id).HasName("PK__HealthCa__F7AD66FD06DCB0EB");
 
             entity.ToTable("HealthCare");
 
