@@ -8,10 +8,22 @@ namespace HumanManagement.Common.Helper
     {
         public MappingProfiles()
         {
+            
             CreateMap<Bank, BankDto>();
             CreateMap<BankDto, Bank>();
             CreateMap<BankBranch, BankBranchDto>();
             CreateMap<BankBranchDto, BankBranch>();
+            CreateMap<AccountDto, Account>();
+            CreateMap<Account, AccountDto>();
+            CreateMap<HealthCare, HealthCareDto>();
+            CreateMap<HealthCareDto, HealthCare>();
+            CreateMap<EmployeeCv, EmployeeCvDto>();
+            CreateMap<EmployeeCvDto, EmployeeCv>();
+            CreateMap<JobTitleDto, JobTitle>();
+            CreateMap<JobTitle, JobTitleDto>();
+
+
+
         }
     }
 }

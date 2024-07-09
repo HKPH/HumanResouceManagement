@@ -23,6 +23,11 @@ builder.Services.AddDbContext<DBContext>(options =>
 builder.Services.AddScoped<IBankRepository, BankRepository>();
 builder.Services.AddScoped<IBankBranchRepository, BankBranchRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IHealthCareRepository, HealthCareRepository>();
+builder.Services.AddScoped<IEmployeeCvRepository, EmployeeCvRepository>();
+builder.Services.AddScoped<IJobTitleRepository, JobTitleRepository>();
+
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
