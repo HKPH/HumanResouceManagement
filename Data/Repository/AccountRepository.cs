@@ -5,7 +5,7 @@ namespace HumanManagement.Data.Repository
 {
     public class AccountRepository : IAccountRepository
     {
-        DBContext _context;
+        private readonly DBContext _context;
         public AccountRepository(DBContext context)
         {
             _context = context;

@@ -4,7 +4,7 @@ namespace HumanManagement.Data.Repository
 {
     public class EmployeeCvRepository : IEmployeeCvRepository
     {
-        DBContext _context;
+        private readonly DBContext _context;
         public EmployeeCvRepository(DBContext context)
         {
             _context = context;

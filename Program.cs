@@ -26,6 +26,11 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IHealthCareRepository, HealthCareRepository>();
 builder.Services.AddScoped<IEmployeeCvRepository, EmployeeCvRepository>();
 builder.Services.AddScoped<IJobTitleRepository, JobTitleRepository>();
+builder.Services.AddScoped<IContractTypeRepository, ContractTypeRepository>();
+builder.Services.AddScoped<IEmployeeContractRepository, EmployeeContractRepository>();
+builder.Services.AddScoped<IAllowanceRepository, AllowanceRepository>();
+
+
 
 
 

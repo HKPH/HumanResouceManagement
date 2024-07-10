@@ -27,7 +27,7 @@ namespace HumanManagement.Web.Controllers
             return Ok(account);
         }
         [HttpGet("{accountId}")]
-        public IActionResult GetAccountById(int accountId) 
+        public IActionResult GetAccount(int accountId) 
         {
             if (ModelState.IsValid)
             {

@@ -23,7 +23,7 @@ namespace HumanManagement.Web.Controllers
             return Ok(jobTitles);
         }
         [HttpGet("{jobTitleId}")]
-        public IActionResult GetJobTitleById(int jobTitleId)
+        public IActionResult GetJobTitle(int jobTitleId)
         {
             var jobTitle = _jobTitleRepository.GetJobTitleById(jobTitleId);
             return Ok(jobTitle);

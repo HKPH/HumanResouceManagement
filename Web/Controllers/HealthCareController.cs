@@ -18,7 +18,7 @@ namespace HumanManagement.Web.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public IActionResult GetHealthCare()
+        public IActionResult GetHealthCares()
         {
             var healthCares=_mapper.Map<List<HealthCareDto>>(_healthCareRepository.GetHealthCares());
             if(!ModelState.IsValid)
@@ -27,7 +27,7 @@ namespace HumanManagement.Web.Controllers
 
         }
         [HttpGet("{healthCareId}")]
-        public IActionResult GetHealthCareById(int healthCareId)
+        public IActionResult GetHealthCare(int healthCareId)
         {
             var healthCare=_mapper.Map<HealthCare>(_healthCareRepository.GetHealthCareById(healthCareId));
             if (!ModelState.IsValid) return BadRequest(ModelState);

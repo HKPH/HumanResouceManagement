@@ -21,6 +21,15 @@ namespace HumanManagement.Common.Helper
             CreateMap<EmployeeCvDto, EmployeeCv>();
             CreateMap<JobTitleDto, JobTitle>();
             CreateMap<JobTitle, JobTitleDto>();
+            CreateMap<ContractType, ContractTypeDto>();
+            CreateMap<ContractTypeDto, ContractType>();
+            CreateMap<EmployeeContractDto, EmployeeContract>();
+            CreateMap<EmployeeContract, EmployeeContractDto>();
+            CreateMap<Allowance, AllowanceDto>();
+            CreateMap<AllowanceDto, Allowance>();
+
+
+
 
 
 
