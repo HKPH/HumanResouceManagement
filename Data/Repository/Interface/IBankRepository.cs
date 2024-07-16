@@ -1,17 +1,17 @@
 ﻿using HumanManagement.Models;
 using HumanManagement.Models.Dto;
-namespace HumanManagement.Data.Repository
+namespace HumanManagement.Data.Repository.Interface
 {
     public interface IBankRepository
     {
-        ICollection<Bank> GetBanks();
-        ICollection<Bank> GetBanksByActive(bool active);
+        List<Bank> GetBanks();
+        List<Bank> GetBanksByActive(bool active);
         Bank GetBankById(int bankId);
         bool HasBank(int bankId);
         bool CreateBank(Bank bank);
         bool Save();
         Bank checkBankByName(BankDto bank);
         bool UpdateBank(Bank bank);
-        bool DeleteBank(Bank bank);
+        bool DeleteBank(int bankId);
     }
 }

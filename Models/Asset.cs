@@ -9,8 +9,8 @@ public partial class Asset
 
     public string? Name { get; set; }
 
-    public DateOnly? PurchaseDate { get; set; }
-
+    public DateTime? PurchaseDate { get; set; }
+    
     public decimal? PurchasePrice { get; set; }
 
     public string? Note { get; set; }

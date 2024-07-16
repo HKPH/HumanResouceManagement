@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HumanManagement.Data.Repository;
+using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,7 +35,7 @@ namespace HumanManagement.Web.Controllers
         [HttpGet("active/{active}")]
         public IActionResult GetAllowanceByActive(bool active)
         {
-            var allowances=_allowanceRepository.GetAllowanceByActive(active);
+            var allowances=_allowanceRepository.GetAllowancesByActive(active);
             return Ok(allowances);
         }
         [HttpPost]
@@ -64,14 +64,13 @@ namespace HumanManagement.Web.Controllers
             }
             return Ok("Update allowance successfully");
         }
-        [HttpDelete]
-        public IActionResult DeleteAllowance(Allowance allowance)
+        [HttpDelete("{allwanceId}")]
+        public IActionResult DeleteAllowance(int allowanceId)
         {
-            if (allowance == null)
-                return BadRequest(ModelState);
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_allowanceRepository.DeleteAllowance(allowance))
+            if (!_allowanceRepository.DeleteAllowance(allowanceId))
             {
                 ModelState.AddModelError("", "Can't delete allowance");
             }

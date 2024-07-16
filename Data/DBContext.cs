@@ -10,11 +10,10 @@ public partial class DBContext : DbContext
     {
     }
 
-    public DBContext(DbContextOptions<HumanManagementContext> options)
+    public DBContext(DbContextOptions<DBContext> options)
         : base(options)
     {
     }
-
     public virtual DbSet<Account> Accounts { get; set; }
 
     public virtual DbSet<Allowance> Allowances { get; set; }
@@ -28,6 +27,10 @@ public partial class DBContext : DbContext
     public virtual DbSet<BankBranch> BankBranches { get; set; }
 
     public virtual DbSet<Benefit> Benefits { get; set; }
+
+    public virtual DbSet<ContractAllowance> ContractAllowances { get; set; }
+
+    public virtual DbSet<ContractBenefit> ContractBenefits { get; set; }
 
     public virtual DbSet<ContractType> ContractTypes { get; set; }
 
@@ -58,10 +61,6 @@ public partial class DBContext : DbContext
     public virtual DbSet<Reward> Rewards { get; set; }
 
     public virtual DbSet<Salary> Salaries { get; set; }
-
-    public virtual DbSet<SalaryAllowance> SalaryAllowances { get; set; }
-
-    public virtual DbSet<SalaryBenefit> SalaryBenefits { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -163,6 +162,40 @@ public partial class DBContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(100);
         });
 
+        modelBuilder.Entity<ContractAllowance>(entity =>
+        {
+            entity.HasKey(e => new { e.AllowanceId, e.ContractTypeId }).HasName("PK_ContractAllowance");
+
+            entity.ToTable("Contract_Allowance");
+
+            entity.HasOne(d => d.Allowance).WithMany(p => p.ContractAllowances)
+                .HasForeignKey(d => d.AllowanceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Contract_Allowance_Allowance");
+
+            entity.HasOne(d => d.ContractType).WithMany(p => p.ContractAllowances)
+                .HasForeignKey(d => d.ContractTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Contract_Allowance_ContractType");
+        });
+
+        modelBuilder.Entity<ContractBenefit>(entity =>
+        {
+            entity.HasKey(e => new { e.BenefitId, e.ContractTypeId }).HasName("PK_ContractBenefit");
+
+            entity.ToTable("Contract_Benefit");
+
+            entity.HasOne(d => d.Benefit).WithMany(p => p.ContractBenefits)
+                .HasForeignKey(d => d.BenefitId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Salary_Be__benef__3C34F16F");
+
+            entity.HasOne(d => d.ContractType).WithMany(p => p.ContractBenefits)
+                .HasForeignKey(d => d.ContractTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Contract_Benefit_ContractType");
+        });
+
         modelBuilder.Entity<ContractType>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Contract__68A61565FC0C918F");
@@ -184,7 +217,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<DepartmentJobTitle>(entity =>
         {
-            entity.HasKey(e => new { e.DepartmentId, e.JobTitleId }).HasName("PK__Departme__92F3201724377229");
+            entity.HasKey(e => new { e.DepartmentId, e.JobTitleId }).HasName("PK_DepartmentJobTitle");
 
             entity.ToTable("Department_JobTitle");
 
@@ -242,7 +275,7 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<EmployeeAsset>(entity =>
         {
-            entity.HasKey(e => new { e.EmployeeId, e.AssetId }).HasName("PK__Employee__4EE4DD24EA383F63");
+            entity.HasKey(e => new { e.EmployeeId, e.AssetId }).HasName("PK_EmployeeAsset");
 
             entity.ToTable("Employee_Asset");
 
@@ -381,40 +414,6 @@ public partial class DBContext : DbContext
             entity.HasOne(d => d.Employee).WithMany(p => p.Salaries)
                 .HasForeignKey(d => d.EmployeeId)
                 .HasConstraintName("FK__Salary__Employee__59063A47");
-        });
-
-        modelBuilder.Entity<SalaryAllowance>(entity =>
-        {
-            entity.HasKey(e => new { e.SalaryId, e.AllowanceId }).HasName("PK__Salary_A__1B12D0903AC06272");
-
-            entity.ToTable("Salary_Allowance");
-
-            entity.HasOne(d => d.Allowance).WithMany(p => p.SalaryAllowances)
-                .HasForeignKey(d => d.AllowanceId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Salary_Allowance_Allowance");
-
-            entity.HasOne(d => d.Salary).WithMany(p => p.SalaryAllowances)
-                .HasForeignKey(d => d.SalaryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Salary_Allowance_Salary");
-        });
-
-        modelBuilder.Entity<SalaryBenefit>(entity =>
-        {
-            entity.HasKey(e => new { e.BalaryId, e.BenefitId }).HasName("PK__Salary_B__666E6055862FC369");
-
-            entity.ToTable("Salary_Benefit");
-
-            entity.HasOne(d => d.Balary).WithMany(p => p.SalaryBenefits)
-                .HasForeignKey(d => d.BalaryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Salary_Be__salar__3B40CD36");
-
-            entity.HasOne(d => d.Benefit).WithMany(p => p.SalaryBenefits)
-                .HasForeignKey(d => d.BenefitId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Salary_Be__benef__3C34F16F");
         });
 
         OnModelCreatingPartial(modelBuilder);

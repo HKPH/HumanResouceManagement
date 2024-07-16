@@ -1,4 +1,5 @@
 ﻿using HumanManagement.Data;
+using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 
 using HumanManagement.Models.Dto;
@@ -25,7 +26,7 @@ namespace HumanManagement.Data.Repository
             return _context.Banks.Where(b => b.Id == bankId).FirstOrDefault();
         }
 
-        public ICollection<Bank> GetBanks()
+        public List<Bank> GetBanks()
         {
             return _context.Banks.OrderBy(b => b.Id).ToList();
         }
@@ -47,17 +48,19 @@ namespace HumanManagement.Data.Repository
 
         public bool UpdateBank(Bank bank)
         {
-            _context.Update(bank);
+            var bankUpdate=GetBankById(bank.Id);
+            _context.Entry(bankUpdate).CurrentValues.SetValues(bank);
             return Save();
         }
 
-        public bool DeleteBank(Bank bank)
+        public bool DeleteBank(int bankId)
         {
+            var bank = GetBankById(bankId);
             _context.Remove(bank);
             return Save();
         }
 
-        public ICollection<Bank> GetBanksByActive(bool active)
+        public List<Bank> GetBanksByActive(bool active)
         {
             return _context.Banks.Where(b=> b.Active==active).OrderBy(b => b.Id).ToList();
         }

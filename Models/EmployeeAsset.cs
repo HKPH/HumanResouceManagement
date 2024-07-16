@@ -7,9 +7,9 @@ public partial class EmployeeAsset
 {
     public string? Note { get; set; }
 
-    public DateOnly? ReceivedDate { get; set; }
+    public DateTime? ReceivedDate { get; set; }
 
-    public DateOnly? ReturnDate { get; set; }
+    public DateTime? ReturnDate { get; set; }
 
     public int AssetId { get; set; }
 
@@ -19,7 +19,7 @@ public partial class EmployeeAsset
 
     public int? CreaterId { get; set; }
 
-    public DateOnly? CreateDate { get; set; }
+    public DateTime? CreateDate { get; set; }
 
     public bool? Active { get; set; }
 

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using HumanManagement.Data.Repository;
 using HumanManagement.Models.Dto;
 using HumanManagement.Models;
 using Microsoft.AspNetCore.Mvc;
+using HumanManagement.Data.Repository.Interface;
 
 namespace HumanManagement.Web.Controllers
 {
@@ -36,7 +36,7 @@ namespace HumanManagement.Web.Controllers
         [HttpGet("active/{active}")]
         public IActionResult GetHealthCareByActive(bool active)
         {
-            var healthCares = _mapper.Map<List<HealthCareDto>>(_healthCareRepository.GetHealthCareByActive(active));
+            var healthCares = _mapper.Map<List<HealthCareDto>>(_healthCareRepository.GetHealthCaresByActive(active));
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             return Ok(healthCares);
@@ -73,16 +73,13 @@ namespace HumanManagement.Web.Controllers
             }
             return Ok("Update health care successfully");
         }
-        [HttpDelete]
-        public IActionResult DeteteHealthCare([FromBody] HealthCare healthCareDelete)
-        {
+        [HttpDelete("{healthCareId}")]
+        public IActionResult DeteteHealthCare(int healthCareId)
+        { 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (healthCareDelete == null)
-            {
-                return BadRequest(ModelState);
-            }
-            if (!_healthCareRepository.DeleteHealthCare(healthCareDelete))
+
+            if (!_healthCareRepository.DeleteHealthCare(healthCareId))
             {
                 ModelState.AddModelError("", "Can't delete health care");
             }

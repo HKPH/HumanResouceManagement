@@ -1,4 +1,5 @@
-﻿using HumanManagement.Models;
+﻿using HumanManagement.Data.Repository.Interface;
+using HumanManagement.Models;
 
 namespace HumanManagement.Data.Repository
 {
@@ -15,13 +16,14 @@ namespace HumanManagement.Data.Repository
             return Save();
         }
 
-        public bool DeleteHealthCare(HealthCare healthCare)
+        public bool DeleteHealthCare(int healthCareId)
         {
+            var healthCare=GetHealthCareById(healthCareId);
             _context.Remove(healthCare);
             return Save();
         }
 
-        public List<HealthCare> GetHealthCareByActive(bool active)
+        public List<HealthCare> GetHealthCaresByActive(bool active)
         {
             return _context.HealthCares.Where(h=>h.Active == active).ToList(); 
         }
@@ -44,7 +46,8 @@ namespace HumanManagement.Data.Repository
 
         public bool UpdateHealthCare(HealthCare healthCare)
         {
-            _context.Update(healthCare);
+            var healthCareUpdate=GetHealthCareById(healthCare.Id);
+            _context.Entry(healthCareUpdate).CurrentValues.SetValues(healthCare);
             return Save();
         }
     }

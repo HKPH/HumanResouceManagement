@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,8 +19,9 @@ namespace HumanManagement.Data.Repository
             return Save();
         }
 
-        public bool DeleteEmployeeContract(EmployeeContract employeeContract)
+        public bool DeleteEmployeeContract(int employeeContractId)
         {
+            var employeeContract=GetEmployeeContractById(employeeContractId);
             _context.Remove(employeeContract);
             return Save();
         }
@@ -29,12 +31,12 @@ namespace HumanManagement.Data.Repository
             return _context.EmployeeContracts.Where(e => e.Id == employeeContractId).FirstOrDefault();
         }
 
-        public ICollection<EmployeeContract> GetEmployeeContractByActive(bool active)
+        public List<EmployeeContract> GetEmployeeContractsByActive(bool active)
         {
             return _context.EmployeeContracts.Where(e=>e.Active == active).ToList();
         }
 
-        public ICollection<EmployeeContract> GetEmployeeContracts()
+        public List<EmployeeContract> GetEmployeeContracts()
         {
             return _context.EmployeeContracts.OrderBy(e=>e.Id).ToList();
         }

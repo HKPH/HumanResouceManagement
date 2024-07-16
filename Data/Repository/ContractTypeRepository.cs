@@ -1,4 +1,5 @@
-﻿using HumanManagement.Models;
+﻿using HumanManagement.Data.Repository.Interface;
+using HumanManagement.Models;
 
 namespace HumanManagement.Data.Repository
 {
@@ -12,15 +13,16 @@ namespace HumanManagement.Data.Repository
             return Save();
         }
 
-        public bool DeleteContractType(ContractType contractType)
+        public bool DeleteContractType(int contractTypeId)
         {
+            var contractType=GetContractTypeById(contractTypeId);
             _context.Remove(contractType);
             return Save();
         }
 
-        public ICollection<ContractType> GetContractTypeByActive(bool active)
+        public List<ContractType> GetContractTypesByActive(bool active)
         {
-            return _context.ContractTypes.Where(c => c.Active==active).ToList();
+            return _context.ContractTypes.Where(c => c.Active == active).ToList();
         }
 
         public ContractType GetContractTypeById(int contractTypeId)
@@ -28,20 +30,20 @@ namespace HumanManagement.Data.Repository
             return _context.ContractTypes.Where(c => c.Id == contractTypeId).FirstOrDefault();
         }
 
-        public ICollection<ContractType> GetContractTypes()
+        public List<ContractType> GetContractTypes()
         {
-            return _context.ContractTypes.OrderBy(c=>c.Id).ToList();
+            return _context.ContractTypes.OrderBy(c => c.Id).ToList();
         }
 
         public bool Save()
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            var check = _context.SaveChanges();
+            return check > 0 ? true : false;
         }
 
         public bool UpdateContractType(ContractType contractType)
         {
-            var contractTypeUpdate=GetContractTypeById(contractType.Id);
+            var contractTypeUpdate = GetContractTypeById(contractType.Id);
             _context.Entry(contractTypeUpdate).CurrentValues.SetValues(contractType);
             return Save();
         }

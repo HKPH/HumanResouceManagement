@@ -13,7 +13,7 @@ public partial class Reward
 
     public bool? Received { get; set; }
 
-    public DateOnly? CreateDate { get; set; }
+    public DateTime? CreateDate { get; set; }
 
     public int? EmployeeId { get; set; }
 

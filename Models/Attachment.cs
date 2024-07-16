@@ -11,7 +11,7 @@ public partial class Attachment
 
     public string? FilePath { get; set; }
 
-    public DateOnly? UploadDate { get; set; }
+    public DateTime? UploadDate { get; set; }
 
     public int? EmployeeId { get; set; }
 

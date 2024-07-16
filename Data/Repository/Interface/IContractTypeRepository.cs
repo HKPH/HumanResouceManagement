@@ -1,15 +1,15 @@
 ﻿using HumanManagement.Models;
 
-namespace HumanManagement.Data.Repository
+namespace HumanManagement.Data.Repository.Interface
 {
     public interface IContractTypeRepository
     {
-        ICollection<ContractType> GetContractTypes();
+        List<ContractType> GetContractTypes();
         ContractType GetContractTypeById(int contractTypeId);
-        ICollection<ContractType> GetContractTypeByActive(bool active);
+        List<ContractType> GetContractTypesByActive(bool active);
         bool Save();
         bool CreateContractType(ContractType contractType);
         bool UpdateContractType(ContractType contractType);
-        bool DeleteContractType(ContractType contractType);
+        bool DeleteContractType(int contractTypeId);
     }
 }

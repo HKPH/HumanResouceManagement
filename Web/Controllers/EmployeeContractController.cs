@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HumanManagement.Data.Repository;
+using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +36,7 @@ namespace HumanManagement.Web.Controllers
         [HttpGet("active/{active}")]
         public IActionResult GetEmployeeContractByActive(bool active)
         {
-            var contractTypes = _employeeContractRepository.GetEmployeeContractByActive(active);
+            var contractTypes = _employeeContractRepository.GetEmployeeContractsByActive(active);
             return Ok(contractTypes);
         }
         [HttpPost]
@@ -67,14 +67,13 @@ namespace HumanManagement.Web.Controllers
             }
             return Ok("Update employee contract successfully");
         }
-        [HttpDelete]
-        public IActionResult DeleteEmployeeContract([FromBody] EmployeeContract employeeContract)
+        [HttpDelete("{employeeContractId}")]
+        public IActionResult DeleteEmployeeContract(int employeeContractId)
         {
-            if (employeeContract == null)
-                return BadRequest(ModelState);
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_employeeContractRepository.DeleteEmployeeContract(employeeContract))
+            if (!_employeeContractRepository.DeleteEmployeeContract(employeeContractId))
             {
                 ModelState.AddModelError("", "Can't delete employee contract");
                 return StatusCode(500, ModelState);

@@ -1,15 +1,15 @@
 ﻿using HumanManagement.Models;
 
-namespace HumanManagement.Data.Repository
+namespace HumanManagement.Data.Repository.Interface
 {
     public interface IAllowanceRepository
     {
-        ICollection<Allowance> GetAllowances();
+        List<Allowance> GetAllowances();
         Allowance GetAllowanceById(int allowanceId);
-        ICollection<Allowance> GetAllowanceByActive(bool active);
+        List<Allowance> GetAllowancesByActive(bool active);
         bool Save();
         bool CreateAllowance(Allowance allowance);
         bool UpdateAllowance(Allowance allowance);
-        bool DeleteAllowance(Allowance allowance);
+        bool DeleteAllowance(int allowanceId);
     }
 }

@@ -1,5 +1,6 @@
 using HumanManagement.Data;
 using HumanManagement.Data.Repository;
+using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,10 @@ builder.Services.AddScoped<IJobTitleRepository, JobTitleRepository>();
 builder.Services.AddScoped<IContractTypeRepository, ContractTypeRepository>();
 builder.Services.AddScoped<IEmployeeContractRepository, EmployeeContractRepository>();
 builder.Services.AddScoped<IAllowanceRepository, AllowanceRepository>();
+builder.Services.AddScoped<IBenefitRepository, BenefitRepository>();
+builder.Services.AddScoped<IAssetRepository, AssetRepository>();
+
+
 
 
 

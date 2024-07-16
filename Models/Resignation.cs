@@ -9,7 +9,7 @@ public partial class Resignation
 
     public string? Reason { get; set; }
 
-    public DateOnly? EffectiveDay { get; set; }
+    public DateTime? EffectiveDay { get; set; }
 
     public int? EmployeeId { get; set; }
 

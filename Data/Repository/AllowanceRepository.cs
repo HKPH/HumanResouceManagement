@@ -1,4 +1,5 @@
-﻿using HumanManagement.Models;
+﻿using HumanManagement.Data.Repository.Interface;
+using HumanManagement.Models;
 
 namespace HumanManagement.Data.Repository
 {
@@ -15,8 +16,9 @@ namespace HumanManagement.Data.Repository
             return Save();
         }
 
-        public bool DeleteAllowance(Allowance allowance)
+        public bool DeleteAllowance(int allowanceId)
         {
+            var allowance = GetAllowanceById(allowanceId);
             _context.Remove(allowance);
             return Save();
         }
@@ -26,12 +28,12 @@ namespace HumanManagement.Data.Repository
             return _context.Allowances.Where(x => x.Id == allowanceId).FirstOrDefault();
         }
 
-        public ICollection<Allowance> GetAllowanceByActive(bool active)
+        public List<Allowance> GetAllowancesByActive(bool active)
         {
             return _context.Allowances.Where(x => x.Active == active).ToList();
         }
 
-        public ICollection<Allowance> GetAllowances()
+        public List<Allowance> GetAllowances()
         {
             return _context.Allowances.ToList();
         }

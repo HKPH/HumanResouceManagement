@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HumanManagement.Data.Repository;
+using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +31,7 @@ namespace HumanManagement.Web.Controllers
         [HttpGet("active/{active}")]
         public IActionResult GetJobTitleByActive(bool active)
         {
-            var jobTitles = _jobTitleRepository.GetJobTitleByActive(active);
+            var jobTitles = _jobTitleRepository.GetJobTitlesByActive(active);
             return Ok(jobTitles);
         }
         [HttpPost]
@@ -62,14 +62,13 @@ namespace HumanManagement.Web.Controllers
             }
             return Ok("Update job title successfully");
         }
-        [HttpDelete]
-        public IActionResult DeleteJobTitle([FromBody] JobTitle jobTitle)
+        [HttpDelete("{jobTitleId}")]
+        public IActionResult DeleteJobTitle(int jobTitleId)
         {
-            if (jobTitle == null)
-                return BadRequest(ModelState);
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_jobTitleRepository.DeleteJobTitle(jobTitle))
+            if (!_jobTitleRepository.DeleteJobTitle(jobTitleId))
             {
                 ModelState.AddModelError("", "Can't delete job title");
                 return StatusCode(500, ModelState);

@@ -9,7 +9,7 @@ public partial class EmployeeFamily
 
     public string? Name { get; set; }
 
-    public DateOnly? Dob { get; set; }
+    public DateTime? Dob { get; set; }
 
     public string? Note { get; set; }
 
@@ -17,7 +17,7 @@ public partial class EmployeeFamily
 
     public bool? DependentDeduction { get; set; }
 
-    public DateOnly? EffectiveDate { get; set; }
+    public DateTime? EffectiveDate { get; set; }
 
     public int? Gender { get; set; }
 

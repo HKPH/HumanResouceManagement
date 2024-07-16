@@ -1,4 +1,5 @@
-﻿using HumanManagement.Models;
+﻿using HumanManagement.Data.Repository.Interface;
+using HumanManagement.Models;
 using HumanManagement.Models.Dto;
 using Microsoft.EntityFrameworkCore;
 namespace HumanManagement.Data.Repository
@@ -21,17 +22,18 @@ namespace HumanManagement.Data.Repository
             return Save();
 
         }
-        public bool DeleteBankBranch(BankBranch bankBranch)
+        public bool DeleteBankBranch(int bankBranchId)
         {
+            var bankBranch=GetBankBranchById(bankBranchId);
             _context.Remove(bankBranch);
             return Save();
         }
 
-        public bool DeleteBankBranches(List<BankBranch> bankBranches)
-        {
-            _context.RemoveRange(bankBranches);
-            return Save();
-        }
+        //public bool DeleteBankBranches(List<BankBranch> bankBranches)
+        //{
+        //    _context.RemoveRange(bankBranches);
+        //    return Save();
+        //}
 
         public List<BankBranch> GetAllBankBranchesByBankId(int bankId)
         {
@@ -43,7 +45,7 @@ namespace HumanManagement.Data.Repository
             return _context.BankBranches.Where(b=> b.Id == bankBranchId).FirstOrDefault();
         }
 
-        public ICollection<BankBranch> GetBankBranches()
+        public List<BankBranch> GetBankBranches()
         {
             return _context.BankBranches
                            .OrderBy(b => b.Id)
@@ -64,10 +66,11 @@ namespace HumanManagement.Data.Repository
 
         public bool UpdateBankBranch(BankBranch bankBranch)
         {
-            _context.Update(bankBranch);
+            var bankBranchUpdate=GetBankBranchById(bankBranch.Id);
+            _context.Entry(bankBranchUpdate).CurrentValues.SetValues(bankBranch);
             return Save();
         }
-        public ICollection<BankBranch> GetBankBranchesByActive(bool active)
+        public List<BankBranch> GetBankBranchesByActive(bool active)
         {
             return _context.BankBranches.Where(_b => _b.Active == active).ToList();
         }

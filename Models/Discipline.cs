@@ -15,7 +15,7 @@ public partial class Discipline
 
     public int? CreaterId { get; set; }
 
-    public DateOnly? CreateDate { get; set; }
+    public DateTime? CreateDate { get; set; }
 
     public virtual Employee? Employee { get; set; }
 }

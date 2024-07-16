@@ -1,15 +1,15 @@
 ﻿using HumanManagement.Models;
 
-namespace HumanManagement.Data.Repository
+namespace HumanManagement.Data.Repository.Interface
 {
     public interface IEmployeeCvRepository
     {
         List<EmployeeCv> GetEmployeeCvs();
-        EmployeeCv GetEmployeesCvById(int employeeCvId);
-        List<EmployeeCv> GetEmployeesCvByActive(bool active);
+        EmployeeCv GetEmployeeCvById(int employeeCvId);
+        List<EmployeeCv> GetEmployeeCvsByActive(bool active);
         bool CreateEmployeeCv(EmployeeCv employeeCv);
         bool UpdateEmployeeCv(EmployeeCv employeeCv);
-        bool DeleteEmployeeCv(EmployeeCv employeeCv);
+        bool DeleteEmployeeCv(int employeeCvId);
         bool Save();
 
     }

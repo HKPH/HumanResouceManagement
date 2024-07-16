@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HumanManagement.Data.Repository;
+using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +36,7 @@ namespace HumanManagement.Web.Controllers
         [HttpGet("active/{active}")]
         public IActionResult GetContractTypeByActive(bool active)
         {
-            var contractTypes = _contractTypeRepository.GetContractTypeByActive(active);
+            var contractTypes = _contractTypeRepository.GetContractTypesByActive(active);
             return Ok(contractTypes);
         }
         [HttpPost]
@@ -67,14 +67,13 @@ namespace HumanManagement.Web.Controllers
             }
             return Ok("Update contract type successfully");
         }
-        [HttpDelete]
-        public IActionResult DeleteContractType([FromBody] ContractType contractType)
+        [HttpDelete("{contractTypeId}")]
+        public IActionResult DeleteContractType(int contractTypeId)
         {
-            if (contractType == null)
-                return BadRequest(ModelState);
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_contractTypeRepository.DeleteContractType(contractType))
+            if (!_contractTypeRepository.DeleteContractType(contractTypeId))
             {
                 ModelState.AddModelError("", "Can't delete contract type");
                 return StatusCode(500, ModelState);

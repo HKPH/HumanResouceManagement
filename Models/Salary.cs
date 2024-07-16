@@ -15,7 +15,7 @@ public partial class Salary
 
     public double? SalaryFactor { get; set; }
 
-    public DateOnly? CreaterDate { get; set; }
+    public DateTime? CreaterDate { get; set; }
 
     public int? CreaterId { get; set; }
 
@@ -24,8 +24,4 @@ public partial class Salary
     public bool? Active { get; set; }
 
     public virtual Employee? Employee { get; set; }
-
-    public virtual ICollection<SalaryAllowance> SalaryAllowances { get; set; } = new List<SalaryAllowance>();
-
-    public virtual ICollection<SalaryBenefit> SalaryBenefits { get; set; } = new List<SalaryBenefit>();
 }

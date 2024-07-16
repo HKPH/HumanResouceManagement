@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HumanManagement.Data.Repository;
+using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using HumanManagement.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -55,18 +55,11 @@ namespace HumanManagement.Web.Controllers
                 return BadRequest(ModelState);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var account = _accountRepository.CheckAccountByUsernameAndPassword(accountCreate);
-            if (account == null)
+            if (!_accountRepository.CreateAccount(_mapper.Map<Account>(accountCreate)))
             {
-                ModelState.AddModelError("", "Account already exits");
+                ModelState.AddModelError("", "Can't create account");
                 return StatusCode(500, ModelState);
             }
-            if (!_accountRepository.CreateAccount(_mapper.Map<Account>(accountCreate)))
-                if (!_accountRepository.CreateAccount(account))
-                {
-                    ModelState.AddModelError("", "Can't create account");
-                    return StatusCode(500, ModelState);
-                }
             return Ok("Account create successfully");
         }
         [HttpPut("{accountId}")]
@@ -94,8 +87,7 @@ namespace HumanManagement.Web.Controllers
         public IActionResult DeleteAccount(int accountId)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var accountDelete=_accountRepository.GetAccountById(accountId);
-            if(!_accountRepository.DeleteAccount(accountDelete))
+            if(!_accountRepository.DeleteAccount(accountId))
             {
                 ModelState.AddModelError("", "Can't delete account");
                 return StatusCode(500,ModelState);

@@ -1,4 +1,5 @@
-﻿using HumanManagement.Models;
+﻿using HumanManagement.Data.Repository.Interface;
+using HumanManagement.Models;
 
 namespace HumanManagement.Data.Repository
 {
@@ -12,13 +13,14 @@ namespace HumanManagement.Data.Repository
             return Save();
         }
 
-        public bool DeleteJobTitle(JobTitle jobTitle)
+        public bool DeleteJobTitle(int jobTitleId)
         {
+            var jobTitle = GetJobTitleById(jobTitleId);
             _context.Remove(jobTitle);
             return Save();
         }
 
-        public ICollection<JobTitle> GetJobTitleByActive(bool active)
+        public List<JobTitle> GetJobTitlesByActive(bool active)
         {
             return _context.JobTitles.Where(j=> j.Active== active).ToList();
         }
@@ -28,7 +30,7 @@ namespace HumanManagement.Data.Repository
             return _context.JobTitles.Where(j => j.Id == jobTitleId).FirstOrDefault();
         }
 
-        public ICollection<JobTitle> GetJobTitles()
+        public List<JobTitle> GetJobTitles()
         {
             return _context.JobTitles.OrderBy(j=>j.Id).ToList();
         }

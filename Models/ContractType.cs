@@ -13,5 +13,9 @@ public partial class ContractType
 
     public bool? Active { get; set; }
 
+    public virtual ICollection<ContractAllowance> ContractAllowances { get; set; } = new List<ContractAllowance>();
+
+    public virtual ICollection<ContractBenefit> ContractBenefits { get; set; } = new List<ContractBenefit>();
+
     public virtual ICollection<EmployeeContract> EmployeeContracts { get; set; } = new List<EmployeeContract>();
 }

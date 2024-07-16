@@ -15,7 +15,7 @@ public partial class Account
 
     public string? Email { get; set; }
 
-    public DateOnly? CreateDate { get; set; }
+    public DateTime? CreateDate { get; set; } = DateTime.Now;
 
     public int? EmployeeId { get; set; }
 

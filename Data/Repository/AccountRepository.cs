@@ -1,6 +1,7 @@
 ﻿using HumanManagement.Models;
 using HumanManagement.Models.Dto;
 using BCrypt.Net;
+using HumanManagement.Data.Repository.Interface;
 namespace HumanManagement.Data.Repository
 {
     public class AccountRepository : IAccountRepository
@@ -30,8 +31,9 @@ namespace HumanManagement.Data.Repository
             return Save();
         }
 
-        public bool DeleteAccount(Account account)
+        public bool DeleteAccount(int accountId)
         {
+            var account=GetAccountById(accountId);
             _context.Remove(account);
             return Save();
         }
@@ -41,12 +43,12 @@ namespace HumanManagement.Data.Repository
             return _context.Accounts.Where(o=>o.Id==accountId).FirstOrDefault();
         }
 
-        public ICollection<Account> GetAccounts()
+        public List<Account> GetAccounts()
         {
             return _context.Accounts.OrderBy(a => a.Id).ToList();
         }
 
-        public ICollection<Account> GetAccountsByActive(bool active)
+        public List<Account> GetAccountsByActive(bool active)
         {
             return GetAccounts().Where(acc=> acc.Active==active).ToList();
         }
@@ -64,7 +66,8 @@ namespace HumanManagement.Data.Repository
 
         public bool UpdateAccount(Account account)
         {
-            _context.Update(account);
+            var accountUpdate=GetAccountById(account.Id);
+            _context.Entry(accountUpdate).CurrentValues.SetValues(account);
             return Save();
         }
     }

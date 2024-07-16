@@ -1,4 +1,5 @@
-﻿using HumanManagement.Models;
+﻿using HumanManagement.Data.Repository.Interface;
+using HumanManagement.Models;
 
 namespace HumanManagement.Data.Repository
 {
@@ -15,8 +16,9 @@ namespace HumanManagement.Data.Repository
             return Save();
         }
 
-        public bool DeleteEmployeeCv(EmployeeCv employeeCv)
+        public bool DeleteEmployeeCv(int employeeCvId)
         {
+            var employeeCv= GetEmployeeCvById(employeeCvId);
             _context.Remove(employeeCv);
             return Save();
         }
@@ -26,12 +28,12 @@ namespace HumanManagement.Data.Repository
             return _context.EmployeeCvs.OrderBy(cv=>cv.Id).ToList();
         }
 
-        public List<EmployeeCv> GetEmployeesCvByActive(bool active)
+        public List<EmployeeCv> GetEmployeeCvsByActive(bool active)
         {
             return _context.EmployeeCvs.Where(cv => cv.Active==active).ToList();
         }
 
-        public EmployeeCv GetEmployeesCvById(int employeeCvId)
+        public EmployeeCv GetEmployeeCvById(int employeeCvId)
         {
             return _context.EmployeeCvs.Where(cv => cv.Id == employeeCvId).FirstOrDefault();
         }
@@ -44,7 +46,7 @@ namespace HumanManagement.Data.Repository
 
         public bool UpdateEmployeeCv(EmployeeCv employeeCv)
         {
-            var employeeCvUpdate = GetEmployeesCvById(employeeCv.Id);
+            var employeeCvUpdate = GetEmployeeCvById(employeeCv.Id);
             _context.Entry(employeeCvUpdate).CurrentValues.SetValues(employeeCv);
             return Save();
 

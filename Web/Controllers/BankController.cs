@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HumanManagement.Data.Repository;
+using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using HumanManagement.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -113,7 +114,7 @@ namespace HumanManagement.Web.Controllers
                     return NotFound();
                 }
 
-                if (!_bankRepository.DeleteBank(bankToDelete))
+                if (!_bankRepository.DeleteBank(bankId))
                 {
                     ModelState.AddModelError("", "Can't delete bank");
                     return StatusCode(500, ModelState);

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using HumanManagement.Data.Repository;
 using HumanManagement.Models.Dto;
 
 using HumanManagement.Models;
 
 using Microsoft.AspNetCore.Mvc;
+using HumanManagement.Data.Repository.Interface;
 
 
 namespace HumanManagement.Web.Controllers
@@ -103,34 +103,33 @@ namespace HumanManagement.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var bankBranch=_bankBranchRepository.GetBankBranchById(bankBranchId);
-            if(!_bankBranchRepository.DeleteBankBranch(bankBranch))
+            if(!_bankBranchRepository.DeleteBankBranch(bankBranchId))
             {
                 ModelState.AddModelError("", "Can't delete bank branch");
                 return StatusCode(500,ModelState);
             }
             return Ok("Delete bank branch successfully");
         }
-        [HttpDelete("branches/{bankId}")]
-        public IActionResult DeleteBankBranches([FromRoute] int bankId)
-        {
-            if (!_bankRepository.HasBank(bankId))
-            {
-                return NotFound();
-            }
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var bank=_bankRepository.GetBankById(bankId);
-            var branches=_bankBranchRepository.GetAllBankBranchesByBankId(bankId);
-            if(!_bankBranchRepository.DeleteBankBranches(branches))
-            {
-                ModelState.AddModelError("", "Can't delete branches");
-                return StatusCode(500,ModelState);
-            }
-            return Ok("Delete bank branches successfully");
-        }
+        //[HttpDelete("branches/{bankId}")]
+        //public IActionResult DeleteBankBranches([FromRoute] int bankId)
+        //{
+        //    if (!_bankRepository.HasBank(bankId))
+        //    {
+        //        return NotFound();
+        //    }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    var bank=_bankRepository.GetBankById(bankId);
+        //    var branches=_bankBranchRepository.GetAllBankBranchesByBankId(bankId);
+        //    if(!_bankBranchRepository.DeleteBankBranches(branches))
+        //    {
+        //        ModelState.AddModelError("", "Can't delete branches");
+        //        return StatusCode(500,ModelState);
+        //    }
+        //    return Ok("Delete bank branches successfully");
+        //}
         
     }
 }

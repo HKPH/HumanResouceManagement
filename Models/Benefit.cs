@@ -15,5 +15,5 @@ public partial class Benefit
 
     public bool? Active { get; set; }
 
-    public virtual ICollection<SalaryBenefit> SalaryBenefits { get; set; } = new List<SalaryBenefit>();
+    public virtual ICollection<ContractBenefit> ContractBenefits { get; set; } = new List<ContractBenefit>();
 }
