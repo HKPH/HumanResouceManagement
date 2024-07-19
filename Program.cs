@@ -7,32 +7,56 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
-
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using HumanManagement.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder.WithOrigins("http://localhost:3000")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod());
+});
 builder.Services.AddControllers();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
     });
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<DBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IAllowanceRepository, AllowanceRepository>();
+builder.Services.AddScoped<IAssetRepository, AssetRepository>();
+builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 builder.Services.AddScoped<IBankRepository, BankRepository>();
 builder.Services.AddScoped<IBankBranchRepository, BankBranchRepository>();
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<IHealthCareRepository, HealthCareRepository>();
-builder.Services.AddScoped<IEmployeeCvRepository, EmployeeCvRepository>();
-builder.Services.AddScoped<IJobTitleRepository, JobTitleRepository>();
-builder.Services.AddScoped<IContractTypeRepository, ContractTypeRepository>();
-builder.Services.AddScoped<IEmployeeContractRepository, EmployeeContractRepository>();
-builder.Services.AddScoped<IAllowanceRepository, AllowanceRepository>();
 builder.Services.AddScoped<IBenefitRepository, BenefitRepository>();
-builder.Services.AddScoped<IAssetRepository, AssetRepository>();
+builder.Services.AddScoped<IContractAllowanceRepository, ContractAllowanceRepository>();
+builder.Services.AddScoped<IContractBenefitRepository, ContractBenefitRepository>();
+builder.Services.AddScoped<IContractTypeRepository, ContractTypeRepository>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped<IDepartmentJobTitleRepository, DepartmentJobTitleRepository>();
+builder.Services.AddScoped<IDisciplineRepository, DisciplineRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IEmployeeAssetRepository, EmployeeAssetRepository>();
+builder.Services.AddScoped<IEmployeeContractRepository, EmployeeContractRepository>();
+builder.Services.AddScoped<IEmployeeCvRepository, EmployeeCvRepository>();
+builder.Services.AddScoped<IEmployeeFamilyRepository, EmployeeFamilyRepository>();
+builder.Services.AddScoped<IEmployeeProcessRepository, EmployeeProcessRepository>();
+builder.Services.AddScoped<IHealthCareRepository, HealthCareRepository>();
+builder.Services.AddScoped<IJobTitleRepository, JobTitleRepository>();
+builder.Services.AddScoped<IResignationRepository, ResignationRepository>();
+builder.Services.AddScoped<IRewardRepository, RewardRepository>();
+builder.Services.AddScoped<ISalaryRepository, SalaryRepository>();
 
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 
@@ -70,7 +94,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
 app.UseHttpsRedirection();
+app.UseRouting();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthorization();
 

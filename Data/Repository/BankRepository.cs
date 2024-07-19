@@ -41,7 +41,7 @@ namespace HumanManagement.Data.Repository
             var saved=_context.SaveChanges();
             return saved > 0 ? true : false;
         }
-        public Bank checkBankByName(BankDto bank)
+        public Bank checkBankByName(Bank bank)
         {
             return GetBanks().Where(c => c.Name.Trim().ToUpper() == bank.Name.TrimEnd().ToUpper()).FirstOrDefault();
         }
@@ -49,7 +49,7 @@ namespace HumanManagement.Data.Repository
         public bool UpdateBank(Bank bank)
         {
             var bankUpdate=GetBankById(bank.Id);
-            _context.Entry(bankUpdate).CurrentValues.SetValues(bank);
+                _context.Entry(bankUpdate).CurrentValues.SetValues(bank);
             return Save();
         }
 

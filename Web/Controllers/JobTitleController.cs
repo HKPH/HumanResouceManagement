@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using HumanManagement.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanManagement.Web.Controllers
@@ -19,29 +20,29 @@ namespace HumanManagement.Web.Controllers
         [HttpGet]
         public IActionResult GetJobTitles()
         {
-            var jobTitles= _jobTitleRepository.GetJobTitles();
+            var jobTitles= _mapper.Map<List<JobTitleDto>>(_jobTitleRepository.GetJobTitles());
             return Ok(jobTitles);
         }
         [HttpGet("{jobTitleId}")]
         public IActionResult GetJobTitle(int jobTitleId)
         {
-            var jobTitle = _jobTitleRepository.GetJobTitleById(jobTitleId);
+            var jobTitle = _mapper.Map<JobTitleDto>(_jobTitleRepository.GetJobTitleById(jobTitleId));
             return Ok(jobTitle);
         }
         [HttpGet("active/{active}")]
         public IActionResult GetJobTitleByActive(bool active)
         {
-            var jobTitles = _jobTitleRepository.GetJobTitlesByActive(active);
+            var jobTitles = _mapper.Map<List<JobTitleDto>>(_jobTitleRepository.GetJobTitlesByActive(active));
             return Ok(jobTitles);
         }
         [HttpPost]
-        public IActionResult CreateJobTitle([FromBody] JobTitle jobTitle)
+        public IActionResult CreateJobTitle([FromBody] JobTitleDto jobTitle)
         {
             if(jobTitle == null) 
                 return BadRequest(ModelState);
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if(!_jobTitleRepository.CreateJobTitle(jobTitle))
+            if (!_jobTitleRepository.CreateJobTitle(_mapper.Map<JobTitle>(jobTitle)))
             {
                 ModelState.AddModelError("", "Can't create job title");
                 return StatusCode(500,ModelState);
@@ -49,13 +50,13 @@ namespace HumanManagement.Web.Controllers
             return Ok("Create job title successfully");
         }
         [HttpPut]
-        public IActionResult UpdateJobTitle([FromBody] JobTitle jobTitle)
+        public IActionResult UpdateJobTitle([FromBody] JobTitleDto jobTitle)
         {
             if (jobTitle == null)
                 return BadRequest(ModelState);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_jobTitleRepository.UpdateJobTitle(jobTitle))
+            if (!_jobTitleRepository.UpdateJobTitle(_mapper.Map<JobTitle>(jobTitle)))
             {
                 ModelState.AddModelError("", "Can't update job title");
                 return StatusCode(500, ModelState);

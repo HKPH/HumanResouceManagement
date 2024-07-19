@@ -14,15 +14,15 @@ namespace HumanManagement.Data.Repository
         public Account CheckAccountByUsernameAndPassword(AccountDto accountDto)
         {
             var account = GetAccounts().FirstOrDefault(c =>
-                c.Username.Trim().ToUpper() == accountDto.Username.Trim().ToUpper()
+                c.Username.Trim() == accountDto.Username.Trim()&& c.Password.Trim() == accountDto.Password.Trim()
             );
 
-            if (account != null && BCrypt.Net.BCrypt.Verify(accountDto.Password, account.Password))
-            {
-                return account;
-            }
+            //if (account != null && BCrypt.Net.BCrypt.Verify(accountDto.Password, account.Password))
+            //{
+            //    return account;
+            //}
 
-            return null;
+            return account;
         }
 
         public bool CreateAccount(Account account)

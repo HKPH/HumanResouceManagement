@@ -14,6 +14,7 @@ namespace HumanManagement.Data.Repository.Interface
         bool Save();
         Account CheckAccountByUsernameAndPassword(AccountDto accountDto);
         List<Account> GetAccountsByActive(bool active);
+        
 
     }
 }

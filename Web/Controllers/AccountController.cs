@@ -55,7 +55,9 @@ namespace HumanManagement.Web.Controllers
                 return BadRequest(ModelState);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_accountRepository.CreateAccount(_mapper.Map<Account>(accountCreate)))
+            var account = _mapper.Map<Account>(accountCreate);
+            account.Active = true;
+            if (!_accountRepository.CreateAccount(account))
             {
                 ModelState.AddModelError("", "Can't create account");
                 return StatusCode(500, ModelState);

@@ -56,7 +56,7 @@ namespace HumanManagement.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var bank = _bankRepository.checkBankByName(bankCreate);
+            var bank = _bankRepository.checkBankByName(_mapper.Map<Bank>(bankCreate));
             if (bank != null)
             {
                 ModelState.AddModelError("", "Bank already exits");

@@ -10,7 +10,7 @@ namespace HumanManagement.Data.Repository.Interface
         bool HasBank(int bankId);
         bool CreateBank(Bank bank);
         bool Save();
-        Bank checkBankByName(BankDto bank);
+        Bank checkBankByName(Bank bank);
         bool UpdateBank(Bank bank);
         bool DeleteBank(int bankId);
     }
