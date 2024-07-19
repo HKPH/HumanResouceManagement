@@ -21,6 +21,8 @@ namespace HumanManagement.Data.Repository
         public bool DeleteBenefit(int benefitId)
         {
             var benefitDelete=GetBenefitById(benefitId);
+            if (benefitDelete == null)
+                return false;
             _context.Remove(benefitDelete);
             return Save();
         }
@@ -49,6 +51,8 @@ namespace HumanManagement.Data.Repository
         public bool UpdateBenefit(Benefit benefit)
         {
             var benefitUpdate = GetBenefitById(benefit.Id);
+            if(benefitUpdate == null)
+                return false;
             _context.Entry(benefitUpdate).CurrentValues.SetValues(benefit);
             return Save();
         }

@@ -20,6 +20,8 @@ namespace HumanManagement.Data.Repository
         public bool DeleteAsset(int assetId)
         {
             var asset=GetAssetById(assetId);
+            if(asset==null)
+                return false;
             _context.Remove(asset);
             return Save();
         }
@@ -47,7 +49,10 @@ namespace HumanManagement.Data.Repository
 
         public bool UpdateAsset(Asset asset)
         {
+            
             var assetUpdate=GetAssetById(asset.Id);
+            if(assetUpdate==null)
+                return false;
             _context.Entry(assetUpdate).CurrentValues.SetValues(asset);
             return Save();
         }

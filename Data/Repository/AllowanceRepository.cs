@@ -19,6 +19,8 @@ namespace HumanManagement.Data.Repository
         public bool DeleteAllowance(int allowanceId)
         {
             var allowance = GetAllowanceById(allowanceId);
+            if (allowance == null) 
+                return false;
             _context.Remove(allowance);
             return Save();
         }
@@ -47,6 +49,8 @@ namespace HumanManagement.Data.Repository
         public bool UpdateAllowance(Allowance allowance)
         {
             var allowanceUpdate=GetAllowanceById(allowance.Id);
+            if (allowanceUpdate == null)
+                return false;
             _context.Entry(allowanceUpdate).CurrentValues.SetValues(allowance);
             return Save();
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using HumanManagement.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanManagement.Web.Controllers
@@ -19,13 +20,13 @@ namespace HumanManagement.Web.Controllers
         [HttpGet]
         public IActionResult GetAllowances()
         {
-            var allowances = _allowanceRepository.GetAllowances();
+            var allowances =_mapper.Map<List<AllowanceDto>>( _allowanceRepository.GetAllowances());
             return Ok(allowances);
         }
         [HttpGet("{allowanceId}")]
         public IActionResult GetAllowance(int allowanceId)
         {
-            var allowance=_allowanceRepository.GetAllowanceById(allowanceId);
+            var allowance=_mapper.Map<AllowanceDto>(_allowanceRepository.GetAllowanceById(allowanceId));
             if (allowance == null)
             {
                 return NotFound();
@@ -35,30 +36,30 @@ namespace HumanManagement.Web.Controllers
         [HttpGet("active/{active}")]
         public IActionResult GetAllowanceByActive(bool active)
         {
-            var allowances=_allowanceRepository.GetAllowancesByActive(active);
+            var allowances= _mapper.Map<List<AllowanceDto>>(_allowanceRepository.GetAllowancesByActive(active));
             return Ok(allowances);
         }
         [HttpPost]
-        public IActionResult CreateAllowance(Allowance allowance)
+        public IActionResult CreateAllowance([FromBody] AllowanceDto allowance)
         {
             if (allowance == null)
                 return BadRequest(ModelState);
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if(!_allowanceRepository.CreateAllowance(allowance))
+            if(!_allowanceRepository.CreateAllowance(_mapper.Map<Allowance>(allowance)))
             {
                 ModelState.AddModelError("", "Can't create allowance");
             }
             return Ok("Create allowance successfully");
         }
         [HttpPut]
-        public IActionResult UpdateAllowance(Allowance allowance)
+        public IActionResult UpdateAllowance([FromBody] AllowanceDto allowance)
         {
             if (allowance == null)
                 return BadRequest(ModelState);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_allowanceRepository.UpdateAllowance(allowance))
+            if (!_allowanceRepository.UpdateAllowance(_mapper.Map<Allowance>(allowance)))
             {
                 ModelState.AddModelError("", "Can't update allowance");
             }

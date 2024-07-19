@@ -19,7 +19,7 @@ public partial class BankBranchDto
 
     public int? BankId { get; set; }
 
-    public bool? Active { get; set; }
+    public bool? Active { get; set; } = true;
 
 
 }

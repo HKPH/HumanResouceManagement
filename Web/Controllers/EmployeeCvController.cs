@@ -38,13 +38,13 @@ namespace HumanManagement.Web.Controllers
             return Ok(employeeCv);
         }
         [HttpPost]
-        public IActionResult CreateEmployeeCv([FromBody] EmployeeCv employeeCv)
+        public IActionResult CreateEmployeeCv([FromBody] EmployeeCvDto employeeCv)
         {
             if (employeeCv == null)
                 return BadRequest(ModelState);
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if(!_employeeCvRepository.CreateEmployeeCv(employeeCv))
+            if(!_employeeCvRepository.CreateEmployeeCv(_mapper.Map<EmployeeCv>(employeeCv)))
             {
                 ModelState.AddModelError("", "Can't create employeeCv");
                 return StatusCode(500,ModelState);
@@ -52,13 +52,13 @@ namespace HumanManagement.Web.Controllers
             return Ok("Create employee cv successfully");
         }
         [HttpPut]
-        public IActionResult UpdateEmployeeCv([FromBody] EmployeeCv employeeCv)
+        public IActionResult UpdateEmployeeCv([FromBody] EmployeeCvDto employeeCv)
         {
             if (employeeCv == null)
                 return BadRequest(ModelState);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_employeeCvRepository.UpdateEmployeeCv(employeeCv))
+            if (!_employeeCvRepository.UpdateEmployeeCv(_mapper.Map<EmployeeCv>(employeeCv)))
             {
                 ModelState.AddModelError("", "Can't update employeeCv");
                 return StatusCode(500, ModelState);

@@ -19,6 +19,10 @@ namespace HumanManagement.Data.Repository
         public bool DeleteHealthCare(int healthCareId)
         {
             var healthCare=GetHealthCareById(healthCareId);
+            if (healthCare == null)
+            {
+                return false;
+            }
             _context.Remove(healthCare);
             return Save();
         }
@@ -47,6 +51,8 @@ namespace HumanManagement.Data.Repository
         public bool UpdateHealthCare(HealthCare healthCare)
         {
             var healthCareUpdate=GetHealthCareById(healthCare.Id);
+            if(healthCareUpdate == null)
+                return false;
             _context.Entry(healthCareUpdate).CurrentValues.SetValues(healthCare);
             return Save();
         }

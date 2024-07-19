@@ -15,10 +15,17 @@ namespace HumanManagement.Data.Repository
 
         public bool DeleteContractType(int contractTypeId)
         {
-            var contractType=GetContractTypeById(contractTypeId);
+            var contractType = GetContractTypeById(contractTypeId);
+
+            if (contractType == null)
+            {
+                return false;
+            }
+
             _context.Remove(contractType);
             return Save();
         }
+
 
         public List<ContractType> GetContractTypesByActive(bool active)
         {
@@ -44,6 +51,10 @@ namespace HumanManagement.Data.Repository
         public bool UpdateContractType(ContractType contractType)
         {
             var contractTypeUpdate = GetContractTypeById(contractType.Id);
+            if (contractTypeUpdate == null)
+            {
+                return false;
+            }
             _context.Entry(contractTypeUpdate).CurrentValues.SetValues(contractType);
             return Save();
         }

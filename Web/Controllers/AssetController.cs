@@ -20,19 +20,19 @@ namespace HumanManagement.Web.Controllers
         [HttpGet]
         public IActionResult GetAssets()
         {
-            var assets= _assetRepository.GetAssets();
+            var assets= _mapper.Map<List<AssetDto>>(_assetRepository.GetAssets());
             return Ok(assets);
         }
         [HttpGet("{assetId}")]
         public IActionResult GetAsset(int assetId)
         {
-            var asset=_assetRepository.GetAssetById(assetId);
+            var asset=_mapper.Map<AssetDto>(_assetRepository.GetAssetById(assetId));
             return Ok(asset);
         }
         [HttpGet("active/{active}")]
         public IActionResult GetAssetsByActive(bool active)
         {
-            var assets=_assetRepository.GetAssetsByActive(active);
+            var assets= _mapper.Map<List<AssetDto>>(_assetRepository.GetAssetsByActive(active));
             return Ok(assets);
         }
         [HttpPost]
@@ -50,13 +50,13 @@ namespace HumanManagement.Web.Controllers
             return Ok("Create asset succesfully");
         }
         [HttpPut]
-        public IActionResult UpdateAsset([FromBody] Asset asset)
+        public IActionResult UpdateAsset([FromBody] AssetDto asset)
         {
             if (asset == null)
                 return BadRequest(ModelState);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_assetRepository.UpdateAsset(asset))
+            if (!_assetRepository.UpdateAsset(_mapper.Map<Asset>(asset)))
             {
                 ModelState.AddModelError("", "Can't update asset");
                 return StatusCode(500, ModelState);
@@ -66,7 +66,7 @@ namespace HumanManagement.Web.Controllers
         [HttpDelete("{assetId}")]
         public IActionResult DeleteAsset(int assetId)
         {
-            if(_assetRepository.DeleteAsset(assetId))
+            if(!_assetRepository.DeleteAsset(assetId))
             {
                 ModelState.AddModelError("", "Can't delete asset");
                 return StatusCode(500, ModelState);

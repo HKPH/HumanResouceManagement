@@ -74,15 +74,11 @@ namespace HumanManagement.Web.Controllers
             return Ok("Bank branch create successfully");
         }
         [HttpPut("branch/{bankBranchId}")]
-        public IActionResult UpdateBankBranch([FromBody] BankBranchDto bankBranchUpdate, [FromRoute] int bankBranchId)
+        public IActionResult UpdateBankBranch([FromBody] BankBranchDto bankBranchUpdate)
         {
             if (bankBranchUpdate == null)
             {
                 return BadRequest(ModelState);
-            }
-            if(!_bankBranchRepository.HasBankBranch(bankBranchId))
-            {
-                return NotFound();
             }
             if (!ModelState.IsValid)
             {

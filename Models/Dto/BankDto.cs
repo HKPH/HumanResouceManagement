@@ -19,7 +19,7 @@ public class BankDto
 
     public string? Web { get; set; }
 
-    public bool? Active { get; set; }
+    public bool? Active { get; set; } = true;
 
 
 }

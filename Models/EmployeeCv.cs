@@ -17,7 +17,7 @@ public partial class EmployeeCv
 
     public int? EmployeeId { get; set; }
 
-    public bool? Active { get; set; }
+    public bool? Active { get; set; }=true;
 
     public virtual Employee? Employee { get; set; }
 }

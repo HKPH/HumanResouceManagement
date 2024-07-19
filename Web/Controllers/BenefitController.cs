@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using HumanManagement.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanManagement.Web.Controllers
@@ -19,29 +20,29 @@ namespace HumanManagement.Web.Controllers
         [HttpGet]
         public IActionResult GetBenefits()
         {
-            var benefits=_benefitRepository.GetBenefits();
+            var benefits=_mapper.Map<List<BenefitDto>>(_benefitRepository.GetBenefits());
             return Ok(benefits);
         }
         [HttpGet("{benefitId}")]
         public IActionResult GetBenefit(int benefitId)
         {
-            var benefit=_benefitRepository.GetBenefitById(benefitId);
+            var benefit= _mapper.Map<BenefitDto>(_benefitRepository.GetBenefitById(benefitId));
             return Ok(benefit);
         }
         [HttpGet("active/{active}")]
         public IActionResult GetBenefitByActive(bool active)
         {
-            var benefits = _benefitRepository.GetBenefitsByActive(active);
+            var benefits = _mapper.Map<List<BenefitDto>>(_benefitRepository.GetBenefitsByActive(active));
             return Ok(benefits);
         }
         [HttpPost]
-        public IActionResult CreateBenefit([FromBody] Benefit benefit)
+        public IActionResult CreateBenefit([FromBody] BenefitDto benefit)
         {
             if (benefit == null)
                 return BadRequest(ModelState);
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if(!_benefitRepository.CreateBenefit(benefit))
+            if(!_benefitRepository.CreateBenefit(_mapper.Map<Benefit>(benefit)))
             {
                 ModelState.AddModelError("", "Can't create benefit");
                 return StatusCode(500, ModelState);
@@ -49,13 +50,13 @@ namespace HumanManagement.Web.Controllers
             return Ok("Create benefit successfully");
         }
         [HttpPut]
-        public IActionResult UpdateBenefit([FromBody] Benefit benefit)
+        public IActionResult UpdateBenefit([FromBody] BenefitDto benefit)
         {
             if (benefit == null)
                 return BadRequest(ModelState);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_benefitRepository.UpdateBenefit(benefit))
+            if (!_benefitRepository.UpdateBenefit(_mapper.Map<Benefit>(benefit)))
             {
                 ModelState.AddModelError("", "Can't update benefit");
                 return StatusCode(500, ModelState);

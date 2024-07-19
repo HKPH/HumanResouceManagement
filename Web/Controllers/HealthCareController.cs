@@ -59,7 +59,7 @@ namespace HumanManagement.Web.Controllers
             return Ok("Create health care successfully");
         }
         [HttpPut]
-        public IActionResult UpdateHealthCare([FromBody]HealthCare healthCareUpdate)
+        public IActionResult UpdateHealthCare([FromBody]HealthCareDto healthCareUpdate)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -67,7 +67,7 @@ namespace HumanManagement.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-            if (!_healthCareRepository.UpdateHealthCare(healthCareUpdate))
+            if (!_healthCareRepository.UpdateHealthCare(_mapper.Map<HealthCare>(healthCareUpdate)))
             {
                 ModelState.AddModelError("", "Can't update health care");
             }
