@@ -11,5 +11,5 @@ namespace HumanManagement.Data.Repository.Interface
         bool UpdateContractAllowance(ContractAllowance contractAllowance);
         bool DeleteContractAllowance(int contractId, int allowanceId);
 
-    }
+    } 
 }

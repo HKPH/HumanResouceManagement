@@ -5,7 +5,6 @@ namespace HumanManagement.Models;
 
 public partial class ContractAllowance
 {
-    public bool? Received { get; set; }
 
     public DateTime? CreateDate { get; set; }
 

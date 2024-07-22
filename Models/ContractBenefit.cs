@@ -7,7 +7,6 @@ public partial class ContractBenefit
 {
     public int BenefitId { get; set; }
 
-    public bool? Received { get; set; }
 
     public DateTime? CreateDate { get; set; }
 

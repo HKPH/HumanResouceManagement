@@ -37,9 +37,14 @@ namespace HumanManagement.Common.Helper
             CreateMap<BenefitDto, Benefit>();
             CreateMap<Benefit, BenefitDto>();
 
+            CreateMap<ContractAllowance, ContractAllowanceDto>();
+            CreateMap<ContractAllowanceDto, ContractAllowance>();
 
+            CreateMap<ContractBenefit, ContractBenefitDto>();
+            CreateMap<ContractBenefitDto, ContractBenefit>();
 
-
+            CreateMap<Department, DepartmentDto>();
+            CreateMap<DepartmentDto, Department>();
 
 
 

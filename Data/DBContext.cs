@@ -213,6 +213,10 @@ public partial class DBContext : DbContext
             entity.ToTable("Department");
 
             entity.Property(e => e.Name).HasMaxLength(100);
+
+            entity.HasOne(d => d.ParentDepartment).WithMany(p => p.InverseParentDepartment)
+                .HasForeignKey(d => d.ParentDepartmentId)
+                .HasConstraintName("FK_Department_ParentDepartment");
         });
 
         modelBuilder.Entity<DepartmentJobTitle>(entity =>
