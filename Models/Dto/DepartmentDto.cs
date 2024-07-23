@@ -8,7 +8,7 @@
 
         public bool? Active { get; set; } = true;
 
-        public int? ParentDepartmentId { get; set; }
+        public int? ParentDepartmentId { get; set; } = null;
 
     }
 }

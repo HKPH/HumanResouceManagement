@@ -1,5 +1,6 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace HumanManagement.Data.Repository
@@ -35,7 +36,7 @@ namespace HumanManagement.Data.Repository
 
         public List<Department> GetDepartmentsByActive(bool active)
         {
-            return _context.Departments.Where(d=>d.Active==active).ToList();
+            return _context.Departments.Include(p=>p.InverseParentDepartment).Where(d=>d.Active==active).ToList();
         }
 
         public bool Save()
