@@ -68,7 +68,7 @@ const BankList: React.FC = () => {
     setIsModalVisible(true);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     try {
       await deleteBank(id);
       notification.success({ message: 'Bank deleted successfully' });

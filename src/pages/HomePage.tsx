@@ -12,7 +12,7 @@ import {
 import { Button, Layout, Menu, theme } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import BankList from '../components/BankList'; 
-
+import DepartmentList from '../components/DepartmentList'
 const { Header, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
@@ -96,13 +96,14 @@ const HomePage: React.FC = () => {
             <Menu.Item key="2-3">Mục con 3</Menu.Item>
           </SubMenu>
           <SubMenu
-            key="3"
+            key="4"
             icon={<SettingOutlined />}
             title="Thiết lập"
           >
-            <Menu.Item key="3-1">Mục con 1</Menu.Item>
-            <Menu.Item key="3-2">Mục con 2</Menu.Item>
-            <Menu.Item key="3-3">Mục con 3</Menu.Item>
+            <Menu.Item key="3-1">Phụ cấp</Menu.Item>
+            <Menu.Item key="3-2">Phúc lợi</Menu.Item>
+            <Menu.Item key="3-3">Sơ đồ tổ chức</Menu.Item>
+            <Menu.Item key="3-4">Chức danh theo đơn vị</Menu.Item>
           </SubMenu>
           <SubMenu
             key="4"
@@ -140,18 +141,9 @@ const HomePage: React.FC = () => {
             Logout
           </Button>
         </Header>
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 'calc(100vh - 64px)',
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-            overflow: 'auto',
-          }}
-        >
-          {selectedMenu === '1-7' && <BankList />} {/* Hiển thị component danh sách ngân hàng */}
-          {/* Bạn có thể thêm các điều kiện khác để hiển thị nội dung khác */}
+        <Content style={{ margin: '24px 16px', padding: 24, background: colorBgContainer, minHeight: 280, borderRadius: borderRadiusLG }}>
+          {selectedMenu === '1-7' && <BankList />}
+          {selectedMenu === '3-4' && <DepartmentList/>} {/* Hiển thị TreeDepartments khi chọn Phòng ban */}
         </Content>
       </Layout>
     </Layout>

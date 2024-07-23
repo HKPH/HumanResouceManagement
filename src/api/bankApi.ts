@@ -16,7 +16,7 @@ export const getBanks = async (active = false) => {
 };
 
 // Tạo ngân hàng mới
-export const createBank = async (bank) => {
+export const createBank = async (bank:any) => {
   try {
     const response = await axios.post(API_URL, bank);
     return response.data; // Trả về dữ liệu từ API
@@ -27,7 +27,7 @@ export const createBank = async (bank) => {
 };
 
 // Cập nhật ngân hàng
-export const updateBank = async (id, bank) => {
+export const updateBank = async (id:number, bank:any) => {
   try {
     const response = await axios.put(`${API_URL}/${id}`, bank);
     return response.data; // Trả về dữ liệu từ API
@@ -38,7 +38,7 @@ export const updateBank = async (id, bank) => {
 };
 
 // Xóa ngân hàng
-export const deleteBank = async (id) => {
+export const deleteBank = async (id:number) => {
   try {
     console.error('Id ngân hàng xóa:', id);
     const response = await axios.delete(`${API_URL}/${id}`);

@@ -8,7 +8,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [cookies, setCookie] = useCookies(['userId']);
     const navigate = useNavigate();
-    const onFinish = async (values) => {
+    const onFinish = async (values:any) => {
         setLoading(true);
         try {
             const account = await login(values);
