@@ -4,7 +4,8 @@ namespace HumanManagement.Data.Repository.Interface
 {
     public interface IEmployeeFamilyRepository
     {
-        List<EmployeeFamily> GetEmployeeFamilys();
+        List<EmployeeFamily> GetEmployeeFamilies();
+        List<EmployeeFamily> GetEmployeeFamiliesByEmployeeId(int employeeId);
         EmployeeFamily GetEmployeeFamilyById(int employeeFamilyId);
         bool Save();
         bool CreateEmployeeFamily(EmployeeFamily employeeFamily);

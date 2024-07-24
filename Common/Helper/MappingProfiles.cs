@@ -46,9 +46,26 @@ namespace HumanManagement.Common.Helper
             CreateMap<Department, DepartmentDto>();
             CreateMap<DepartmentDto, Department>();
 
+            CreateMap<Employee, EmployeeDto>();
+            CreateMap<EmployeeDto, Employee>();
 
+            CreateMap<EmployeeProcess, EmployeeProcessDto>();
+            CreateMap<EmployeeProcessDto, EmployeeProcess>();
 
+            CreateMap<EmployeeFamily, EmployeeFamilyDto>();
+            CreateMap<EmployeeFamilyDto, EmployeeFamily>();
 
+            CreateMap<Salary, SalaryDto>();
+            CreateMap<SalaryDto, Salary>();
+
+            CreateMap<EmployeeAsset, EmployeeAssetDto>();
+            CreateMap<EmployeeAssetDto, EmployeeAsset>();
+
+            CreateMap<Discipline, DisciplineDto>();
+            CreateMap<DisciplineDto, Discipline>();
+
+            CreateMap<Reward, RewardDto>();
+            CreateMap<RewardDto, Reward>();
 
         }
     }

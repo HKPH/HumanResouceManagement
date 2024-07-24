@@ -32,6 +32,12 @@ namespace HumanManagement.Data.Repository
             return _context.Rewards.OrderBy(r => r.Id).ToList();
         }
 
+
+        public List<Reward> GetRewardsByEmployeeId(int employeeId)
+        {
+            return _context.Rewards.Where(e=>e.EmployeeId == employeeId).ToList();
+        }
+
         public bool Save()
         {
             var check=_context.SaveChanges();

@@ -11,5 +11,6 @@ namespace HumanManagement.Data.Repository.Interface
         bool UpdateEmployee(Employee employee);
         bool DeleteEmployee(int employeeId);
         bool Save();
+        List<Employee> GetEmployeesBirthday(int days);
     }
 }

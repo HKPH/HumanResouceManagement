@@ -11,7 +11,8 @@ public partial class Employee
 
     public int? Gender { get; set; }
 
-    public DateTime? Dob { get; set; }
+    public DateTime Dob { get; set; }
+    public DateTime CreateDate { get; set; }
 
     public string? PhoneNumber { get; set; }
 

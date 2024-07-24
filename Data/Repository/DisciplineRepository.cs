@@ -34,7 +34,10 @@ namespace HumanManagement.Data.Repository
             return _context.Disciplines.OrderBy(d => d.Id).ToList();
         }
 
-
+        public List<Discipline> GetDisciplinesByEmployeeId(int employeeId)
+        {
+            return _context.Disciplines.Where(d=>d.EmployeeId == employeeId).ToList();
+        }
 
         public bool Save()
         {

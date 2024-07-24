@@ -12,6 +12,9 @@ public partial class Resignation
     public DateTime? EffectiveDay { get; set; }
 
     public int? EmployeeId { get; set; }
+    public DateTime? CreateDate { get; set; }
+    public Boolean Accepted { get; set; }
 
     public virtual Employee? Employee { get; set; }
+
 }

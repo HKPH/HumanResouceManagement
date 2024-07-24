@@ -39,13 +39,16 @@ namespace HumanManagement.Data.Repository
             return _context.Resignations.OrderBy(r => r.Id).ToList();
         }
 
-
-
         public bool UpdateResignation(Resignation resignation)
         {
             var resignationUpdate=GetResignationById(resignation.Id);
             _context.Entry(resignationUpdate).CurrentValues.SetValues(resignation);
             return Save();
+        }
+
+        public List<Resignation> GetResignationsByAccepted(bool accepted)
+        {
+            return _context.Resignations.Where(r=>r.Accepted==accepted).ToList();
         }
     }
 }

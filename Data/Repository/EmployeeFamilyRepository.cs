@@ -29,11 +29,15 @@ namespace HumanManagement.Data.Repository
             return _context.EmployeeFamilies.Where(ef => ef.Id == employeeFamilyId).FirstOrDefault();
         }
 
-        public List<EmployeeFamily> GetEmployeeFamilys()
+        public List<EmployeeFamily> GetEmployeeFamilies()
         {
             return _context.EmployeeFamilies.OrderBy(ef => ef.Id).ToList();
         }
 
+        public List<EmployeeFamily> GetEmployeeFamiliesByEmployeeId(int employeeId)
+        {
+            return _context.EmployeeFamilies.Where(e=>e.EmployeeId == employeeId).ToList();
+        }
 
         public bool Save()
         {

@@ -40,6 +40,11 @@ namespace HumanManagement.Data.Repository
             return _context.EmployeeProcesses.Where(ep=>ep.Active == active).ToList();
         }
 
+        public List<EmployeeProcess> GetEmployeeProcessesByEmployeeId(int employeeId)
+        {
+            return _context.EmployeeProcesses.Where(e=>e.EmployeeId == employeeId).ToList();
+        }
+
         public bool Save()
         {
             var check=_context.SaveChanges();

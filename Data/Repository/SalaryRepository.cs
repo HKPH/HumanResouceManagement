@@ -31,6 +31,16 @@ namespace HumanManagement.Data.Repository
             return _context.Salaries.Where(s=>s.Active == active).ToList();
         }
 
+        public List<Salary> GetSalariesNotUsing()
+        {
+            return _context.Salaries.Where(e=>e.EmployeeId!=null).ToList();
+        }
+
+        public Salary GetSalaryByEmployeeId(int employeeId)
+        {
+            return _context.Salaries.Where(e => e.EmployeeId == employeeId).FirstOrDefault();
+        }
+
         public Salary GetSalaryById(int salaryId)
         {
             return _context.Salaries.FirstOrDefault(s => s.Id == salaryId);
