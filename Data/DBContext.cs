@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HumanManagement.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Models;
@@ -42,7 +43,11 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<Employee> Employees { get; set; }
 
+    public virtual DbSet<EmployeeAllowance> EmployeeAllowances { get; set; }
+
     public virtual DbSet<EmployeeAsset> EmployeeAssets { get; set; }
+
+    public virtual DbSet<EmployeeBenefit> EmployeeBenefits { get; set; }
 
     public virtual DbSet<EmployeeContract> EmployeeContracts { get; set; }
 
@@ -74,6 +79,7 @@ public partial class DBContext : DbContext
 
             entity.ToTable("Account");
 
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.Password).HasMaxLength(255);
             entity.Property(e => e.Role).HasMaxLength(50);
@@ -103,6 +109,7 @@ public partial class DBContext : DbContext
 
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Note).HasMaxLength(255);
+            entity.Property(e => e.PurchaseDate).HasColumnType("datetime");
             entity.Property(e => e.PurchasePrice).HasColumnType("decimal(18, 0)");
         });
 
@@ -114,6 +121,7 @@ public partial class DBContext : DbContext
 
             entity.Property(e => e.FileName).HasMaxLength(255);
             entity.Property(e => e.FilePath).HasMaxLength(255);
+            entity.Property(e => e.UploadDate).HasColumnType("datetime");
 
             entity.HasOne(d => d.Employee).WithMany(p => p.Attachments)
                 .HasForeignKey(d => d.EmployeeId)
@@ -168,6 +176,8 @@ public partial class DBContext : DbContext
 
             entity.ToTable("Contract_Allowance");
 
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
             entity.HasOne(d => d.Allowance).WithMany(p => p.ContractAllowances)
                 .HasForeignKey(d => d.AllowanceId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -184,6 +194,8 @@ public partial class DBContext : DbContext
             entity.HasKey(e => new { e.BenefitId, e.ContractTypeId }).HasName("PK_ContractBenefit");
 
             entity.ToTable("Contract_Benefit");
+
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
 
             entity.HasOne(d => d.Benefit).WithMany(p => p.ContractBenefits)
                 .HasForeignKey(d => d.BenefitId)
@@ -225,6 +237,8 @@ public partial class DBContext : DbContext
 
             entity.ToTable("Department_JobTitle");
 
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
             entity.HasOne(d => d.Department).WithMany(p => p.DepartmentJobTitles)
                 .HasForeignKey(d => d.DepartmentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -242,6 +256,7 @@ public partial class DBContext : DbContext
 
             entity.ToTable("Discipline");
 
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(255);
 
             entity.HasOne(d => d.Employee).WithMany(p => p.Disciplines)
@@ -255,6 +270,7 @@ public partial class DBContext : DbContext
 
             entity.ToTable("Employee");
 
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Dob).HasColumnName("DOB");
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.Name).HasMaxLength(100);
@@ -277,13 +293,37 @@ public partial class DBContext : DbContext
                 .HasConstraintName("FK__Employee__JobTit__3D5E1FD2");
         });
 
+        modelBuilder.Entity<EmployeeAllowance>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("EmployeeAllowance");
+
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.Note).HasMaxLength(50);
+            entity.Property(e => e.ReceivedDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Allowance).WithMany()
+                .HasForeignKey(d => d.AllowanceId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EmployeeAllowance_Allowance");
+
+            entity.HasOne(d => d.Employee).WithMany()
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EmployeeAllowance_Employee");
+        });
+
         modelBuilder.Entity<EmployeeAsset>(entity =>
         {
             entity.HasKey(e => new { e.EmployeeId, e.AssetId }).HasName("PK_EmployeeAsset");
 
             entity.ToTable("Employee_Asset");
 
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Note).HasMaxLength(255);
+            entity.Property(e => e.ReceivedDate).HasColumnType("datetime");
+            entity.Property(e => e.ReturnDate).HasColumnType("datetime");
 
             entity.HasOne(d => d.Asset).WithMany(p => p.EmployeeAssets)
                 .HasForeignKey(d => d.AssetId)
@@ -296,11 +336,35 @@ public partial class DBContext : DbContext
                 .HasConstraintName("FK__Employee___Emplo__5EBF139D");
         });
 
+        modelBuilder.Entity<EmployeeBenefit>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("EmployeeBenefit");
+
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.Note).HasMaxLength(50);
+            entity.Property(e => e.ReceivedDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Benefit).WithMany()
+                .HasForeignKey(d => d.BenefitId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EmployeeBenefit_Benefit");
+
+            entity.HasOne(d => d.Employee).WithMany()
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EmployeeBenefit_Employee");
+        });
+
         modelBuilder.Entity<EmployeeContract>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Employee__E17E04F6C9193CBA");
 
             entity.ToTable("EmployeeContract");
+
+            entity.Property(e => e.EndDate).HasColumnType("datetime");
+            entity.Property(e => e.StartDate).HasColumnType("datetime");
 
             entity.HasOne(d => d.ContractType).WithMany(p => p.EmployeeContracts)
                 .HasForeignKey(d => d.ContractTypeId)
@@ -334,6 +398,7 @@ public partial class DBContext : DbContext
             entity.ToTable("EmployeeFamily");
 
             entity.Property(e => e.Dob).HasColumnName("DOB");
+            entity.Property(e => e.EffectiveDate).HasColumnType("datetime");
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Note).HasMaxLength(255);
 
@@ -384,6 +449,8 @@ public partial class DBContext : DbContext
 
             entity.ToTable("Resignation");
 
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.EffectiveDay).HasColumnType("datetime");
             entity.Property(e => e.Reason).HasMaxLength(255);
 
             entity.HasOne(d => d.Employee).WithMany(p => p.Resignations)
@@ -398,6 +465,7 @@ public partial class DBContext : DbContext
             entity.ToTable("Reward");
 
             entity.Property(e => e.Amount).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(255);
 
             entity.HasOne(d => d.Employee).WithMany(p => p.Rewards)
@@ -412,6 +480,7 @@ public partial class DBContext : DbContext
             entity.ToTable("Salary");
 
             entity.Property(e => e.BaseSalary).HasColumnType("decimal(18, 0)");
+            entity.Property(e => e.CreaterDate).HasColumnType("datetime");
             entity.Property(e => e.FinalSalary).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.Note).HasMaxLength(50);
 

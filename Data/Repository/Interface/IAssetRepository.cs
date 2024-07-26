@@ -4,12 +4,12 @@ namespace HumanManagement.Data.Repository.Interface
 {
     public interface IAssetRepository
     {
-        List<Asset> GetAssets();
-        Asset GetAssetById(int assetId);
-        List<Asset> GetAssetsByActive(bool active);
-        bool Save();
-        bool CreateAsset(Asset asset);
-        bool UpdateAsset(Asset asset);
-        bool DeleteAsset(int assetId);
+        Task<List<Asset>> GetAssetsAsync();
+        Task<Asset> GetAssetByIdAsync(int assetId);
+        Task<List<Asset>> GetAssetsByActiveAsync(bool active);
+        Task<bool> SaveAsync();
+        Task<Asset> CreateAssetAsync(Asset asset);
+        Task<Asset> UpdateAssetAsync(Asset asset);
+        Task<Asset> DeleteAssetAsync(int assetId);
     }
 }

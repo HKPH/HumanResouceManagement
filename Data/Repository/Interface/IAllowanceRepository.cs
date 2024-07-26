@@ -1,15 +1,17 @@
 ﻿using HumanManagement.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Data.Repository.Interface
 {
     public interface IAllowanceRepository
     {
-        List<Allowance> GetAllowances();
-        Allowance GetAllowanceById(int allowanceId);
-        List<Allowance> GetAllowancesByActive(bool active);
-        bool Save();
-        bool CreateAllowance(Allowance allowance);
-        bool UpdateAllowance(Allowance allowance);
-        bool DeleteAllowance(int allowanceId);
+        Task<List<Allowance>> GetAllowancesAsync();
+        Task<Allowance> GetAllowanceByIdAsync(int allowanceId);
+        Task<List<Allowance>> GetAllowancesByActiveAsync(bool active);
+        Task<bool> SaveAsync();
+        Task<Allowance> CreateAllowanceAsync(Allowance allowance);
+        Task<Allowance> UpdateAllowanceAsync(Allowance allowance);
+        Task<Allowance> DeleteAllowanceAsync(int allowanceId);
     }
 }

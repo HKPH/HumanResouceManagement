@@ -3,6 +3,8 @@ using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using HumanManagement.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Web.Controllers
 {
@@ -12,71 +14,119 @@ namespace HumanManagement.Web.Controllers
     {
         private readonly IAllowanceRepository _allowanceRepository;
         private readonly IMapper _mapper;
+
         public AllowanceController(IAllowanceRepository allowanceRepository, IMapper mapper)
         {
             _allowanceRepository = allowanceRepository;
             _mapper = mapper;
         }
+
         [HttpGet]
-        public IActionResult GetAllowances()
+        public async Task<IActionResult> GetAllowances()
         {
-            var allowances =_mapper.Map<List<AllowanceDto>>( _allowanceRepository.GetAllowances());
-            return Ok(allowances);
+            var allowances = await _allowanceRepository.GetAllowancesAsync();
+            var allowanceDtos = _mapper.Map<List<AllowanceDto>>(allowances);
+            return Ok(allowanceDtos);
         }
+
         [HttpGet("{allowanceId}")]
-        public IActionResult GetAllowance(int allowanceId)
+        public async Task<IActionResult> GetAllowance(int allowanceId)
         {
-            var allowance=_mapper.Map<AllowanceDto>(_allowanceRepository.GetAllowanceById(allowanceId));
+            var allowance = await _allowanceRepository.GetAllowanceByIdAsync(allowanceId);
             if (allowance == null)
             {
                 return NotFound();
             }
-            return Ok(allowance);
+
+            var allowanceDto = _mapper.Map<AllowanceDto>(allowance);
+            return Ok(allowanceDto);
         }
+
         [HttpGet("active/{active}")]
-        public IActionResult GetAllowanceByActive(bool active)
+        public async Task<IActionResult> GetAllowanceByActive(bool active)
         {
-            var allowances= _mapper.Map<List<AllowanceDto>>(_allowanceRepository.GetAllowancesByActive(active));
-            return Ok(allowances);
+            var allowances = await _allowanceRepository.GetAllowancesByActiveAsync(active);
+            var allowanceDtos = _mapper.Map<List<AllowanceDto>>(allowances);
+            return Ok(allowanceDtos);
         }
+
         [HttpPost]
-        public IActionResult CreateAllowance([FromBody] AllowanceDto allowance)
+        public async Task<IActionResult> CreateAllowance([FromBody] AllowanceDto allowanceDto)
         {
-            if (allowance == null)
-                return BadRequest(ModelState);
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
-            if(!_allowanceRepository.CreateAllowance(_mapper.Map<Allowance>(allowance)))
+            if (allowanceDto == null)
             {
-                ModelState.AddModelError("", "Can't create allowance");
-            }
-            return Ok("Create allowance successfully");
-        }
-        [HttpPut]
-        public IActionResult UpdateAllowance([FromBody] AllowanceDto allowance)
-        {
-            if (allowance == null)
                 return BadRequest(ModelState);
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            if (!_allowanceRepository.UpdateAllowance(_mapper.Map<Allowance>(allowance)))
-            {
-                ModelState.AddModelError("", "Can't update allowance");
             }
-            return Ok("Update allowance successfully");
-        }
-        [HttpDelete("{allwanceId}")]
-        public IActionResult DeleteAllowance(int allowanceId)
-        {
 
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            if (!_allowanceRepository.DeleteAllowance(allowanceId))
             {
-                ModelState.AddModelError("", "Can't delete allowance");
+                return BadRequest(ModelState);
             }
-            return Ok("Delete allowance successfully");
+
+            var allowance = _mapper.Map<Allowance>(allowanceDto);
+
+            var createdAllowance = await _allowanceRepository.CreateAllowanceAsync(allowance);
+
+            if (createdAllowance == null)
+            {
+                return StatusCode(500, "Can't create");
+            }
+
+            var createdAllowanceDto = _mapper.Map<AllowanceDto>(createdAllowance);
+
+            return CreatedAtAction(
+                actionName: nameof(GetAllowance),
+                routeValues: new { allowanceId = createdAllowance.Id },
+                value: createdAllowanceDto
+            );
         }
 
+        [HttpPut("{allowanceId}")]
+        public async Task<IActionResult> UpdateAllowance(int allowanceId, [FromBody] AllowanceDto allowanceDto)
+        {
+            if (allowanceDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (allowanceId != allowanceDto.Id)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var allowance = _mapper.Map<Allowance>(allowanceDto);
+
+            var updatedAllowance = await _allowanceRepository.UpdateAllowanceAsync(allowance);
+
+            if (updatedAllowance == null)
+            {
+                return StatusCode(500, "Can't update");
+            }
+
+            return Ok("Update successfully");
+        }
+
+        [HttpDelete("{allowanceId}")]
+        public async Task<IActionResult> DeleteAllowance(int allowanceId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var deletedAllowance = await _allowanceRepository.DeleteAllowanceAsync(allowanceId);
+
+            if (deletedAllowance == null)
+            {
+                return StatusCode(500, "Can't delete");
+            }
+
+            return Ok("Delete successfully");
+        }
     }
 }

@@ -49,10 +49,13 @@ namespace HumanManagement.Web.Controllers
             }
             return Ok("Create job title successfully");
         }
-        [HttpPut]
-        public IActionResult UpdateJobTitle([FromBody] JobTitleDto jobTitle)
+        [HttpPut("{jobTitleId}")]
+        public IActionResult UpdateJobTitle(int jobTitleId,[FromBody] JobTitleDto jobTitle)
         {
+
             if (jobTitle == null)
+                return BadRequest(ModelState);
+            if(jobTitleId!=jobTitle.Id)
                 return BadRequest(ModelState);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

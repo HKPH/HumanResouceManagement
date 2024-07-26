@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanManagement.Web.Controllers
 {
-    [Route("api/[conmtroller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class DisciplineController: ControllerBase
     {
@@ -51,7 +51,6 @@ namespace HumanManagement.Web.Controllers
         [HttpDelete("{disciplineId}")]
         public IActionResult DeleDiscipline(int disciplineId)
         {
-\
             if (_disciplineRepository.DeleteDiscipline(disciplineId))
             {
                 return StatusCode(500, "Can't delete");

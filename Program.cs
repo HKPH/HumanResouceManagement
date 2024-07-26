@@ -25,8 +25,10 @@ builder.Services.AddControllers();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
     });
+
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<DBContext>(options =>
@@ -55,6 +57,8 @@ builder.Services.AddScoped<IJobTitleRepository, JobTitleRepository>();
 builder.Services.AddScoped<IResignationRepository, ResignationRepository>();
 builder.Services.AddScoped<IRewardRepository, RewardRepository>();
 builder.Services.AddScoped<ISalaryRepository, SalaryRepository>();
+builder.Services.AddScoped<IEmployeeAllowanceRepository, EmployeeAllowanceRepository>();
+builder.Services.AddScoped<IEmployeeBenefitRepository, EmployeeBenefitRepository>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
@@ -84,7 +88,6 @@ builder.Services.AddAuthentication(x =>
         ValidateAudience = false
     };
 });
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

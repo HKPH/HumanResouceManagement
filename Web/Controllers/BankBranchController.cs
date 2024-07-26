@@ -74,16 +74,18 @@ namespace HumanManagement.Web.Controllers
             return Ok("Bank branch create successfully");
         }
         [HttpPut("branch/{bankBranchId}")]
-        public IActionResult UpdateBankBranch([FromBody] BankBranchDto bankBranchUpdate)
+        public IActionResult UpdateBankBranch(int bankBranchId, [FromBody] BankBranchDto bankBranchUpdate)
         {
-            if (bankBranchUpdate == null)
-            {
-                return BadRequest(ModelState);
-            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            if (bankBranchUpdate == null || bankBranchId != bankBranchUpdate.Id)
+            {
+                return BadRequest(ModelState);
+            }
+            
             var bankBranch=_mapper.Map<BankBranch>(bankBranchUpdate);
             if(!_bankBranchRepository.UpdateBankBranch(bankBranch))
             {
@@ -92,6 +94,7 @@ namespace HumanManagement.Web.Controllers
             }
             return Ok("Bank branch update successfully");
         }
+
         [HttpDelete("{bankBranchId}")]
         public IActionResult DeleteBankBranch([FromRoute] int bankBranchId)
         {
@@ -106,26 +109,6 @@ namespace HumanManagement.Web.Controllers
             }
             return Ok("Delete bank branch successfully");
         }
-        //[HttpDelete("branches/{bankId}")]
-        //public IActionResult DeleteBankBranches([FromRoute] int bankId)
-        //{
-        //    if (!_bankRepository.HasBank(bankId))
-        //    {
-        //        return NotFound();
-        //    }
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    var bank=_bankRepository.GetBankById(bankId);
-        //    var branches=_bankBranchRepository.GetAllBankBranchesByBankId(bankId);
-        //    if(!_bankBranchRepository.DeleteBankBranches(branches))
-        //    {
-        //        ModelState.AddModelError("", "Can't delete branches");
-        //        return StatusCode(500,ModelState);
-        //    }
-        //    return Ok("Delete bank branches successfully");
-        //}
         
     }
 }

@@ -67,6 +67,12 @@ namespace HumanManagement.Common.Helper
             CreateMap<Reward, RewardDto>();
             CreateMap<RewardDto, Reward>();
 
+            CreateMap<EmployeeAllowance, EmployeeAllowanceDto>();
+            CreateMap<EmployeeAllowanceDto, EmployeeAllowance>();
+
+            CreateMap<EmployeeBenefit, EmployeeBenefitDto>();
+            CreateMap<EmployeeBenefitDto, EmployeeBenefit>();
+
         }
     }
 }

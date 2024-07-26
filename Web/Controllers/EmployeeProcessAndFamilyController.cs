@@ -41,8 +41,10 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateEmployeesProcessAndFamily([FromBody] EmployeeProcessDto epCreate, [FromBody] EmployeeFamilyDto efCreate)
+        public IActionResult CreateEmployeesProcessAndFamily([FromBody] EmployeeProcessAndFamilyDto epfDto)
         {
+            var epCreate = epfDto.EmployeeProcess;
+            var efCreate = epfDto.EmployeeFamily;
             if (epCreate == null || efCreate == null)
             {
                 return BadRequest(ModelState);
@@ -56,8 +58,10 @@ namespace HumanManagement.Web.Controllers
             return Ok("Create employee successfully");
         }
         [HttpPut]
-        public IActionResult UpdateEmployeesProcessAndFamily([FromBody] EmployeeProcessDto epUpdate, [FromBody] EmployeeFamilyDto efUpdate)
+        public IActionResult UpdateEmployeesProcessAndFamily([FromBody] EmployeeProcessAndFamilyDto epfDto)
         {
+            var epUpdate = epfDto.EmployeeProcess;
+            var efUpdate = epfDto.EmployeeFamily;
             if (epUpdate == null && efUpdate == null)
             {
                 return BadRequest("Both EmployeeProcessDto and EmployeeFamilyDto cannot be null.");

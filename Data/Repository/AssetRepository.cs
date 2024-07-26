@@ -1,60 +1,68 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Data.Repository
 {
-    public class AssetRepository:IAssetRepository
+    public class AssetRepository : IAssetRepository
     {
         private readonly DBContext _context;
+
         public AssetRepository(DBContext context)
         {
             _context = context;
         }
 
-        public bool CreateAsset(Asset asset)
+        public async Task<Asset> CreateAssetAsync(Asset asset)
         {
-            _context.Add(asset);
-            return Save();
+            await _context.Assets.AddAsync(asset);
+            await SaveAsync();
+            return asset;
         }
 
-        public bool DeleteAsset(int assetId)
+        public async Task<Asset> DeleteAssetAsync(int assetId)
         {
-            var asset=GetAssetById(assetId);
-            if(asset==null)
-                return false;
-            _context.Remove(asset);
-            return Save();
+            var asset = await GetAssetByIdAsync(assetId);
+            if (asset == null) return null;
+
+            _context.Assets.Remove(asset);
+            await SaveAsync();
+            return asset;
         }
 
-        public Asset GetAssetById(int assetId)
+        public async Task<Asset> GetAssetByIdAsync(int assetId)
         {
-            return _context.Assets.Where(a => a.Id == assetId).FirstOrDefault();
+            return await _context.Assets.FindAsync(assetId);
         }
 
-        public List<Asset> GetAssets()
+        public async Task<List<Asset>> GetAssetsByActiveAsync(bool active)
         {
-            return _context.Assets.ToList();
+            return await _context.Assets
+                .Where(a => a.Active == active)
+                .ToListAsync();
         }
 
-        public List<Asset> GetAssetsByActive(bool active)
+        public async Task<List<Asset>> GetAssetsAsync()
         {
-            return _context.Assets.Where(a => a.Active == active).ToList();
+            return await _context.Assets.ToListAsync();
         }
 
-        public bool Save()
+        public async Task<bool> SaveAsync()
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool UpdateAsset(Asset asset)
+        public async Task<Asset> UpdateAssetAsync(Asset asset)
         {
-            
-            var assetUpdate=GetAssetById(asset.Id);
-            if(assetUpdate==null)
-                return false;
+            var assetUpdate = await GetAssetByIdAsync(asset.Id);
+            if (assetUpdate == null) return null;
+
             _context.Entry(assetUpdate).CurrentValues.SetValues(asset);
-            return Save();
+            await SaveAsync();
+            return assetUpdate;
         }
     }
 }

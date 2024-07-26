@@ -1,59 +1,69 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Data.Repository
 {
     public class AllowanceRepository : IAllowanceRepository
     {
         private readonly DBContext _context;
+
         public AllowanceRepository(DBContext context)
         {
             _context = context;
         }
-        public bool CreateAllowance(Allowance allowance)
+
+        public async Task<Allowance> CreateAllowanceAsync(Allowance allowance)
         {
-            _context.Add(allowance);
-            return Save();
+            await _context.Allowances.AddAsync(allowance);
+            await SaveAsync();
+            return allowance;
         }
 
-        public bool DeleteAllowance(int allowanceId)
+        public async Task<Allowance> DeleteAllowanceAsync(int allowanceId)
         {
-            var allowance = GetAllowanceById(allowanceId);
-            if (allowance == null) 
-                return false;
-            _context.Remove(allowance);
-            return Save();
+            var allowance = await GetAllowanceByIdAsync(allowanceId);
+            if (allowance == null) return null;
+
+            _context.Allowances.Remove(allowance);
+            await SaveAsync();
+            return allowance;
         }
 
-        public Allowance GetAllowanceById(int allowanceId)
+        public async Task<Allowance> GetAllowanceByIdAsync(int allowanceId)
         {
-            return _context.Allowances.Where(x => x.Id == allowanceId).FirstOrDefault();
+            return await _context.Allowances.FindAsync(allowanceId);
         }
 
-        public List<Allowance> GetAllowancesByActive(bool active)
+        public async Task<List<Allowance>> GetAllowancesByActiveAsync(bool active)
         {
-            return _context.Allowances.Where(x => x.Active == active).ToList();
+            return await _context.Allowances
+                .Where(x => x.Active == active)
+                .ToListAsync();
         }
 
-        public List<Allowance> GetAllowances()
+        public async Task<List<Allowance>> GetAllowancesAsync()
         {
-            return _context.Allowances.ToList();
+            return await _context.Allowances.ToListAsync();
         }
 
-        public bool Save()
+        public async Task<bool> SaveAsync()
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool UpdateAllowance(Allowance allowance)
+        public async Task<Allowance> UpdateAllowanceAsync(Allowance allowance)
         {
-            var allowanceUpdate=GetAllowanceById(allowance.Id);
-            if (allowanceUpdate == null)
-                return false;
+            var allowanceUpdate = await GetAllowanceByIdAsync(allowance.Id);
+            if (allowanceUpdate == null) return null;
+
             _context.Entry(allowanceUpdate).CurrentValues.SetValues(allowance);
-            return Save();
-
+            await SaveAsync();
+            return allowanceUpdate;
         }
+
     }
 }

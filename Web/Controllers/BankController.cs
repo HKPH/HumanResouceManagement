@@ -20,35 +20,43 @@ namespace HumanManagement.Web.Controllers
             _bankRepository = bankRepository;
             _mapper = mapper;
         }
+
         [HttpGet]
         public IActionResult GetBanks()
         {
             var banks = _mapper.Map<List<BankDto>>(_bankRepository.GetBanks());
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
             return Ok(banks);
         }
+
         [HttpGet("{bankId}")]
         public IActionResult GetBank(int bankId)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             if (!_bankRepository.HasBank(bankId))
             {
                 return NotFound();
             }
+
             var bank = _mapper.Map<BankDto>(_bankRepository.GetBankById(bankId));
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
             return Ok(bank);
         }
+
         [HttpGet("active/{active}")]
         public IActionResult GetBankByActive(bool active)
         {
-            var banks=_mapper.Map<List<BankDto>>(_bankRepository.GetBanksByActive(active));
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            return Ok(banks);
 
+            var banks=_mapper.Map<List<BankDto>>(_bankRepository.GetBanksByActive(active));
+            return Ok(banks);
         }
+
         [HttpPost]
         public IActionResult CreateBank([FromBody] BankDto bankCreate)
         {
@@ -56,25 +64,30 @@ namespace HumanManagement.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             var bank = _bankRepository.checkBankByName(_mapper.Map<Bank>(bankCreate));
+
             if (bank != null)
             {
                 ModelState.AddModelError("", "Bank already exits");
                 return StatusCode(422, ModelState);
             }
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
             bankCreate.Active = true;
+
             var bankMap = _mapper.Map<Bank>(bankCreate);
+
             if (!_bankRepository.CreateBank(bankMap))
             {
                 ModelState.AddModelError("", "Bank cant crate");
                 return StatusCode(500, ModelState);
             }
             return Ok("Successfully created");
-
-
         }
+
         [HttpPut("{bankId}")]
         public IActionResult UpdateBank(int bankId, [FromBody] BankDto bankUpdate)
         {
@@ -98,6 +111,7 @@ namespace HumanManagement.Web.Controllers
             }
             return Ok("Update Successfully");
         }
+
         [HttpDelete("{bankId}")]
         public IActionResult DeleteBank([FromRoute] int bankId)
         {
