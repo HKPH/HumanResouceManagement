@@ -1,61 +1,75 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Data.Repository
 {
-    public class DepartmentJobTitleRepository:IDepartmentJobTitleRepository
+    public class DepartmentJobTitleRepository : IDepartmentJobTitleRepository
     {
         private readonly DBContext _context;
+
         public DepartmentJobTitleRepository(DBContext context)
         {
             _context = context;
         }
 
-        public bool CreateDepartmentJobTitle(DepartmentJobTitle departmentJobTitle)
+        public async Task<DepartmentJobTitle> CreateDepartmentJobTitleAsync(DepartmentJobTitle departmentJobTitle)
         {
-            _context.Add(departmentJobTitle);
-            return Save();
+            await _context.DepartmentJobTitles.AddAsync(departmentJobTitle);
+            await _context.SaveChangesAsync();
+            return departmentJobTitle;
         }
 
-        public bool DeleteDepartmentJobTitle(int departmentId, int jobTitleId)
+        public async Task<DepartmentJobTitle> DeleteDepartmentJobTitleAsync(int departmentId, int jobTitleId)
         {
-            var dj=GetDepartmentJobTitle(departmentId, jobTitleId);
-            _context.Remove(dj);
-            return Save();
+            var departmentJobTitle = await GetDepartmentJobTitleAsync(departmentId, jobTitleId);
+            if (departmentJobTitle == null)
+            {
+                return null;
+            }
 
+            _context.DepartmentJobTitles.Remove(departmentJobTitle);
+            await _context.SaveChangesAsync();
+            return departmentJobTitle;
         }
 
-        public DepartmentJobTitle GetDepartmentJobTitle(int departmentId, int jobTitleId)
+        public async Task<DepartmentJobTitle> GetDepartmentJobTitleAsync(int departmentId, int jobTitleId)
         {
-            return _context.DepartmentJobTitles.Where(dj => dj.DepartmentId == departmentId && dj.JobTitleId == jobTitleId).FirstOrDefault();
+            return await _context.DepartmentJobTitles
+                .Where(dj => dj.DepartmentId == departmentId && dj.JobTitleId == jobTitleId)
+                .FirstOrDefaultAsync();
         }
 
-        public List<DepartmentJobTitle> GetDepartmentJobTitlesByActive(bool active)
+        public async Task<List<DepartmentJobTitle>> GetDepartmentJobTitlesByActiveAsync(bool active)
         {
+            // Implement the method if needed
             throw new NotImplementedException();
         }
 
-        public List<JobTitle> GetJobtitlesByDepartment(int departmentId)
+        public async Task<List<JobTitle>> GetJobTitlesByDepartmentAsync(int departmentId)
         {
-            return _context.DepartmentJobTitles
-                .Where(dj=>dj.DepartmentId == departmentId)
-                .Include(dj=>dj.JobTitle)
-                .Select(dj=>dj.JobTitle)
-                .ToList();
+            return await _context.DepartmentJobTitles
+                .Where(dj => dj.DepartmentId == departmentId)
+                .Include(dj => dj.JobTitle)
+                .Select(dj => dj.JobTitle)
+                .ToListAsync();
         }
 
-        public bool Save()
+        public async Task<DepartmentJobTitle> UpdateDepartmentJobTitleAsync(DepartmentJobTitle departmentJobTitle)
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            var existingDepartmentJobTitle = await GetDepartmentJobTitleAsync(departmentJobTitle.DepartmentId, departmentJobTitle.JobTitleId);
+            if (existingDepartmentJobTitle == null)
+            {
+                return null;
+            }
+
+            _context.Entry(existingDepartmentJobTitle).CurrentValues.SetValues(departmentJobTitle);
+            await _context.SaveChangesAsync();
+            return departmentJobTitle;
         }
 
-        public bool UpdateDepartmentJobTitle(DepartmentJobTitle departmentJobTitle)
-        {
-            var djUpdate = GetDepartmentJobTitle(departmentJobTitle.DepartmentId, departmentJobTitle.JobTitleId);
-            _context.Entry(djUpdate).CurrentValues.SetValues(departmentJobTitle);
-            return Save();
-        }
     }
 }

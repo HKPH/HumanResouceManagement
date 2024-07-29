@@ -1,60 +1,65 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
-using System;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace HumanManagement.Data.Repository
 {
-    public class BenefitRepository: IBenefitRepository
+    public class BenefitRepository : IBenefitRepository
     {
         private readonly DBContext _context;
+
         public BenefitRepository(DBContext dbContext)
         {
             _context = dbContext;
         }
 
-        public bool CreateBenefit(Benefit benefit)
+        public async Task<Benefit> CreateBenefitAsync(Benefit benefit)
         {
-            _context.Add(benefit);
-            return Save();
+            await _context.Benefits.AddAsync(benefit);
+            await SaveAsync();
+            return benefit;
         }
 
-        public bool DeleteBenefit(int benefitId)
+        public async Task<Benefit> DeleteBenefitAsync(int benefitId)
         {
-            var benefitDelete=GetBenefitById(benefitId);
+            var benefitDelete = await GetBenefitByIdAsync(benefitId);
             if (benefitDelete == null)
-                return false;
-            _context.Remove(benefitDelete);
-            return Save();
+                return null;
+            _context.Benefits.Remove(benefitDelete);
+            await SaveAsync();
+            return benefitDelete;
         }
 
-        public List<Benefit> GetBenefitsByActive(bool active)
+        public async Task<List<Benefit>> GetBenefitsByActiveAsync(bool active)
         {
-            return _context.Benefits.Where(b=>b.Active==active).ToList();
+            return await _context.Benefits.Where(b => b.Active == active).ToListAsync();
         }
 
-        public Benefit GetBenefitById(int benefitId)
+        public async Task<Benefit> GetBenefitByIdAsync(int benefitId)
         {
-            return _context.Benefits.Where(b => b.Id == benefitId).FirstOrDefault();
+            return await _context.Benefits.Where(b => b.Id == benefitId).FirstOrDefaultAsync();
         }
 
-        public List<Benefit> GetBenefits()
+        public async Task<List<Benefit>> GetBenefitsAsync()
         {
-            return _context.Benefits.ToList();
+            return await _context.Benefits.ToListAsync();
         }
 
-        public bool Save()
+        public async Task<bool> SaveAsync()
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            var check = await _context.SaveChangesAsync();
+            return check > 0;
         }
 
-        public bool UpdateBenefit(Benefit benefit)
+        public async Task<Benefit> UpdateBenefitAsync(Benefit benefit)
         {
-            var benefitUpdate = GetBenefitById(benefit.Id);
-            if(benefitUpdate == null)
-                return false;
+            var benefitUpdate = await GetBenefitByIdAsync(benefit.Id);
+            if (benefitUpdate == null)
+                return null;
             _context.Entry(benefitUpdate).CurrentValues.SetValues(benefit);
-            return Save();
+            await SaveAsync();
+            return benefit;
         }
     }
 }

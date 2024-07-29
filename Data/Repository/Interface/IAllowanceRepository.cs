@@ -1,6 +1,4 @@
 ﻿using HumanManagement.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace HumanManagement.Data.Repository.Interface
 {

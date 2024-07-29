@@ -1,8 +1,5 @@
-﻿using HumanManagement.Data;
-using HumanManagement.Data.Repository.Interface;
+﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
-
-using HumanManagement.Models.Dto;
 using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
@@ -15,55 +12,67 @@ namespace HumanManagement.Data.Repository
             _context = context;
         }
 
-        public bool CreateBank(Bank bank)
+        public async Task<Bank> CreateBankAsync(Bank bank)
         {
-            _context.Banks.Add(bank);
-            return Save();
+            await _context.Banks.AddAsync(bank);
+            await SaveAsync();
+            return bank;
         }
 
-        public Bank GetBankById(int bankId)
+        public async Task<Bank> GetBankByIdAsync(int bankId)
         {
-            return _context.Banks.Where(b => b.Id == bankId).FirstOrDefault();
+            return await _context.Banks
+                .FirstOrDefaultAsync(b => b.Id == bankId);
         }
 
-        public List<Bank> GetBanks()
+        public async Task<List<Bank>> GetBanksAsync()
         {
-            return _context.Banks.OrderBy(b => b.Id).ToList();
+            return await _context.Banks
+                .OrderBy(b => b.Id)
+                .ToListAsync();
         }
 
-        public bool HasBank(int bankId)
+        public async Task<bool> HasBankAsync(int bankId)
         {
-            return _context.Banks.Any(b => b.Id == bankId);
+            return await _context.Banks
+                .AnyAsync(b => b.Id == bankId);
         }
 
-        public bool Save()
+        public async Task<bool> SaveAsync()
         {
-            var saved=_context.SaveChanges();
-            return saved > 0 ? true : false;
-        }
-        public Bank checkBankByName(Bank bank)
-        {
-            return GetBanks().Where(c => c.Name.Trim().ToUpper() == bank.Name.TrimEnd().ToUpper()).FirstOrDefault();
+            var saved = await _context.SaveChangesAsync();
+            return saved > 0;
         }
 
-        public bool UpdateBank(Bank bank)
+        public async Task<Bank> CheckBankByNameAsync(Bank bank)
         {
-            var bankUpdate=GetBankById(bank.Id);
-                _context.Entry(bankUpdate).CurrentValues.SetValues(bank);
-            return Save();
+            return await _context.Banks
+                .FirstOrDefaultAsync(c => c.Name.Trim().ToUpper() == bank.Name.TrimEnd().ToUpper());
         }
 
-        public bool DeleteBank(int bankId)
+        public async Task<Bank> UpdateBankAsync(Bank bank)
         {
-            var bank = GetBankById(bankId);
-            _context.Remove(bank);
-            return Save();
+            var bankUpdate = await GetBankByIdAsync(bank.Id);
+            _context.Entry(bankUpdate).CurrentValues.SetValues(bank);
+            await SaveAsync();
+            return bank;
         }
 
-        public List<Bank> GetBanksByActive(bool active)
+        public async Task<Bank> DeleteBankAsync(int bankId)
         {
-            return _context.Banks.Where(b=> b.Active==active).OrderBy(b => b.Id).ToList();
+            var bank = await GetBankByIdAsync(bankId);
+            _context.Banks.Remove(bank);
+            await SaveAsync();
+            return bank;
         }
+
+        public async Task<List<Bank>> GetBanksByActiveAsync(bool active)
+        {
+            return await _context.Banks
+                .Where(b => b.Active == active)
+                .OrderBy(b => b.Id)
+                .ToListAsync();
+        }
+
     }
-
-}   
+}

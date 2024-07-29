@@ -8,10 +8,11 @@ namespace HumanManagement.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RewardController:ControllerBase
+    public class RewardController : ControllerBase
     {
         private readonly IRewardRepository _rewardsRepository;
         private readonly IMapper _mapper;
+
         public RewardController(IRewardRepository rewardsRepository, IMapper mapper)
         {
             _rewardsRepository = rewardsRepository;
@@ -19,34 +20,43 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpGet("{employeeId}")]
-        public IActionResult GetRewardsByEmployeeId(int employeeId)
+        public async Task<IActionResult> GetRewardsByEmployeeId(int employeeId)
         {
-            var rewards = _mapper.Map<List<RewardDto>>(_rewardsRepository.GetRewardsByEmployeeId(employeeId));
-            return Ok(rewards);
+            var rewards = await _rewardsRepository.GetRewardsByEmployeeIdAsync(employeeId);
+            var rewardsDto = _mapper.Map<List<RewardDto>>(rewards);
+            return Ok(rewardsDto);
         }
 
         [HttpPost]
-        public IActionResult CreateReward([FromBody] RewardDto rewardCreate)
+        public async Task<IActionResult> CreateReward([FromBody] RewardDto rewardDto)
         {
-            if (rewardCreate == null)
+            if (rewardDto == null)
             {
                 return BadRequest(ModelState);
             }
-            if(!_rewardsRepository.CreateReward(_mapper.Map<Reward>(rewardCreate)))
+            var reward = _mapper.Map<Reward>(rewardDto);
+            var createdReward = await _rewardsRepository.CreateRewardAsync(reward);
+            var createdRewardDto = _mapper.Map<RewardDto>(createdReward);
+            if (createdReward == null)
             {
                 return StatusCode(500, "Can't create");
             }
-            return Ok("Create successfully");
+            return CreatedAtAction(
+                nameof(GetRewardsByEmployeeId), 
+                new { employeeId = createdReward.EmployeeId} , 
+                createdRewardDto);
         }
 
-        [HttpPut]
-        public IActionResult UpdateReward([FromBody] RewardDto rewardUpdate)
+        [HttpPut("{rewardId}")]
+        public async Task<IActionResult> UpdateReward(int rewardId, [FromBody] RewardDto rewardDto)
         {
-            if (rewardUpdate == null)
+            if (rewardDto == null)
             {
                 return BadRequest(ModelState);
             }
-            if (!_rewardsRepository.CreateReward(_mapper.Map<Reward>(rewardUpdate)))
+            var reward = _mapper.Map<Reward>(rewardDto);
+            var updatedReward = await _rewardsRepository.UpdateRewardAsync(reward);
+            if (updatedReward == null)
             {
                 return StatusCode(500, "Can't update");
             }
@@ -54,10 +64,13 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpDelete("{rewardId}")]
-        public IActionResult DeleteReward(int rewardId)
+        public async Task<IActionResult> DeleteReward(int rewardId)
         {
-            if (!_rewardsRepository.DeleteReward(rewardId))
+            var deletedReward = await _rewardsRepository.DeleteRewardAsync(rewardId);
+            if (deletedReward == null)
+            {
                 return StatusCode(500, "Can't delete");
+            }
             return Ok("Delete successfully");
         }
     }

@@ -3,8 +3,6 @@ using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using HumanManagement.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace HumanManagement.Web.Controllers
 {

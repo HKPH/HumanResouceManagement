@@ -1,14 +1,15 @@
 ﻿using HumanManagement.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Data.Repository.Interface
 {
     public interface IEmployeeAssetRepository
     {
-        List<Asset> GetAssetsByEmployee(int employeeId);
-        EmployeeAsset GetEmployeeAsset(int employeeId, int assetId);
-        bool Save();
-        bool CreateEmployeeAsset(EmployeeAsset employeeAsset);
-        bool UpdateEmployeeAsset(EmployeeAsset employeeAsset);
-        bool DeleteEmployeeAsset(int employeeId, int assetId);
+        Task<List<Asset>> GetAssetsByEmployeeAsync(int employeeId);
+        Task<EmployeeAsset> GetEmployeeAssetAsync(int employeeId, int assetId);
+        Task<EmployeeAsset> CreateEmployeeAssetAsync(EmployeeAsset employeeAsset);
+        Task<EmployeeAsset> UpdateEmployeeAssetAsync(EmployeeAsset employeeAsset);
+        Task<EmployeeAsset> DeleteEmployeeAssetAsync(int employeeId, int assetId);
     }
 }

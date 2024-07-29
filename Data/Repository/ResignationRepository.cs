@@ -1,54 +1,68 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
 {
-    public class ResignationRepository:IResignationRepository
+    public class ResignationRepository : IResignationRepository
     {
         private readonly DBContext _context;
+
         public ResignationRepository(DBContext context)
         {
             _context = context;
         }
 
-        public bool CreateResignation(Resignation resignation)
+        public async Task<Resignation> CreateResignationAsync(Resignation resignation)
         {
-            _context.Add(resignation);
-            return Save();
+            await _context.Resignations.AddAsync(resignation);
+            await _context.SaveChangesAsync();;
+            return resignation;
         }
 
-        public bool DeleteResignation(int resignationId)
+        public async Task<Resignation> DeleteResignationAsync(int resignationId)
         {
-            var resignation=GetResignationById(resignationId);
-            _context.Remove(resignation);
-            return Save();
-        }
-        public bool Save()
-        {
-            var check = _context.SaveChanges();
-            return check > 0 ? true : false;
-        }
-
-        public Resignation GetResignationById(int resignationId)
-        {
-            return _context.Resignations.Where(r => r.Id == resignationId).FirstOrDefault();
+            var resignation = await GetResignationByIdAsync(resignationId);
+            if (resignation == null)
+            {
+                return null;
+            }
+            _context.Resignations.Remove(resignation);
+            await _context.SaveChangesAsync();;
+            return resignation;
         }
 
-        public List<Resignation> GetResignations()
+        public async Task<Resignation> GetResignationByIdAsync(int resignationId)
         {
-            return _context.Resignations.OrderBy(r => r.Id).ToList();
+            return await _context.Resignations
+                .Where(r => r.Id == resignationId)
+                .FirstOrDefaultAsync();
         }
 
-        public bool UpdateResignation(Resignation resignation)
+        public async Task<List<Resignation>> GetResignationsAsync()
         {
-            var resignationUpdate=GetResignationById(resignation.Id);
+            return await _context.Resignations
+                .OrderBy(r => r.Id)
+                .ToListAsync();
+        }
+
+        public async Task<List<Resignation>> GetResignationsByAcceptedAsync(bool accepted)
+        {
+            return await _context.Resignations
+                .Where(r => r.Accepted == accepted)
+                .ToListAsync();
+        }
+
+        public async Task<Resignation> UpdateResignationAsync(Resignation resignation)
+        {
+            var resignationUpdate = await GetResignationByIdAsync(resignation.Id);
+            if (resignationUpdate == null)
+            {
+                return null;
+            }
             _context.Entry(resignationUpdate).CurrentValues.SetValues(resignation);
-            return Save();
-        }
-
-        public List<Resignation> GetResignationsByAccepted(bool accepted)
-        {
-            return _context.Resignations.Where(r=>r.Accepted==accepted).ToList();
+            await _context.SaveChangesAsync();;
+            return resignationUpdate;
         }
     }
 }

@@ -1,55 +1,64 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace HumanManagement.Data.Repository
 {
-    public class DepartmentRepository:IDepartmentRepository
+    public class DepartmentRepository : IDepartmentRepository
     {
         private readonly DBContext _context;
-        public DepartmentRepository(DBContext context) {
-            _context = context; }
 
-        public bool CreateDepartment(Department department)
+        public DepartmentRepository(DBContext context)
         {
-            _context.Add(department);
-            return Save();
+            _context = context;
         }
 
-        public bool DeleteDepartment(int departmentId)
+        public async Task<Department> CreateDepartmentAsync(Department department)
         {
-            var department=GetDepartmentById(departmentId);
-            _context.Remove(department);
-            return Save();
+            await _context.Departments.AddAsync(department);
+            await _context.SaveChangesAsync();
+            return department;
         }
 
-        public Department GetDepartmentById(int departmentId)
+        public async Task<Department> DeleteDepartmentAsync(int departmentId)
         {
-            return _context.Departments.Where(d => d.Id == departmentId).FirstOrDefault();
+            var department = await GetDepartmentByIdAsync(departmentId);
+            if (department == null)
+            {
+                return null;
+
+            }
+            _context.Departments.Remove(department);
+            await _context.SaveChangesAsync();
+            return department;
         }
 
-        public List<Department> GetDepartments()
+        public async Task<Department> GetDepartmentByIdAsync(int departmentId)
         {
-            return _context.Departments.OrderBy(d => d.Id).ToList();
+            return await _context.Departments.FirstOrDefaultAsync(d => d.Id == departmentId);
         }
 
-        public List<Department> GetDepartmentsByActive(bool active)
+        public async Task<List<Department>> GetDepartmentsAsync()
         {
-            return _context.Departments.Include(p=>p.InverseParentDepartment).Where(d=>d.Active==active).ToList();
+            return await _context.Departments.OrderBy(d => d.Id).ToListAsync();
         }
 
-        public bool Save()
+        public async Task<List<Department>> GetDepartmentsByActiveAsync(bool active)
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            return await _context.Departments.Include(p => p.InverseParentDepartment).Where(d => d.Active == active).ToListAsync();
         }
 
-        public bool UpdateDepartment(Department department)
+
+        public async Task<Department> UpdateDepartmentAsync(Department department)
         {
-            var departmentUpdate = GetDepartmentById(department.Id);
+            var departmentUpdate = await GetDepartmentByIdAsync(department.Id);
+            if (departmentUpdate == null)
+            {
+                return null;
+            }
             _context.Entry(departmentUpdate).CurrentValues.SetValues(department);
-            return Save();
+            await _context.SaveChangesAsync();
+            return department;
         }
     }
 }

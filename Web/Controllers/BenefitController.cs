@@ -8,71 +8,102 @@ namespace HumanManagement.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BenefitController: ControllerBase
+    public class BenefitController : ControllerBase
     {
         private readonly IBenefitRepository _benefitRepository;
         private readonly IMapper _mapper;
+
         public BenefitController(IBenefitRepository benefitRepository, IMapper mapper)
         {
             _benefitRepository = benefitRepository;
             _mapper = mapper;
         }
+
         [HttpGet]
-        public IActionResult GetBenefits()
+        public async Task<IActionResult> GetBenefits()
         {
-            var benefits=_mapper.Map<List<BenefitDto>>(_benefitRepository.GetBenefits());
+            var benefits = _mapper.Map<List<BenefitDto>>(await _benefitRepository.GetBenefitsAsync());
             return Ok(benefits);
         }
+
         [HttpGet("{benefitId}")]
-        public IActionResult GetBenefit(int benefitId)
+        public async Task<IActionResult> GetBenefit(int benefitId)
         {
-            var benefit= _mapper.Map<BenefitDto>(_benefitRepository.GetBenefitById(benefitId));
-            return Ok(benefit);
+            var benefit = _mapper.Map<BenefitDto>(await _benefitRepository.GetBenefitByIdAsync(benefitId));
+            return benefit == null ? NotFound() : (IActionResult)Ok(benefit);
         }
+
         [HttpGet("active/{active}")]
-        public IActionResult GetBenefitByActive(bool active)
+        public async Task<IActionResult> GetBenefitByActive(bool active)
         {
-            var benefits = _mapper.Map<List<BenefitDto>>(_benefitRepository.GetBenefitsByActive(active));
+            var benefits = _mapper.Map<List<BenefitDto>>(await _benefitRepository.GetBenefitsByActiveAsync(active));
             return Ok(benefits);
         }
+
         [HttpPost]
-        public IActionResult CreateBenefit([FromBody] BenefitDto benefit)
+        public async Task<IActionResult> CreateBenefit([FromBody] BenefitDto benefitDto)
         {
-            if (benefit == null)
+            if (benefitDto == null)
                 return BadRequest(ModelState);
-            if(!ModelState.IsValid)
+
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if(!_benefitRepository.CreateBenefit(_mapper.Map<Benefit>(benefit)))
+
+            var benefit = _mapper.Map<Benefit>(benefitDto);
+            var createdBenefit = await _benefitRepository.CreateBenefitAsync(benefit);
+
+            if (createdBenefit == null)
             {
                 ModelState.AddModelError("", "Can't create benefit");
                 return StatusCode(500, ModelState);
             }
-            return Ok("Create benefit successfully");
+
+            var createdBenefitDto = _mapper.Map<BenefitDto>(createdBenefit);
+
+            return CreatedAtAction(
+                actionName: nameof(GetBenefit),
+                routeValues: new { benefitId = createdBenefitDto.Id }, 
+                value: createdBenefitDto);
         }
-        [HttpPut]
-        public IActionResult UpdateBenefit([FromBody] BenefitDto benefit)
+
+        [HttpPut("{benefitId}")]
+        public async Task<IActionResult> UpdateBenefit(int benefitId, [FromBody] BenefitDto benefitDto)
         {
-            if (benefit == null)
+            if (benefitDto == null)
                 return BadRequest(ModelState);
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_benefitRepository.UpdateBenefit(_mapper.Map<Benefit>(benefit)))
+
+            if(benefitId != benefitDto.Id)
+                return BadRequest(ModelState);
+
+            var benefit = _mapper.Map<Benefit>(benefitDto);
+            var updatedBenefit = await _benefitRepository.UpdateBenefitAsync(benefit);
+
+            if (updatedBenefit == null)
             {
                 ModelState.AddModelError("", "Can't update benefit");
                 return StatusCode(500, ModelState);
             }
+
             return Ok("Update benefit successfully");
         }
+
         [HttpDelete("{benefitId}")]
-        public IActionResult DeleteBenefit(int benefitId)
+        public async Task<IActionResult> DeleteBenefit(int benefitId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_benefitRepository.DeleteBenefit(benefitId))
+
+            var deletedBenefit = await _benefitRepository.DeleteBenefitAsync(benefitId);
+
+            if (deletedBenefit == null)
             {
                 ModelState.AddModelError("", "Can't delete benefit");
                 return StatusCode(500, ModelState);
             }
+
             return Ok("Delete benefit successfully");
         }
     }

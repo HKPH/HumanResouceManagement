@@ -3,58 +3,87 @@ using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using HumanManagement.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DisciplineController: ControllerBase
+    public class DisciplineController : ControllerBase
     {
         private readonly IDisciplineRepository _disciplineRepository;
         private readonly IMapper _mapper;
+
         public DisciplineController(IDisciplineRepository disciplineRepository, IMapper mapper)
         {
             _disciplineRepository = disciplineRepository;
             _mapper = mapper;
         }
-        [HttpGet("{employeeId}")]
-        public IActionResult GetDisciplinesByEmployeeId(int employeeId)
+
+        [HttpGet("{disciplineId}")]
+        public async Task<IActionResult> GetDisciplineById(int disciplineId)
         {
-            var disciplines = _mapper.Map<List<DisciplineDto>>(_disciplineRepository.GetDisciplinesByEmployeeId(employeeId));
-            return Ok(disciplines);
+            var discipline = await _disciplineRepository.GetDisciplineByIdAsync(disciplineId);
+            var disciplineDto = _mapper.Map<List<DisciplineDto>>(discipline);
+            return Ok(disciplineDto);
         }
-        [HttpPost]
-        public IActionResult CreateDiscipline([FromBody] DisciplineDto disciplineCreate)
+
+        [HttpGet]
+        public async Task<IActionResult> GetDisciplinesByEmployeeId([FromQuery] int employeeId)
         {
-            if (disciplineCreate == null)
+            var disciplines = await _disciplineRepository.GetDisciplinesByEmployeeIdAsync(employeeId);
+            var disciplineDtos = _mapper.Map<List<DisciplineDto>>(disciplines);
+            return Ok(disciplineDtos);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateDiscipline([FromBody] DisciplineDto disciplineDto)
+        {
+            if (disciplineDto == null)
                 return BadRequest(ModelState);
-            if (_disciplineRepository.CreateDiscipline(_mapper.Map<Discipline>(disciplineCreate)))
+
+            var discipline = _mapper.Map<Discipline>(disciplineDto);
+            var createdDiscipline = await _disciplineRepository.CreateDisciplineAsync(discipline);
+
+            if (createdDiscipline == null)
             {
                 return StatusCode(500, "Can't create");
             }
-            return Ok("Create successfully");
-
+            var createdDisciplineDto = _mapper.Map<DisciplineDto>(createdDiscipline);
+            return CreatedAtAction(
+                nameof(GetDisciplineById),
+                new { disciplineId = createdDiscipline.Id },
+                createdDisciplineDto);
         }
 
-        [HttpPut]
-        public IActionResult UpdateDiscipline([FromBody] DisciplineDto disciplineUpdate)
+        [HttpPut("{disciplineUpdateId}")]
+        public async Task<IActionResult> UpdateDiscipline([FromBody] DisciplineDto disciplineDto)
         {
-            if (disciplineUpdate == null)
+            if (disciplineDto == null)
                 return BadRequest(ModelState);
-            if (_disciplineRepository.UpdateDiscipline(_mapper.Map<Discipline>(disciplineUpdate)))
+
+            var discipline = _mapper.Map<Discipline>(disciplineDto);
+            var updatedDiscipline = await _disciplineRepository.UpdateDisciplineAsync(discipline);
+
+            if (updatedDiscipline == null)
             {
                 return StatusCode(500, "Can't update");
             }
+
             return Ok("Update successfully");
         }
 
         [HttpDelete("{disciplineId}")]
-        public IActionResult DeleDiscipline(int disciplineId)
+        public async Task<IActionResult> DeleteDiscipline(int disciplineId)
         {
-            if (_disciplineRepository.DeleteDiscipline(disciplineId))
+            var deletedDiscipline = await _disciplineRepository.DeleteDisciplineAsync(disciplineId);
+
+            if (deletedDiscipline == null)
             {
                 return StatusCode(500, "Can't delete");
             }
+
             return Ok("Delete successfully");
         }
     }

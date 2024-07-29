@@ -4,12 +4,11 @@ namespace HumanManagement.Data.Repository.Interface
 {
     public interface IDepartmentRepository
     {
-        List<Department> GetDepartments();
-        Department GetDepartmentById(int departmentId);
-        List<Department> GetDepartmentsByActive(bool active);
-        bool Save();
-        bool CreateDepartment(Department department);
-        bool UpdateDepartment(Department department);
-        bool DeleteDepartment(int departmentId);
+        Task<List<Department>> GetDepartmentsAsync();
+        Task<Department> GetDepartmentByIdAsync(int departmentId);
+        Task<List<Department>> GetDepartmentsByActiveAsync(bool active);
+        Task<Department> CreateDepartmentAsync(Department department);
+        Task<Department> UpdateDepartmentAsync(Department department);
+        Task<Department> DeleteDepartmentAsync(int departmentId);
     }
 }

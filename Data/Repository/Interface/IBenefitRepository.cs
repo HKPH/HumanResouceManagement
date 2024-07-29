@@ -4,12 +4,12 @@ namespace HumanManagement.Data.Repository.Interface
 {
     public interface IBenefitRepository
     {
-        List<Benefit> GetBenefits();
-        Benefit GetBenefitById(int benefitId);
-        List<Benefit> GetBenefitsByActive(bool active);
-        bool Save();
-        bool CreateBenefit(Benefit benefit);
-        bool UpdateBenefit(Benefit benefit);
-        bool DeleteBenefit(int benefitId);
+        Task<List<Benefit>> GetBenefitsAsync();
+        Task<Benefit> GetBenefitByIdAsync(int benefitId);
+        Task<List<Benefit>> GetBenefitsByActiveAsync(bool active);
+        Task<bool> SaveAsync();
+        Task<Benefit> CreateBenefitAsync(Benefit benefit);
+        Task<Benefit> UpdateBenefitAsync(Benefit benefit);
+        Task<Benefit> DeleteBenefitAsync(int benefitId);
     }
 }

@@ -2,57 +2,68 @@
 using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Data.Repository
 {
     public class EmployeeContractRepository : IEmployeeContractRepository
     {
         private readonly DBContext _context;
+
         public EmployeeContractRepository(DBContext context)
         {
             _context = context;
         }
 
-        public bool CreateEmployeeContract(EmployeeContract employeeContract)
+        public async Task<EmployeeContract> CreateEmployeeContractAsync(EmployeeContract employeeContract)
         {
-            _context.Add(employeeContract);
-            return Save();
+            await _context.EmployeeContracts.AddAsync(employeeContract);
+            await _context.SaveChangesAsync();
+            return employeeContract;
+            
         }
 
-        public bool DeleteEmployeeContract(int employeeContractId)
+        public async Task<EmployeeContract> DeleteEmployeeContractAsync(int employeeContractId)
         {
-            var employeeContract=GetEmployeeContractById(employeeContractId);
-            _context.Remove(employeeContract);
-            return Save();
+            var employeeContract = await GetEmployeeContractByIdAsync(employeeContractId);
+            if (employeeContract != null)
+            {
+                return null;
+            }
+            _context.EmployeeContracts.Remove(employeeContract);
+            await _context.SaveChangesAsync();
+            return employeeContract;
         }
 
-        public EmployeeContract GetEmployeeContractById(int employeeContractId)
+        public async Task<EmployeeContract> GetEmployeeContractByIdAsync(int employeeContractId)
         {
-            return _context.EmployeeContracts.Where(e => e.Id == employeeContractId).FirstOrDefault();
+            return await _context.EmployeeContracts.FirstOrDefaultAsync(e => e.Id == employeeContractId);
         }
 
-        public List<EmployeeContract> GetEmployeeContractsByActive(bool active)
+        public async Task<List<EmployeeContract>> GetEmployeeContractsAsync()
         {
-            return _context.EmployeeContracts.Where(e=>e.Active == active).ToList();
+            return await _context.EmployeeContracts.OrderBy(e => e.Id).ToListAsync();
         }
 
-        public List<EmployeeContract> GetEmployeeContracts()
+        public async Task<List<EmployeeContract>> GetEmployeeContractsByActiveAsync(bool active)
         {
-            return _context.EmployeeContracts.OrderBy(e=>e.Id).ToList();
+            return await _context.EmployeeContracts.Where(e => e.Active == active).ToListAsync();
         }
 
-        public bool Save()
-        {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
-        }
 
-        public bool UpdateEmployeeContract(EmployeeContract employeeContract)
+        public async Task<EmployeeContract> UpdateEmployeeContractAsync(EmployeeContract employeeContract)
         {
-            var employeeContractUpdate=GetEmployeeContractById(employeeContract.Id);
+            var employeeContractUpdate = await GetEmployeeContractByIdAsync(employeeContract.Id);
+            if (employeeContractUpdate == null)
+            {
+                return null;
+               
+            }
             _context.Entry(employeeContractUpdate).CurrentValues.SetValues(employeeContract);
-            return Save();
+            await _context.SaveChangesAsync();
+            return employeeContract;
         }
-    
     }
 }

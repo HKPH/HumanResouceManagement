@@ -1,23 +1,19 @@
 ﻿using HumanManagement.Models;
 using HumanManagement.Models.Dto;
-using System.Diagnostics.Eventing.Reader;
 
 namespace HumanManagement.Data.Repository.Interface
 {
     public interface IBankBranchRepository
     {
-        List<BankBranch> GetBankBranches();
-        BankBranch GetBankBranchById(int bankBranchId);
-        bool HasBankBranch(int bankBranchId);
-        bool CreateBankBranch(BankBranch bankBranch);
-        bool UpdateBankBranch(BankBranch bankBranch);
-        BankBranch checkBankBranchByName(BankBranchDto bankBranch);
-        bool Save();
-        bool DeleteBankBranch(int bankBranchId);
-        //bool DeleteBankBranches(List<BankBranch> bankBranches);
-        List<BankBranch> GetAllBankBranchesByBankId(int bankId);
-        List<BankBranch> GetBankBranchesByActive(bool active);
-
-
+        Task<List<BankBranch>> GetBankBranchesAsync();
+        Task<BankBranch> GetBankBranchByIdAsync(int bankBranchId);
+        Task<bool> HasBankBranchAsync(int bankBranchId);
+        Task<BankBranch> CreateBankBranchAsync(BankBranch bankBranch);
+        Task<BankBranch> UpdateBankBranchAsync(BankBranch bankBranch);
+        Task<BankBranch> CheckBankBranchByNameAsync(BankBranchDto bankBranch);
+        Task<bool> SaveAsync();
+        Task<BankBranch> DeleteBankBranchAsync(int bankBranchId);
+        Task<List<BankBranch>> GetAllBankBranchesByBankIdAsync(int bankId);
+        Task<List<BankBranch>> GetBankBranchesByActiveAsync(bool active);
     }
 }

@@ -1,54 +1,63 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
 {
-    public class RewardRepository:IRewardRepository
+    public class RewardRepository : IRewardRepository
     {
         private readonly DBContext _context;
+
         public RewardRepository(DBContext context)
         {
             _context = context;
         }
 
-        public bool CreateReward(Reward reward)
+        public async Task<Reward> CreateRewardAsync(Reward reward)
         {
-            _context.Add(reward);
-            return Save();
+            await _context.AddAsync(reward);
+            await _context.SaveChangesAsync();
+            return reward;
         }
 
-        public bool DeleteReward(int rewardId)
+        public async Task<Reward> DeleteRewardAsync(int rewardId)
         {
-            throw new NotImplementedException();
+            var reward = await GetRewardByIdAsync(rewardId);
+            if (reward == null)
+            {
+                return null;
+            }
+            _context.Rewards.Remove(reward);
+            await _context.SaveChangesAsync();
+            return reward;
         }
 
-        public Reward GetRewardById(int rewardId)
+        public async Task<Reward> GetRewardByIdAsync(int rewardId)
         {
-            return _context.Rewards.FirstOrDefault(r => r.Id == rewardId);
+            return await _context.Rewards.FirstOrDefaultAsync(r => r.Id == rewardId);
         }
 
-        public List<Reward> GetRewards()
+        public async Task<List<Reward>> GetRewardsAsync()
         {
-            return _context.Rewards.OrderBy(r => r.Id).ToList();
+            return await _context.Rewards.OrderBy(r => r.Id).ToListAsync();
         }
 
-
-        public List<Reward> GetRewardsByEmployeeId(int employeeId)
+        public async Task<List<Reward>> GetRewardsByEmployeeIdAsync(int employeeId)
         {
-            return _context.Rewards.Where(e=>e.EmployeeId == employeeId).ToList();
+            return await _context.Rewards.Where(e => e.EmployeeId == employeeId).ToListAsync();
         }
 
-        public bool Save()
+        public async Task<Reward> UpdateRewardAsync(Reward reward)
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            var rewardToUpdate = await GetRewardByIdAsync(reward.Id);
+            if (rewardToUpdate == null)
+            {
+                return null;
+            }
+            _context.Entry(rewardToUpdate).CurrentValues.SetValues(reward);
+            await _context.SaveChangesAsync();
+            return rewardToUpdate;
         }
 
-        public bool UpdateReward(Reward reward)
-        {
-            var rewardUpdate=GetRewardById(reward.Id);
-            _context.Entry(rewardUpdate).CurrentValues.SetValues(reward);
-            return Save();
-        }
     }
 }

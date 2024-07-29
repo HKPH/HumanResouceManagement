@@ -4,12 +4,10 @@ namespace HumanManagement.Data.Repository.Interface
 {
     public interface IEmployeeAllowanceRepository
     {
-        List<Allowance> GetAllowancesByEmployee(int employeeId);
-        EmployeeAllowance GetEmployeeAllowance(int employeeId, int allowanceId);
-        bool Save();
-        bool CreateEmployeeAllowance(EmployeeAllowance employeeAllowance);
-        bool UpdateEmployeeAllowance(EmployeeAllowance employeeAllowance);
-        bool DeleteEmployeeAllowance(int employeeId, int allowanceId);
-
+        Task<List<Allowance>> GetAllowancesByEmployeeAsync(int employeeId);
+        Task<EmployeeAllowance> GetEmployeeAllowanceAsync(int employeeId, int allowanceId);
+        Task<EmployeeAllowance> CreateEmployeeAllowanceAsync(EmployeeAllowance employeeAllowance);
+        Task<EmployeeAllowance> UpdateEmployeeAllowanceAsync(EmployeeAllowance employeeAllowance);
+        Task<EmployeeAllowance> DeleteEmployeeAllowanceAsync(int employeeId, int allowanceId);
     }
 }

@@ -1,55 +1,69 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Data.Repository
 {
-    public class EmployeeAssetRepository: IEmployeeAssetRepository
+    public class EmployeeAssetRepository : IEmployeeAssetRepository
     {
         private readonly DBContext _context;
+
         public EmployeeAssetRepository(DBContext context)
         {
             _context = context;
         }
 
-        public bool CreateEmployeeAsset(EmployeeAsset employeeAsset)
+        public async Task<EmployeeAsset> CreateEmployeeAssetAsync(EmployeeAsset employeeAsset)
         {
-            _context.Add(employeeAsset);
-            return Save();
+            await _context.EmployeeAssets.AddAsync(employeeAsset);
+            await _context.SaveChangesAsync();;
+            return employeeAsset;
         }
 
-        public bool DeleteEmployeeAsset(int employeeId, int assetId)
+        public async Task<EmployeeAsset> DeleteEmployeeAssetAsync(int employeeId, int assetId)
         {
-            var ea=GetEmployeeAsset(employeeId, assetId);
-            _context.Remove(ea);
-            return Save();
+            var employeeAsset = await GetEmployeeAssetAsync(employeeId, assetId);
+            if (employeeAsset == null)
+            {
+                return null;
+            }
+
+            _context.EmployeeAssets.Remove(employeeAsset);
+            await _context.SaveChangesAsync();;
+            return employeeAsset;
         }
 
-        public List<Asset> GetAssetsByEmployee(int employeeId)
+        public async Task<List<Asset>> GetAssetsByEmployeeAsync(int employeeId)
         {
-            return _context.EmployeeAssets
-                .Where(ea=>ea.EmployeeId == employeeId)
+            return await _context.EmployeeAssets
+                .Where(ea => ea.EmployeeId == employeeId)
                 .Include(ea => ea.Asset)
-                .Select(ea=>ea.Asset)
-                .ToList();
+                .Select(ea => ea.Asset)
+                .ToListAsync();
         }
 
-        public EmployeeAsset GetEmployeeAsset(int employeeId, int assetId)
+        public async Task<EmployeeAsset> GetEmployeeAssetAsync(int employeeId, int assetId)
         {
-            return _context.EmployeeAssets.Where(ea =>ea.EmployeeId == employeeId && ea.AssetId == assetId).FirstOrDefault();
+            return await _context.EmployeeAssets
+                .Where(ea => ea.EmployeeId == employeeId && ea.AssetId == assetId)
+                .FirstOrDefaultAsync();
         }
 
-        public bool Save()
+        public async Task<EmployeeAsset> UpdateEmployeeAssetAsync(EmployeeAsset employeeAsset)
         {
-            var check=_context.SaveChanges();
-            return check > 0?true:false;
+            var existingEmployeeAsset = await GetEmployeeAssetAsync(employeeAsset.EmployeeId, employeeAsset.AssetId);
+            if (existingEmployeeAsset == null)
+            {
+                return null;
+            }
+
+            _context.Entry(existingEmployeeAsset).CurrentValues.SetValues(employeeAsset);
+            await _context.SaveChangesAsync();;
+            return employeeAsset;
         }
 
-        public bool UpdateEmployeeAsset(EmployeeAsset employeeAsset)
-        {
-            var eaUpdate = GetEmployeeAsset(employeeAsset.EmployeeId, employeeAsset.AssetId);
-            _context.Entry(eaUpdate).CurrentValues.SetValues(employeeAsset);
-            return Save();
-        }
     }
 }

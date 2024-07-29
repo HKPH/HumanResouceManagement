@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace HumanManagement.Models.Dto;
+﻿namespace HumanManagement.Models.Dto;
 
 public partial class BankBranchDto
 {

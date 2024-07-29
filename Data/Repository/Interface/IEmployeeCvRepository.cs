@@ -4,13 +4,11 @@ namespace HumanManagement.Data.Repository.Interface
 {
     public interface IEmployeeCvRepository
     {
-        List<EmployeeCv> GetEmployeeCvs();
-        EmployeeCv GetEmployeeCvById(int employeeCvId);
-        List<EmployeeCv> GetEmployeeCvsByActive(bool active);
-        bool CreateEmployeeCv(EmployeeCv employeeCv);
-        bool UpdateEmployeeCv(EmployeeCv employeeCv);
-        bool DeleteEmployeeCv(int employeeCvId);
-        bool Save();
-
+        Task<List<EmployeeCv>> GetEmployeeCvsAsync();
+        Task<EmployeeCv> GetEmployeeCvByIdAsync(int employeeCvId);
+        Task<List<EmployeeCv>> GetEmployeeCvsByActiveAsync(bool active);
+        Task<EmployeeCv> CreateEmployeeCvAsync(EmployeeCv employeeCv);
+        Task<EmployeeCv> UpdateEmployeeCvAsync(EmployeeCv employeeCv);
+        Task<EmployeeCv> DeleteEmployeeCvAsync(int employeeCvId);
     }
 }

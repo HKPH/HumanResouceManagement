@@ -1,11 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using HumanManagement.Models;
-using HumanManagement.Services;
-using Microsoft.AspNetCore.Http;
 using HumanManagement.Data.Repository.Interface;
 
 namespace HumanManagement.Web.Controllers
@@ -22,16 +16,16 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAttachments()
+        public async Task<IActionResult> GetAttachments()
         {
-            var attachments = _attachmentRepository.GetAttachments();
+            var attachments = await _attachmentRepository.GetAttachments();
             return Ok(attachments);
         }
 
         [HttpGet("{attachmentId}")]
-        public IActionResult GetAttachment(int attachmentId)
+        public async Task<IActionResult> GetAttachment(int attachmentId)
         {
-            var attachment = _attachmentRepository.GetAttachmentById(attachmentId);
+            var attachment = await _attachmentRepository.GetAttachmentById(attachmentId);
             if (attachment == null)
             {
                 return NotFound();
@@ -40,7 +34,7 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpPost("upload")]
-        public IActionResult Upload([FromForm] IFormFile file, [FromForm] int employeeId)
+        public async Task<IActionResult> Upload([FromForm] IFormFile file, [FromForm] int employeeId)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded.");
@@ -72,10 +66,10 @@ namespace HumanManagement.Web.Controllers
             {
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    file.CopyTo(fileStream);
+                    await file.CopyToAsync(fileStream);
                 }
 
-                var attachment = new Models.Attachment
+                var attachment = new Attachment
                 {
                     FileName = file.FileName,
                     FilePath = uniqueFileName,
@@ -83,9 +77,10 @@ namespace HumanManagement.Web.Controllers
                     EmployeeId = employeeId
                 };
 
-                if (!_attachmentRepository.CreateAttachment(attachment))
+                var createdAttachment = await _attachmentRepository.CreateAttachment(attachment);
+                if (createdAttachment == null)
                 {
-                    return StatusCode(500, "Can't create");
+                    return StatusCode(500, "Can't create attachment.");
                 }
 
                 return Ok("Create successfully");
@@ -97,7 +92,7 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpPut("{attachmentId}")]
-        public IActionResult UpdateAttachment(int attachmentId, [FromBody] Models.Attachment attachment)
+        public async Task<IActionResult> UpdateAttachment(int attachmentId, [FromBody] Attachment attachment)
         {
             if (attachmentId != attachment.Id || attachment == null)
             {
@@ -108,9 +103,10 @@ namespace HumanManagement.Web.Controllers
 
             try
             {
-                if (!_attachmentRepository.UpdateAttachment(attachment))
+                var updatedAttachment = await _attachmentRepository.UpdateAttachment(attachment);
+                if (updatedAttachment == null)
                 {
-                    return StatusCode(500, "Can't update");
+                    return StatusCode(500, "Can't update attachment.");
                 }
 
                 return Ok("Update successfully");
@@ -122,13 +118,14 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpDelete("{attachmentId}")]
-        public IActionResult DeleteAttachment(int attachmentId)
+        public async Task<IActionResult> DeleteAttachment(int attachmentId)
         {
             try
             {
-                if (!_attachmentRepository.DeleteAttachment(attachmentId))
+                var deletedAttachment = await _attachmentRepository.DeleteAttachment(attachmentId);
+                if (deletedAttachment == null)
                 {
-                    return StatusCode(500, "Can't delete");
+                    return StatusCode(500, "Can't delete attachment.");
                 }
 
                 return Ok("Delete successfully");
@@ -140,9 +137,9 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpGet("download/{id}")]
-        public IActionResult DownloadAttachment(int id)
+        public async Task<IActionResult> DownloadAttachment(int id)
         {
-            var attachment = _attachmentRepository.GetAttachmentById(id);
+            var attachment = await _attachmentRepository.GetAttachmentById(id);
             if (attachment == null)
             {
                 return NotFound();
@@ -160,7 +157,7 @@ namespace HumanManagement.Web.Controllers
                 var memory = new MemoryStream();
                 using (var stream = new FileStream(filePath, FileMode.Open))
                 {
-                    stream.CopyTo(memory);
+                    await stream.CopyToAsync(memory);
                 }
                 memory.Position = 0;
                 return File(memory, GetContentType(filePath), attachment.FileName);

@@ -1,51 +1,61 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
 {
     public class AttachmentRepository : IAttachmentRepository
     {
         private readonly DBContext _context;
+
         public AttachmentRepository(DBContext context)
         {
             _context = context;
         }
 
-        public bool CreateAttachment(Attachment attachment)
+        public async Task<Attachment> CreateAttachment(Attachment attachment)
         {
-            _context.Add(attachment);
-            return Save();
+            await _context.Attachments.AddAsync(attachment);
+            await Save();
+            return attachment;
         }
 
-        public bool DeleteAttachment(int attachmentId)
+        public async Task<Attachment> DeleteAttachment(int attachmentId)
         {
-            var attachment=GetAttachmentById(attachmentId);
-            _context.Remove(attachment);
-            return Save();
+            var attachment = await GetAttachmentById(attachmentId);
+            if (attachment == null) return null;
+
+            _context.Attachments.Remove(attachment);
+            await Save();
+            return attachment;
         }
 
-        public Attachment GetAttachmentById(int attachmentId)
+        public async Task<Attachment> GetAttachmentById(int attachmentId)
         {
-            return _context.Attachments.Where(a => a.Id == attachmentId).FirstOrDefault();
+            return await _context.Attachments
+                .FirstOrDefaultAsync(a => a.Id == attachmentId);
         }
 
-        public List<Attachment> GetAttachments()
+        public async Task<List<Attachment>> GetAttachments()
         {
-            return _context.Attachments.OrderBy(a=>a.Id).ToList();
+            return await _context.Attachments
+                .OrderBy(a => a.Id)
+                .ToListAsync();
         }
 
-
-        public bool Save()
+        public async Task<bool> Save()
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool UpdateAttachment(Attachment attachment)
+        public async Task<Attachment> UpdateAttachment(Attachment attachment)
         {
-            var attachmentUpdate = GetAttachmentById(attachment.Id);
+            var attachmentUpdate = await GetAttachmentById(attachment.Id);
+            if (attachmentUpdate == null) return null;
+
             _context.Entry(attachmentUpdate).CurrentValues.SetValues(attachment);
-            return Save();
+            await Save();
+            return attachment;
         }
     }
 }

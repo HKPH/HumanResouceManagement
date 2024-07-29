@@ -1,62 +1,72 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
 {
-    public class SalaryRepository: ISalaryRepository
+    public class SalaryRepository : ISalaryRepository
     {
         private readonly DBContext _context;
-        public SalaryRepository(DBContext context) { _context = context; }
 
-        public bool CreateSalary(Salary salary)
+        public SalaryRepository(DBContext context)
         {
-            _context.Add(salary);
-            return Save();
+            _context = context;
         }
 
-        public bool DeleteSalary(int salaryId)
+        public async Task<Salary> CreateSalaryAsync(Salary salary)
         {
-            var salary=GetSalaryById(salaryId);
-            _context.Remove(salary);
-            return Save();
+            await _context.Salaries.AddAsync(salary);
+            await _context.SaveChangesAsync();
+            return salary;
         }
 
-        public List<Salary> GetSalaries()
+        public async Task<Salary> DeleteSalaryAsync(int salaryId)
         {
-            return _context.Salaries.OrderBy(s=>s.Id).ToList();
+            var salary = await GetSalaryByIdAsync(salaryId);
+            if (salary == null)
+            {
+                return null;
+            }
+            _context.Salaries.Remove(salary);
+            await _context.SaveChangesAsync();
+            return salary;
         }
 
-        public List<Salary> GetSalariesByActive(bool active)
+        public async Task<List<Salary>> GetSalariesAsync()
         {
-            return _context.Salaries.Where(s=>s.Active == active).ToList();
+            return await _context.Salaries.OrderBy(s => s.Id).ToListAsync();
         }
 
-        public List<Salary> GetSalariesNotUsing()
+        public async Task<List<Salary>> GetSalariesByActiveAsync(bool active)
         {
-            return _context.Salaries.Where(e=>e.EmployeeId!=null).ToList();
+            return await _context.Salaries.Where(s => s.Active == active).ToListAsync();
         }
 
-        public Salary GetSalaryByEmployeeId(int employeeId)
+        public async Task<List<Salary>> GetSalariesNotUsingAsync()
         {
-            return _context.Salaries.Where(e => e.EmployeeId == employeeId).FirstOrDefault();
+            return await _context.Salaries.Where(e => e.EmployeeId != null).ToListAsync();
         }
 
-        public Salary GetSalaryById(int salaryId)
+        public async Task<Salary> GetSalaryByEmployeeIdAsync(int employeeId)
         {
-            return _context.Salaries.FirstOrDefault(s => s.Id == salaryId);
+            return await _context.Salaries.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
         }
 
-        public bool Save()
+        public async Task<Salary> GetSalaryByIdAsync(int salaryId)
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            return await _context.Salaries.FirstOrDefaultAsync(s => s.Id == salaryId);
         }
 
-        public bool UpdateSalary(Salary salary)
+        public async Task<Salary> UpdateSalaryAsync(Salary salary)
         {
-            var salaryUpdate=GetSalaryById(salary.Id);
-            _context.Entry(salaryUpdate).CurrentValues.SetValues(salary);
-            return Save();
+            var salaryToUpdate = await GetSalaryByIdAsync(salary.Id);
+            if (salaryToUpdate == null)
+            {
+                return null;
+            }
+            _context.Entry(salaryToUpdate).CurrentValues.SetValues(salary);
+            await _context.SaveChangesAsync();
+            return salaryToUpdate;
         }
     }
 }

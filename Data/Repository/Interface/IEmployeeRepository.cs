@@ -4,13 +4,12 @@ namespace HumanManagement.Data.Repository.Interface
 {
     public interface IEmployeeRepository
     {
-        List<Employee> GetEmployees();
-        List<Employee> GetEmployeesByActive(bool active);
-        Employee GetEmployeeById(int employeeId);
-        bool CreateEmployee(Employee employee);
-        bool UpdateEmployee(Employee employee);
-        bool DeleteEmployee(int employeeId);
-        bool Save();
-        List<Employee> GetEmployeesBirthday(int days);
+        Task<List<Employee>> GetEmployeesAsync();
+        Task<List<Employee>> GetEmployeesByActiveAsync(bool active);
+        Task<Employee> GetEmployeeByIdAsync(int employeeId);
+        Task<Employee> CreateEmployeeAsync(Employee employee);
+        Task<Employee> UpdateEmployeeAsync(Employee employee);
+        Task<Employee> DeleteEmployeeAsync(int employeeId);
+        Task<List<Employee>> GetEmployeesBirthdayAsync(int days);
     }
 }

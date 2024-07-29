@@ -1,60 +1,63 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
 {
     public class HealthCareRepository : IHealthCareRepository
     {
         private readonly DBContext _context;
+
         public HealthCareRepository(DBContext context)
         {
             _context = context;
         }
-        public bool CreateHealthCare(HealthCare healthCare)
+
+        public async Task<HealthCare> CreateHealthCareAsync(HealthCare healthCare)
         {
-            _context.HealthCares.Add(healthCare);
-            return Save();
+            await _context.HealthCares.AddAsync(healthCare);
+            await _context.SaveChangesAsync();;
+            return healthCare;
         }
 
-        public bool DeleteHealthCare(int healthCareId)
+        public async Task<HealthCare> DeleteHealthCareAsync(int healthCareId)
         {
-            var healthCare=GetHealthCareById(healthCareId);
+            var healthCare = await GetHealthCareByIdAsync(healthCareId);
             if (healthCare == null)
             {
-                return false;
+                return null;
             }
+
             _context.Remove(healthCare);
-            return Save();
+            await _context.SaveChangesAsync();;
+            return healthCare;
         }
 
-        public List<HealthCare> GetHealthCaresByActive(bool active)
+        public async Task<List<HealthCare>> GetHealthCaresByActiveAsync(bool active)
         {
-            return _context.HealthCares.Where(h=>h.Active == active).ToList(); 
+            return await _context.HealthCares.Where(h => h.Active == active).ToListAsync();
         }
 
-        public HealthCare GetHealthCareById(int healthCareId)
+        public async Task<HealthCare> GetHealthCareByIdAsync(int healthCareId)
         {
-            return _context.HealthCares.Where(h => h.Id == healthCareId).FirstOrDefault();
+            return await _context.HealthCares.FirstOrDefaultAsync(h => h.Id == healthCareId);
         }
 
-        public List<HealthCare> GetHealthCares()
+        public async Task<List<HealthCare>> GetHealthCaresAsync()
         {
-            return _context.HealthCares.OrderBy(h=>h.Id).ToList();
+            return await _context.HealthCares.OrderBy(h => h.Id).ToListAsync();
         }
 
-        public bool Save()
+        public async Task<HealthCare> UpdateHealthCareAsync(HealthCare healthCare)
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
-        }
+            var healthCareUpdate = await GetHealthCareByIdAsync(healthCare.Id);
+            if (healthCareUpdate == null)
+                return null;
 
-        public bool UpdateHealthCare(HealthCare healthCare)
-        {
-            var healthCareUpdate=GetHealthCareById(healthCare.Id);
-            if(healthCareUpdate == null)
-                return false;
             _context.Entry(healthCareUpdate).CurrentValues.SetValues(healthCare);
-            return Save();
+            await _context.SaveChangesAsync();;
+            return healthCareUpdate;
         }
+
     }
 }

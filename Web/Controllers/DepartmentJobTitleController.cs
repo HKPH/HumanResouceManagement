@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using HumanManagement.Data.Repository;
 using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using HumanManagement.Models.Dto;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Web.Controllers
 {
@@ -15,54 +14,72 @@ namespace HumanManagement.Web.Controllers
     {
         private readonly IDepartmentJobTitleRepository _departmentJobTitleRepository;
         private readonly IMapper _mapper;
+
         public DepartmentJobTitleController(IDepartmentJobTitleRepository departmentJobTitleRepository, IMapper mapper)
         {
             _departmentJobTitleRepository = departmentJobTitleRepository;
             _mapper = mapper;
         }
+
         [HttpGet("{departmentId}")]
-        public IActionResult GetBenefitsByContract(int departmentId)
+        public async Task<IActionResult> GetJobTitlesByDepartment(int departmentId)
         {
-            var benefits = _departmentJobTitleRepository.GetJobtitlesByDepartment(departmentId);
-            return Ok(benefits);
+            var jobTitles = await _departmentJobTitleRepository.GetJobTitlesByDepartmentAsync(departmentId);
+            var jobTitleDtos = _mapper.Map<List<JobTitleDto>>(jobTitles);
+            return Ok(jobTitleDtos);
         }
+
         [HttpPost]
-        public IActionResult CreateDepartmentJobTitle([FromBody] DepartmentJobTitleDto djCreate)
+        public async Task<IActionResult> CreateDepartmentJobTitle([FromBody] DepartmentJobTitleDto djCreate)
         {
             if (djCreate == null)
-                return BadRequest(ModelState);
-            if (!_departmentJobTitleRepository.CreateDepartmentJobTitle(_mapper.Map<DepartmentJobTitle>(djCreate)))
+                return BadRequest("Invalid data.");
+
+            var departmentJobTitle = _mapper.Map<DepartmentJobTitle>(djCreate);
+            var createdDepartmentJobTitle = await _departmentJobTitleRepository.CreateDepartmentJobTitleAsync(departmentJobTitle);
+
+            if (createdDepartmentJobTitle == null)
             {
-                ModelState.AddModelError("", "Can't create");
+                ModelState.AddModelError("", "Can't create department job title");
                 return StatusCode(500, ModelState);
             }
-            return Ok("Create successfully");
+
+            return StatusCode(201, "Create successfully");
         }
+
         [HttpPut]
-        public IActionResult UpdateDepartmentJobTitle([FromBody] DepartmentJobTitleDto djUpdate)
+        public async Task<IActionResult> UpdateDepartmentJobTitle([FromBody] DepartmentJobTitleDto djUpdate)
         {
             if (djUpdate == null)
-                return BadRequest(ModelState);
-            if (!_departmentJobTitleRepository.UpdateDepartmentJobTitle(_mapper.Map<DepartmentJobTitle>(djUpdate)))
+                return BadRequest("Invalid data.");
+
+            var departmentJobTitle = _mapper.Map<DepartmentJobTitle>(djUpdate);
+            var result = await _departmentJobTitleRepository.UpdateDepartmentJobTitleAsync(departmentJobTitle);
+
+            if (result == null)
             {
-                ModelState.AddModelError("", "Can't update");
+                ModelState.AddModelError("", "Can't update department job title");
                 return StatusCode(500, ModelState);
             }
+
             return Ok("Update successfully");
         }
+
         [HttpDelete]
-        public IActionResult DeleteDepartmentJobTitle([FromBody] DepartmentJobTitleDto djDelete)
+        public async Task<IActionResult> DeleteDepartmentJobTitle([FromBody] DepartmentJobTitleDto djDelete)
         {
             if (djDelete == null)
-                return BadRequest(ModelState);
-            if (!_departmentJobTitleRepository.DeleteDepartmentJobTitle(djDelete.DepartmentId, djDelete.JobTitleId))
+                return BadRequest("Invalid data.");
+
+            var result = await _departmentJobTitleRepository.DeleteDepartmentJobTitleAsync(djDelete.DepartmentId, djDelete.JobTitleId);
+
+            if (result == null)
             {
-                ModelState.AddModelError("", "Can't delete");
+                ModelState.AddModelError("", "Can't delete department job title");
                 return StatusCode(500, ModelState);
             }
+
             return Ok("Delete successfully");
         }
-
-
     }
 }

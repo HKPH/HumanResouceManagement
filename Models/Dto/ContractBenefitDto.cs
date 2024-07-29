@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace HumanManagement.Models;
+﻿namespace HumanManagement.Models;
 
 public partial class ContractBenefitDto
 {

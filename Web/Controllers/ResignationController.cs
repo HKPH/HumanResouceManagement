@@ -8,10 +8,11 @@ namespace HumanManagement.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ResignationController:ControllerBase
+    public class ResignationController : ControllerBase
     {
         private readonly IResignationRepository _resignationRepository;
         private readonly IMapper _mapper;
+
         public ResignationController(IResignationRepository resignationRepository, IMapper mapper)
         {
             _resignationRepository = resignationRepository;
@@ -19,46 +20,80 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetResignations()
+        public async Task<IActionResult> GetResignations()
         {
-            var resignations=_mapper.Map<List<ResignationDto>>(_resignationRepository.GetResignations());
-            return Ok(resignations);
+            var resignations = await _resignationRepository.GetResignationsAsync();
+            if (resignations == null)
+                return NotFound(ModelState);
+
+            var resignationDtos = _mapper.Map<List<ResignationDto>>(resignations);
+            return Ok(resignationDtos);
+        }
+        [HttpGet("{resignationId}")]
+        public async Task<IActionResult> GetResignationById(int resignationId)
+        {
+            var resignation = await _resignationRepository.GetResignationByIdAsync(resignationId);
+            if (resignation == null)
+                return NotFound(ModelState);
+
+            var resignationDto = _mapper.Map<ResignationDto>(resignation);
+            return Ok(resignationDto);
         }
 
         [HttpGet("accepted/{accepted}")]
-        public IActionResult GetResignationsByAccepted(bool accepted)
+        public async Task<IActionResult> GetResignationsByAccepted(bool accepted)
         {
-            var resignations = _mapper.Map<List<ResignationDto>>(_resignationRepository.GetResignationsByAccepted(accepted));
-            return Ok(resignations);
+            var resignations = await _resignationRepository.GetResignationsByAcceptedAsync(accepted);
+            if (resignations == null)
+                return NotFound(ModelState);
+
+            var resignationDtos = _mapper.Map<List<ResignationDto>>(resignations);
+            return Ok(resignationDtos);
         }
 
         [HttpPost]
-        public IActionResult CreateResignation([FromBody]ResignationDto resignationCreate)
+        public async Task<IActionResult> CreateResignation([FromBody] ResignationDto resignationDto)
         {
-            if (resignationCreate == null)
+            if (resignationDto == null)
                 return BadRequest(ModelState);
-            if (_resignationRepository.CreateResignation(_mapper.Map<Resignation>(resignationCreate)))
-                return StatusCode(500, "Can't create");
-            return Ok("Create successfully");
+
+            var resignation = _mapper.Map<Resignation>(resignationDto);
+            var createdResignation = await _resignationRepository.CreateResignationAsync(resignation);
+            var createdResignationDto = _mapper.Map<ResignationDto>(createdResignation);
+
+            if (createdResignation == null)
+                return StatusCode(500, "Can't create resignation.");
+
+            return CreatedAtAction(
+                nameof(GetResignationById),
+                new { resignationId = createdResignation.Id },
+                createdResignationDto);
         }
 
-        [HttpPut]
-        public IActionResult UpdateResignation([FromBody] ResignationDto resignationUpdate)
+        [HttpPut("{resignationId}")]
+        public async Task<IActionResult> UpdateResignation(int resignationId, [FromBody] ResignationDto resignationDto)
         {
-            if (resignationUpdate == null)
+            if (resignationDto == null || resignationDto.Id != resignationId)
                 return BadRequest(ModelState);
-            if (_resignationRepository.UpdateResignation(_mapper.Map<Resignation>(resignationUpdate)))
+
+            var resignation = _mapper.Map<Resignation>(resignationDto);
+            var updatedResignation = await _resignationRepository.UpdateResignationAsync(resignation);
+
+            if (updatedResignation == null)
                 return StatusCode(500, "Can't update");
+
             return Ok("Update successfully");
         }
 
         [HttpDelete("{resignationId}")]
-        public IActionResult DeleteResignation(int resignationId)
+        public async Task<IActionResult> DeleteResignation(int resignationId)
         {
-            if (_resignationRepository.DeleteResignation(resignationId))
+            var deletedResignation = await _resignationRepository.DeleteResignationAsync(resignationId);
+
+            if (deletedResignation == null)
                 return StatusCode(500, "Can't delete");
+
             return Ok("Delete successfully");
         }
-
     }
 }

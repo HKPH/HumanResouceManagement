@@ -4,85 +4,110 @@ using HumanManagement.Models;
 using HumanManagement.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace HumanManagement.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ContractTypeController: ControllerBase
+    public class ContractTypeController : ControllerBase
     {
         private readonly IContractTypeRepository _contractTypeRepository;
         private readonly IMapper _mapper;
+
         public ContractTypeController(IContractTypeRepository contractTypeRepository, IMapper mapper)
         {
             _contractTypeRepository = contractTypeRepository;
             _mapper = mapper;
         }
+
         [HttpGet]
-        public IActionResult GetContractTypes()
+        public async Task<IActionResult> GetContractTypes()
         {
-            var contractType=_mapper.Map<List<ContractTypeDto>>(_contractTypeRepository.GetContractTypes());
-            return Ok(contractType);
+            var contractTypes = _mapper.Map<List<ContractTypeDto>>(await _contractTypeRepository.GetContractTypesAsync());
+            return Ok(contractTypes);
         }
+
         [HttpGet("{contractTypeId}")]
-        public IActionResult GetContractType(int contractTypeId) 
+        public async Task<IActionResult> GetContractType(int contractTypeId)
         {
-            var contractType= _mapper.Map<ContractTypeDto>(_contractTypeRepository.GetContractTypeById(contractTypeId));
+            var contractType = _mapper.Map<ContractTypeDto>(await _contractTypeRepository.GetContractTypeByIdAsync(contractTypeId));
             if (contractType == null)
             {
                 return NotFound();
             }
             return Ok(contractType);
-        
         }
+
         [HttpGet("active/{active}")]
-        public IActionResult GetContractTypeByActive(bool active)
+        public async Task<IActionResult> GetContractTypesByActive(bool active)
         {
-            var contractTypes = _mapper.Map<List<ContractTypeDto>>(_contractTypeRepository.GetContractTypesByActive(active));
+            var contractTypes = _mapper.Map<List<ContractTypeDto>>(await _contractTypeRepository.GetContractTypesByActiveAsync(active));
             return Ok(contractTypes);
         }
+
         [HttpPost]
-        public IActionResult CreateContractType([FromBody] ContractTypeDto contractType)
+        public async Task<IActionResult> CreateContractType([FromBody] ContractTypeDto contractTypeDto)
         {
-            if(contractType == null)
+            if (contractTypeDto == null)
+                return BadRequest("Invalid data.");
+
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
-            if(!_contractTypeRepository.CreateContractType(_mapper.Map<ContractType>(contractType)))
+
+            var contractType = _mapper.Map<ContractType>(contractTypeDto);
+            var createdContractType = await _contractTypeRepository.CreateContractTypeAsync(contractType);
+
+            if (createdContractType == null)
             {
                 ModelState.AddModelError("", "Can't create contract type");
                 return StatusCode(500, ModelState);
             }
-            return Ok("Create contract type successfully");
+            var createdContractTypeDto = _mapper.Map<ContractTypeDto>(createdContractType);
+            return CreatedAtAction(
+                nameof(GetContractType),
+                new { contractTypeId = createdContractType.Id },
+                createdContractTypeDto);
         }
-        [HttpPut]
-        public IActionResult UpdateContractType([FromBody] ContractTypeDto contractType)
+
+        [HttpPut("{contractTypeId}")]
+        public async Task<IActionResult> UpdateContractType(int contractTypeId, [FromBody] ContractTypeDto contractTypeDto)
         {
-            if (contractType == null)
-                return BadRequest(ModelState);
+            if (contractTypeDto == null)
+                return BadRequest("Invalid data.");
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_contractTypeRepository.UpdateContractType(_mapper.Map<ContractType>(contractType)))
+
+            if(contractTypeId != contractTypeDto.Id)
+                return BadRequest(ModelState);
+
+            var contractType = _mapper.Map<ContractType>(contractTypeDto);
+            var result = await _contractTypeRepository.UpdateContractTypeAsync(contractType);
+
+            if (result == null)
             {
                 ModelState.AddModelError("", "Can't update contract type");
                 return StatusCode(500, ModelState);
             }
+
             return Ok("Update contract type successfully");
         }
-        [HttpDelete("{contractTypeId}")]
-        public IActionResult DeleteContractType(int contractTypeId)
-        {
 
+        [HttpDelete("{contractTypeId}")]
+        public async Task<IActionResult> DeleteContractType(int contractTypeId)
+        {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_contractTypeRepository.DeleteContractType(contractTypeId))
+
+            var result = await _contractTypeRepository.DeleteContractTypeAsync(contractTypeId);
+
+            if (result == null)
             {
                 ModelState.AddModelError("", "Can't delete contract type");
                 return StatusCode(500, ModelState);
             }
+
             return Ok("Delete contract type successfully");
         }
-
-
-
     }
 }

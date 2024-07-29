@@ -4,54 +4,61 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
 {
-    public class ContractBenefitRepository: IContractBenefitRepository
+    public class ContractBenefitRepository : IContractBenefitRepository
     {
         private readonly DBContext _context;
+
         public ContractBenefitRepository(DBContext context)
         {
             _context = context;
         }
 
-        public bool CreateContractBenefit(ContractBenefit contractBenefit)
+        public async Task<ContractBenefit> CreateContractBenefitAsync(ContractBenefit contractBenefit)
         {
-            _context.Add(contractBenefit);
-            return Save();
+            await _context.ContractBenefits.AddAsync(contractBenefit);
+            await SaveAsync();
+            return contractBenefit;
         }
 
-        public bool DeleteContractBenefit(int contractId, int benefitId)
+        public async Task<ContractBenefit> DeleteContractBenefitAsync(int contractId, int benefitId)
         {
-            var cd=GetContractBenefit(contractId, benefitId);
-            _context.Remove(cd);
-            return Save();
+            var contractBenefit = await GetContractBenefitAsync(contractId, benefitId);
+            if (contractBenefit == null) return null;
+
+            _context.ContractBenefits.Remove(contractBenefit);
+            await SaveAsync();
+            return contractBenefit;
         }
 
-        public List<Benefit> GetBenefitsByContract(int contractId)
+        public async Task<List<Benefit>> GetBenefitsByContractAsync(int contractId)
         {
-            return _context.ContractBenefits
-                .Where(cb=>cb.ContractTypeId == contractId)
-                .Include(cb=>cb.Benefit)
-                .Select(cb=>cb.Benefit)
-                .ToList();
+            return await _context.ContractBenefits
+                .Where(cb => cb.ContractTypeId == contractId)
+                .Include(cb => cb.Benefit)
+                .Select(cb => cb.Benefit)
+                .ToListAsync();
         }
 
-        public ContractBenefit GetContractBenefit(int contractId, int benefitId)
+        public async Task<ContractBenefit> GetContractBenefitAsync(int contractId, int benefitId)
         {
-            return _context.ContractBenefits
+            return await _context.ContractBenefits
                 .Where(cb => cb.ContractTypeId == contractId && cb.BenefitId == benefitId)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
 
-        public bool Save()
+        public async Task<bool> SaveAsync()
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool UpdateContractBenefit(ContractBenefit contractBenefit)
+        public async Task<ContractBenefit> UpdateContractBenefitAsync(ContractBenefit contractBenefit)
         {
-            var cbUpdate=GetContractBenefit(contractBenefit.ContractTypeId, contractBenefit.BenefitId);
+            var cbUpdate = await GetContractBenefitAsync(contractBenefit.ContractTypeId, contractBenefit.BenefitId);
+            if (cbUpdate == null) return null;
+
             _context.Entry(cbUpdate).CurrentValues.SetValues(contractBenefit);
-            return Save();
+            await SaveAsync();
+            return contractBenefit;
         }
     }
 }

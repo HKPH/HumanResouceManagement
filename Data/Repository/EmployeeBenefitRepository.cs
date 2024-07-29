@@ -4,54 +4,60 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
 {
-    public class EmployeeBenefitRepository: IEmployeeBenefitRepository
+    public class EmployeeBenefitRepository : IEmployeeBenefitRepository
     {
         private readonly DBContext _context;
+
         public EmployeeBenefitRepository(DBContext context)
         {
             _context = context;
         }
-        public bool CreateEmployeeBenefit(EmployeeBenefit employeeBenefit)
+
+        public async Task<EmployeeBenefit> CreateEmployeeBenefitAsync(EmployeeBenefit employeeBenefit)
         {
             _context.EmployeeBenefits.Add(employeeBenefit);
-            return Save();
+            await _context.SaveChangesAsync();;
+            return employeeBenefit;
         }
 
-        public bool DeleteEmployeeBenefit(int employeeId, int benefitId)
+        public async Task<EmployeeBenefit> DeleteEmployeeBenefitAsync(int employeeId, int benefitId)
         {
-            var employeeBenefit = GetEmployeeBenefit(employeeId, benefitId);
-            _context.Remove(employeeBenefit);
-            return Save();
+            var employeeBenefit = await GetEmployeeBenefitAsync(employeeId, benefitId);
+            if (employeeBenefit == null)
+            {
+                return null;
+            }
+            _context.EmployeeBenefits.Remove(employeeBenefit);
+            await _context.SaveChangesAsync();
+            return employeeBenefit;
         }
 
-        public List<Benefit> GetBenefitsByEmployee(int employeeId)
+        public async Task<List<Benefit>> GetBenefitsByEmployeeAsync(int employeeId)
         {
-            return _context.EmployeeBenefits
+            return await _context.EmployeeBenefits
                 .Where(ca => ca.EmployeeId == employeeId)
                 .Include(ca => ca.Benefit)
                 .Select(ca => ca.Benefit)
-                .ToList();
+                .ToListAsync();
         }
 
-        public EmployeeBenefit GetEmployeeBenefit(int employeeId, int benefitId)
+        public async Task<EmployeeBenefit> GetEmployeeBenefitAsync(int employeeId, int benefitId)
         {
-            return _context.EmployeeBenefits
+            return await _context.EmployeeBenefits
                 .Where(c => c.BenefitId == benefitId && c.EmployeeId == employeeId)
-                .FirstOrDefault();
-
+                .FirstOrDefaultAsync();
         }
 
-        public bool Save()
+        public async Task<EmployeeBenefit> UpdateEmployeeBenefitAsync(EmployeeBenefit employeeBenefit)
         {
-            var check = _context.SaveChanges();
-            return check > 0 ? true : false;
-        }
-
-        public bool UpdateEmployeeBenefit(EmployeeBenefit employeeBenefit)
-        {
-            var ebUpdate = GetEmployeeBenefit(employeeBenefit.EmployeeId, employeeBenefit.BenefitId);
+            var ebUpdate = await GetEmployeeBenefitAsync(employeeBenefit.EmployeeId, employeeBenefit.BenefitId);
+            if (ebUpdate == null)
+            {
+                return null;
+            }
             _context.Entry(ebUpdate).CurrentValues.SetValues(employeeBenefit);
-            return Save();
+            await _context.SaveChangesAsync();
+            return employeeBenefit;
         }
     }
 }

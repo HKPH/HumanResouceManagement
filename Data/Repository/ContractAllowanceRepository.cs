@@ -1,57 +1,66 @@
-﻿using HumanManagement.Data.Repository.Interface;
+﻿using Microsoft.EntityFrameworkCore;
+using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
 {
     public class ContractAllowanceRepository : IContractAllowanceRepository
     {
         private readonly DBContext _context;
+
         public ContractAllowanceRepository(DBContext context)
         {
             _context = context;
         }
-        public bool CreateContractAllowance(ContractAllowance contractAllowance)
+
+        public async Task<ContractAllowance> CreateContractAllowanceAsync(ContractAllowance contractAllowance)
         {
-            _context.ContractAllowances.Add(contractAllowance);
-            return Save();
+            await _context.ContractAllowances.AddAsync(contractAllowance);
+            await SaveAsync();
+            return contractAllowance;
         }
 
-        public bool DeleteContractAllowance(int contractId, int allowanceId)
+        public async Task<ContractAllowance> DeleteContractAllowanceAsync(int contractId, int allowanceId)
         {
-            var contractAllowance= GetContractAllowance(contractId, allowanceId);
-            _context.Remove(contractAllowance);
-            return Save();
+            var contractAllowance = await GetContractAllowanceAsync(contractId, allowanceId);
+            if (contractAllowance == null)
+                return null;
+
+            _context.ContractAllowances.Remove(contractAllowance);
+            await SaveAsync();
+            return contractAllowance;
         }
 
-        public List<Allowance> GetAllowancesByContract(int contractId)
+        public async Task<List<Allowance>> GetAllowancesByContractAsync(int contractId)
         {
-            return _context.ContractAllowances
-                .Where(ca=>ca.ContractTypeId == contractId)
-                .Include(ca=>ca.Allowance)
-                .Select(ca=>ca.Allowance)
-                .ToList();
+            return await _context.ContractAllowances
+                .Where(ca => ca.ContractTypeId == contractId)
+                .Include(ca => ca.Allowance)
+                .Select(ca => ca.Allowance)
+                .ToListAsync();
         }
 
-        public ContractAllowance GetContractAllowance(int contractId, int allowanceId)
+        public async Task<ContractAllowance> GetContractAllowanceAsync(int contractId, int allowanceId)
         {
-            return _context.ContractAllowances
+            return await _context.ContractAllowances
                 .Where(c => c.AllowanceId == allowanceId && c.ContractTypeId == contractId)
-                .FirstOrDefault();
-
+                .FirstOrDefaultAsync();
         }
 
-        public bool Save()
+        public async Task<bool> SaveAsync()
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool UpdateContractAllowance(ContractAllowance contractAllowance)
+        public async Task<ContractAllowance> UpdateContractAllowanceAsync(ContractAllowance contractAllowance)
         {
-            var caUpdate=GetContractAllowance(contractAllowance.ContractTypeId, contractAllowance.AllowanceId);
+            var caUpdate = await GetContractAllowanceAsync(contractAllowance.ContractTypeId, contractAllowance.AllowanceId);
+            if (caUpdate == null)
+                return null;
+
             _context.Entry(caUpdate).CurrentValues.SetValues(contractAllowance);
-            return Save();
+            await SaveAsync();
+            return contractAllowance;
         }
     }
 }

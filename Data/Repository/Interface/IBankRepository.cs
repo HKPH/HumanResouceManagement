@@ -4,14 +4,13 @@ namespace HumanManagement.Data.Repository.Interface
 {
     public interface IBankRepository
     {
-        List<Bank> GetBanks();
-        List<Bank> GetBanksByActive(bool active);
-        Bank GetBankById(int bankId);
-        bool HasBank(int bankId);
-        bool CreateBank(Bank bank);
-        bool Save();
-        Bank checkBankByName(Bank bank);
-        bool UpdateBank(Bank bank);
-        bool DeleteBank(int bankId);
+        Task<List<Bank>> GetBanksAsync();
+        Task<List<Bank>> GetBanksByActiveAsync(bool active);
+        Task<Bank> GetBankByIdAsync(int bankId);
+        Task<bool> HasBankAsync(int bankId);
+        Task<Bank> CreateBankAsync(Bank bank);
+        Task<bool> SaveAsync();
+        Task<Bank> UpdateBankAsync(Bank bank);
+        Task<Bank> DeleteBankAsync(int bankId);
     }
 }

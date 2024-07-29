@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
-using HumanManagement.Data.Repository;
 using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using HumanManagement.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Web.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class BankController : ControllerBase
     {
         private readonly IBankRepository _bankRepository;
         private readonly IMapper _mapper;
+
         public BankController(IBankRepository bankRepository, IMapper mapper)
         {
             _bankRepository = bankRepository;
@@ -22,9 +20,9 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetBanks()
+        public async Task<IActionResult> GetBanks()
         {
-            var banks = _mapper.Map<List<BankDto>>(_bankRepository.GetBanks());
+            var banks = _mapper.Map<List<BankDto>>(await _bankRepository.GetBanksAsync());
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -33,44 +31,36 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpGet("{bankId}")]
-        public IActionResult GetBank(int bankId)
+        public async Task<IActionResult> GetBank(int bankId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (!_bankRepository.HasBank(bankId))
+            if (!await _bankRepository.HasBankAsync(bankId))
             {
                 return NotFound();
             }
 
-            var bank = _mapper.Map<BankDto>(_bankRepository.GetBankById(bankId));
+            var bank = _mapper.Map<BankDto>(await _bankRepository.GetBankByIdAsync(bankId));
             return Ok(bank);
         }
 
         [HttpGet("active/{active}")]
-        public IActionResult GetBankByActive(bool active)
+        public async Task<IActionResult> GetBankByActive(bool active)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var banks=_mapper.Map<List<BankDto>>(_bankRepository.GetBanksByActive(active));
+            var banks = _mapper.Map<List<BankDto>>(await _bankRepository.GetBanksByActiveAsync(active));
             return Ok(banks);
         }
 
         [HttpPost]
-        public IActionResult CreateBank([FromBody] BankDto bankCreate)
+        public async Task<IActionResult> CreateBank([FromBody] BankDto bankCreate)
         {
             if (bankCreate == null)
             {
                 return BadRequest(ModelState);
-            }
-
-            var bank = _bankRepository.checkBankByName(_mapper.Map<Bank>(bankCreate));
-
-            if (bank != null)
-            {
-                ModelState.AddModelError("", "Bank already exits");
-                return StatusCode(422, ModelState);
             }
 
             if (!ModelState.IsValid)
@@ -80,22 +70,30 @@ namespace HumanManagement.Web.Controllers
 
             var bankMap = _mapper.Map<Bank>(bankCreate);
 
-            if (!_bankRepository.CreateBank(bankMap))
+            var createdBank = await _bankRepository.CreateBankAsync(bankMap);
+            if (createdBank == null)
             {
-                ModelState.AddModelError("", "Bank cant crate");
+                ModelState.AddModelError("", "Bank can't be created");
                 return StatusCode(500, ModelState);
             }
-            return Ok("Successfully created");
+
+            var createdBankDto = _mapper.Map<BankDto>(createdBank);
+
+            return CreatedAtAction(
+                actionName: nameof(GetBank),
+                routeValues: new { bankBranchId = createdBank.Id },
+                value: createdBankDto
+            );
         }
 
         [HttpPut("{bankId}")]
-        public IActionResult UpdateBank(int bankId, [FromBody] BankDto bankUpdate)
+        public async Task<IActionResult> UpdateBank(int bankId, [FromBody] BankDto bankUpdate)
         {
             if (bankUpdate == null)
             {
                 return BadRequest(ModelState);
             }
-            if(!_bankRepository.HasBank(bankId))
+            if (!await _bankRepository.HasBankAsync(bankId))
             {
                 return NotFound();
             }
@@ -103,61 +101,53 @@ namespace HumanManagement.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var bankMap=_mapper.Map<Bank>(bankUpdate);
-            if(!_bankRepository.UpdateBank(bankMap))
+            var bankMap = _mapper.Map<Bank>(bankUpdate);
+            var updatedBank = await _bankRepository.UpdateBankAsync(bankMap);
+            if (updatedBank == null)
             {
                 ModelState.AddModelError("", "Can't update bank");
-                return StatusCode(500,ModelState);
+                return StatusCode(500, ModelState);
             }
-            return Ok("Update Successfully");
+            return Ok("Update successfully");
         }
 
         [HttpDelete("{bankId}")]
-        public IActionResult DeleteBank([FromRoute] int bankId)
+        public async Task<IActionResult> DeleteBank([FromRoute] int bankId)
         {
-            try
-            {
-                if (!_bankRepository.HasBank(bankId))
-                {
-                    return NotFound();
-                }
 
-                var bankToDelete = _bankRepository.GetBankById(bankId);
-                if (bankToDelete == null)
-                {
-                    return NotFound();
-                }
-
-                if (!_bankRepository.DeleteBank(bankId))
-                {
-                    ModelState.AddModelError("", "Can't delete bank");
-                    return StatusCode(500, ModelState);
-                }
-
-                return Ok("Delete bank successfully");
-            }
-            catch (DbUpdateException ex)
-            {
-
-                ModelState.AddModelError("", "Cannot delete this bank due to database conflict.");
-                return StatusCode(409, ModelState); 
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", $"An error occurred: {ex.Message}");
-                return StatusCode(500, ModelState);
-            }
-        }
-        [HttpPut("active/{bankId}")]
-        public IActionResult ChangeBankActive(int bankId,[FromBody] bool active)
-        {
-            var bank=_bankRepository.GetBankById(bankId);
-            if(bank== null)
+            if (!await _bankRepository.HasBankAsync(bankId))
             {
                 return NotFound();
-            }    
+            }
+
+            var bankToDelete = await _bankRepository.GetBankByIdAsync(bankId);
+            if (bankToDelete == null)
+            {
+                return NotFound();
+            }
+
+            var deletedBank = await _bankRepository.DeleteBankAsync(bankId);
+            if (deletedBank == null)
+            {
+                ModelState.AddModelError("", "Can't delete bank");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Delete bank successfully");
+
+        }
+
+        [HttpPut("active/{bankId}")]
+        public async Task<IActionResult> ChangeBankActive(int bankId, [FromBody] bool active)
+        {
+            var bank = await _bankRepository.GetBankByIdAsync(bankId);
+            if (bank == null)
+            {
+                return NotFound();
+            }
             bank.Active = active;
-            if (!_bankRepository.UpdateBank(bank))
+            var updatedBank = await _bankRepository.UpdateBankAsync(bank);
+            if (updatedBank == null)
             {
                 ModelState.AddModelError("", $"Can't change bank status to {active}");
                 return StatusCode(500, ModelState);
@@ -166,10 +156,7 @@ namespace HumanManagement.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-            return Ok($"Bank status changes to {active}");
+            return Ok($"Bank status changed to {active}");
         }
-
-
-
     }
 }

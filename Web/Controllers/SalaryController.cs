@@ -8,49 +8,80 @@ namespace HumanManagement.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SalaryController:ControllerBase
+    public class SalaryController : ControllerBase
     {
         private readonly ISalaryRepository _salaryRepository;
         private readonly IMapper _mapper;
+
         public SalaryController(ISalaryRepository salaryRepository, IMapper mapper)
         {
             _salaryRepository = salaryRepository;
             _mapper = mapper;
         }
+
         [HttpGet]
-        public IActionResult GetSalaries()
+        public async Task<IActionResult> GetSalaries()
         {
-            var salaries=_mapper.Map<List<SalaryDto>>(_salaryRepository.GetSalaries());
-            return Ok(salaries);
+            var salaries = await _salaryRepository.GetSalariesAsync();
+            var salaryDtos = _mapper.Map<List<SalaryDto>>(salaries);
+            return Ok(salaryDtos);
         }
+
         [HttpGet("unused")]
-        public IActionResult GetSalariesNotUsing()
+        public async Task<IActionResult> GetSalariesNotUsing()
         {
-            var salaries = _mapper.Map<List<SalaryDto>>(_salaryRepository.GetSalariesNotUsing());
-            return Ok(salaries);
+            var salaries = await _salaryRepository.GetSalariesNotUsingAsync();
+            var salaryDtos = _mapper.Map<List<SalaryDto>>(salaries);
+            return Ok(salaryDtos);
         }
+
+        [HttpGet("{salaryId}")]
+        public async Task<IActionResult> GetSalaryById(int salaryId)
+        {
+            var salary = await _salaryRepository.GetSalaryByIdAsync(salaryId);
+            var salaryDto = _mapper.Map<SalaryDto>(salary);
+            return Ok(salaryDto);
+        }
+
         [HttpPost]
-        public IActionResult CreateSalary([FromBody]SalaryDto salaryCreate)
+        public async Task<IActionResult> CreateSalary([FromBody] SalaryDto salaryDto)
         {
-            if (salaryCreate == null)
+            if (salaryDto == null)
                 return BadRequest(ModelState);
-            if(!_salaryRepository.CreateSalary(_mapper.Map<Salary>(salaryCreate)))
-            {
+
+            var salary = _mapper.Map<Salary>(salaryDto);
+            var createdSalary = await _salaryRepository.CreateSalaryAsync(salary);
+            var createdSalaryDto = _mapper.Map<SalaryDto>(createdSalary);
+            if (createdSalary == null)
                 return StatusCode(500, "Can't create salary");
-            }
-            return Ok("Create salary successfully");
+
+            return CreatedAtAction(nameof(GetSalaryById), new { salaryId = createdSalary.Id }, createdSalaryDto);
         }
-        [HttpPut]
-        public IActionResult UpdateSalary([FromBody] SalaryDto salaryUpdate)
+
+        [HttpPut("{salaryId}")]
+        public async Task<IActionResult> UpdateSalary(int salaryId, [FromBody] SalaryDto salaryDto)
         {
-            if (salaryUpdate == null)
+            if (salaryDto == null || salaryId != salaryDto.Id)
                 return BadRequest(ModelState);
-            if (!_salaryRepository.UpdateSalary(_mapper.Map<Salary>(salaryUpdate)))
-            {
+
+            var salary = _mapper.Map<Salary>(salaryDto);
+            var updatedSalary = await _salaryRepository.UpdateSalaryAsync(salary);
+
+            if (updatedSalary == null)
                 return StatusCode(500, "Can't update salary");
-            }
+
             return Ok("Update salary successfully");
         }
 
+        [HttpDelete("{salaryId}")]
+        public async Task<IActionResult> DeleteSalary(int salaryId)
+        {
+            var deletedSalary = await _salaryRepository.DeleteSalaryAsync(salaryId);
+
+            if (deletedSalary == null)
+                return StatusCode(500, "Can't delete salary");
+
+            return Ok("Delete salary successfully");
+        }
     }
 }

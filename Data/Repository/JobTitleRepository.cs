@@ -1,51 +1,64 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
 {
     public class JobTitleRepository : IJobTitleRepository
     {
-        DBContext _context;
-        public JobTitleRepository(DBContext context) { _context = context; }
-        public bool CreateJobTitle(JobTitle jobTitle)
+        private readonly DBContext _context;
+
+        public JobTitleRepository(DBContext context)
         {
-            _context.Add(jobTitle);
-            return Save();
+            _context = context;
         }
 
-        public bool DeleteJobTitle(int jobTitleId)
+        public async Task<JobTitle> CreateJobTitleAsync(JobTitle jobTitle)
         {
-            var jobTitle = GetJobTitleById(jobTitleId);
-            _context.Remove(jobTitle);
-            return Save();
+            await _context.JobTitles.AddAsync(jobTitle);
+            await _context.SaveChangesAsync();
+            return jobTitle;
         }
 
-        public List<JobTitle> GetJobTitlesByActive(bool active)
+        public async Task<JobTitle> DeleteJobTitleAsync(int jobTitleId)
         {
-            return _context.JobTitles.Where(j=> j.Active== active).ToList();
+            var jobTitle = await GetJobTitleByIdAsync(jobTitleId);
+            if (jobTitle == null)
+            {
+                return null;
+            }
+
+            _context.JobTitles.Remove(jobTitle);
+            await _context.SaveChangesAsync();
+            return jobTitle;
         }
 
-        public JobTitle GetJobTitleById(int jobTitleId)
+        public async Task<List<JobTitle>> GetJobTitlesByActiveAsync(bool active)
         {
-            return _context.JobTitles.Where(j => j.Id == jobTitleId).FirstOrDefault();
+            return await _context.JobTitles.Where(j => j.Active == active).ToListAsync();
         }
 
-        public List<JobTitle> GetJobTitles()
+        public async Task<JobTitle> GetJobTitleByIdAsync(int jobTitleId)
         {
-            return _context.JobTitles.OrderBy(j=>j.Id).ToList();
+            return await _context.JobTitles.FirstOrDefaultAsync(j => j.Id == jobTitleId);
         }
 
-        public bool Save()
+        public async Task<List<JobTitle>> GetJobTitlesAsync()
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            return await _context.JobTitles.OrderBy(j => j.Id).ToListAsync();
         }
 
-        public bool UpdateJobTitle(JobTitle jobTitle)
+        public async Task<JobTitle> UpdateJobTitleAsync(JobTitle jobTitle)
         {
-            var jobTitleUpdate=GetJobTitleById(jobTitle.Id);
+            var jobTitleUpdate = await GetJobTitleByIdAsync(jobTitle.Id);
+            if (jobTitleUpdate == null)
+            {
+                return null;
+            }
+
             _context.Entry(jobTitleUpdate).CurrentValues.SetValues(jobTitle);
-            return Save();
+            await _context.SaveChangesAsync();
+            return jobTitleUpdate;
         }
     }
 }

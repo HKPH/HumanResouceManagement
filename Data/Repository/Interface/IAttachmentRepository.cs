@@ -4,11 +4,11 @@ namespace HumanManagement.Data.Repository.Interface
 {
     public interface IAttachmentRepository
     {
-        List<Attachment> GetAttachments();
-        Attachment GetAttachmentById(int attachmentId);
-        bool Save();
-        bool CreateAttachment(Attachment attachment);
-        bool UpdateAttachment(Attachment attachment);
-        bool DeleteAttachment(int attachmentId);
+        Task<List<Attachment>> GetAttachments();
+        Task<Attachment> GetAttachmentById(int attachmentId);
+        Task<bool> Save();
+        Task<Attachment> CreateAttachment(Attachment attachment);
+        Task<Attachment> UpdateAttachment(Attachment attachment);
+        Task<Attachment> DeleteAttachment(int attachmentId);
     }
 }

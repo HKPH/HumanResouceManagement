@@ -1,14 +1,16 @@
 ﻿using HumanManagement.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Data.Repository.Interface
 {
     public interface IContractBenefitRepository
     {
-        List<Benefit> GetBenefitsByContract(int contractId);
-        ContractBenefit GetContractBenefit(int contractId, int benefitId);
-        bool Save();
-        bool CreateContractBenefit(ContractBenefit contractBenefit);
-        bool UpdateContractBenefit(ContractBenefit contractBenefit);
-        bool DeleteContractBenefit(int contractId, int benefitId);
+        Task<List<Benefit>> GetBenefitsByContractAsync(int contractId);
+        Task<ContractBenefit> GetContractBenefitAsync(int contractId, int benefitId);
+        Task<bool> SaveAsync();
+        Task<ContractBenefit> CreateContractBenefitAsync(ContractBenefit contractBenefit);
+        Task<ContractBenefit> UpdateContractBenefitAsync(ContractBenefit contractBenefit);
+        Task<ContractBenefit> DeleteContractBenefitAsync(int contractId, int benefitId);
     }
 }

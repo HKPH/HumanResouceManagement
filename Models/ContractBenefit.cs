@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace HumanManagement.Models;
 
 public partial class ContractBenefit

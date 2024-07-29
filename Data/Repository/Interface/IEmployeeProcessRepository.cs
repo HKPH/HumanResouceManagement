@@ -1,16 +1,14 @@
 ﻿using HumanManagement.Models;
-
 namespace HumanManagement.Data.Repository.Interface
 {
     public interface IEmployeeProcessRepository
     {
-        List<EmployeeProcess> GetEmployeeProcesses();
-        EmployeeProcess GetEmployeeProcessById(int employeeProcessId);
-        List<EmployeeProcess> GetEmployeeProcessesByActive(bool active);
-        List<EmployeeProcess> GetEmployeeProcessesByEmployeeId(int employeeId);
-        bool CreateEmployeeProcess(EmployeeProcess employeeProcess);
-        bool UpdateEmployeeProcess(EmployeeProcess employeeProcess);
-        bool DeleteEmployeeProcess(int employeeProcessId);
-        bool Save();
+        Task<List<EmployeeProcess>> GetEmployeeProcessesAsync();
+        Task<EmployeeProcess> GetEmployeeProcessByIdAsync(int employeeProcessId);
+        Task<List<EmployeeProcess>> GetEmployeeProcessesByActiveAsync(bool active);
+        Task<List<EmployeeProcess>> GetEmployeeProcessesByEmployeeIdAsync(int employeeId);
+        Task<EmployeeProcess> CreateEmployeeProcessAsync(EmployeeProcess employeeProcess);
+        Task<EmployeeProcess> UpdateEmployeeProcessAsync(EmployeeProcess employeeProcess);
+        Task<EmployeeProcess> DeleteEmployeeProcessAsync(int employeeProcessId);
     }
 }

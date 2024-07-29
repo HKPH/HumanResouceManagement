@@ -1,73 +1,76 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
 {
-    public class EmployeeRepository:IEmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
         private readonly DBContext _context;
+
         public EmployeeRepository(DBContext context)
         {
             _context = context;
         }
 
-        public bool CreateEmployee(Employee employee)
+        public async Task<Employee> CreateEmployeeAsync(Employee employee)
         {
-            _context.Add(employee);
-            return Save();
+            await _context.Employees.AddAsync(employee);
+            await _context.SaveChangesAsync();
+            return employee;
         }
 
-        public bool DeleteEmployee(int employeeId)
+        public async Task<Employee> DeleteEmployeeAsync(int employeeId)
         {
-            var employee=GetEmployeeById(employeeId);
-            _context.Remove(employee);
-            return Save();
+            var employee = await GetEmployeeByIdAsync(employeeId);
+            _context.Employees.Remove(employee);
+            await _context.SaveChangesAsync();
+            return employee;
         }
 
-        public Employee GetEmployeeById(int employeeId)
+        public async Task<Employee> GetEmployeeByIdAsync(int employeeId)
         {
-            return _context.Employees.Where(e => e.Id == employeeId).FirstOrDefault();
+            return await _context.Employees
+                .Where(e => e.Id == employeeId)
+                .FirstOrDefaultAsync();
         }
 
-        public List<Employee> GetEmployees()
+        public async Task<List<Employee>> GetEmployeesAsync()
         {
-            return _context.Employees.OrderBy(e=>e.Id).ToList();
+            return await _context.Employees
+                .OrderBy(e => e.Id)
+                .ToListAsync();
         }
 
-        public List<Employee> GetEmployeesBirthday(int days)
+        public async Task<List<Employee>> GetEmployeesBirthdayAsync(int days)
         {
             DateTime today = DateTime.Now.Date;
-            DateTime startDate=today.AddDays(-days);
-            return _context.Employees
-                .AsEnumerable()
-                .Where(e=>
-                CheckDOB(startDate,e.Dob,today)==true)
-            .ToList();
-        }
-        public bool CheckDOB(DateTime a, DateTime b, DateTime c)
-        {
-            
-            DateTime a1 = new DateTime(1, a.Month, a.Day);
-            DateTime b1 = new DateTime(1, b.Month, b.Day);
-            DateTime c1 = new DateTime(1, c.Month, c.Day);
-            return (b1 >= a1 && b1<= c1);
-        }
-        public List<Employee> GetEmployeesByActive(bool active)
-        {
-            return _context.Employees.Where(e=>e.Active==active).ToList();
+            DateTime startDate = today.AddDays(-days);
+
+            var startMonthDay = new DateTime(today.Year, startDate.Month, startDate.Day);
+            var endMonthDay = new DateTime(today.Year, today.Month, today.Day);
+
+            return await _context.Employees
+                .Where(e => e.Dob.Month == startMonthDay.Month && e.Dob.Day >= startMonthDay.Day ||
+                            e.Dob.Month == endMonthDay.Month && e.Dob.Day <= endMonthDay.Day)
+                .ToListAsync();
         }
 
-        public bool Save()
+
+        public async Task<List<Employee>> GetEmployeesByActiveAsync(bool active)
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            return await _context.Employees
+                .Where(e => e.Active == active)
+                .ToListAsync();
         }
 
-        public bool UpdateEmployee(Employee employee)
+        public async Task<Employee> UpdateEmployeeAsync(Employee employee)
         {
-            var employeeUpdate=GetEmployeeById(employee.Id);
+            var employeeUpdate = await GetEmployeeByIdAsync(employee.Id);
             _context.Entry(employeeUpdate).CurrentValues.SetValues(employee);
-            return Save();
+            await _context.SaveChangesAsync();
+            return employeeUpdate;
         }
+
     }
 }

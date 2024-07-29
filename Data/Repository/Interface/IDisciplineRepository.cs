@@ -1,16 +1,16 @@
 ﻿using HumanManagement.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Data.Repository.Interface
 {
     public interface IDisciplineRepository
     {
-        List<Discipline> GetDisciplines();
-        List<Discipline> GetDisciplinesByEmployeeId(int employeeId);
-        Discipline GetDisciplineById(int disciplineId);
-
-        bool Save();
-        bool CreateDiscipline(Discipline discipline);
-        bool UpdateDiscipline(Discipline discipline);
-        bool DeleteDiscipline(int disciplineId);
+        Task<List<Discipline>> GetDisciplinesAsync();
+        Task<List<Discipline>> GetDisciplinesByEmployeeIdAsync(int employeeId);
+        Task<Discipline> GetDisciplineByIdAsync(int disciplineId);
+        Task<Discipline> CreateDisciplineAsync(Discipline discipline);
+        Task<Discipline> UpdateDisciplineAsync(Discipline discipline);
+        Task<Discipline> DeleteDisciplineAsync(int disciplineId);
     }
 }

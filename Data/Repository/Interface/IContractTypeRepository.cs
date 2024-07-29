@@ -4,12 +4,12 @@ namespace HumanManagement.Data.Repository.Interface
 {
     public interface IContractTypeRepository
     {
-        List<ContractType> GetContractTypes();
-        ContractType GetContractTypeById(int contractTypeId);
-        List<ContractType> GetContractTypesByActive(bool active);
-        bool Save();
-        bool CreateContractType(ContractType contractType);
-        bool UpdateContractType(ContractType contractType);
-        bool DeleteContractType(int contractTypeId);
+        Task<List<ContractType>> GetContractTypesAsync();
+        Task<ContractType> GetContractTypeByIdAsync(int contractTypeId);
+        Task<List<ContractType>> GetContractTypesByActiveAsync(bool active);
+        Task<bool> SaveAsync();
+        Task<ContractType> CreateContractTypeAsync(ContractType contractType);
+        Task<ContractType> UpdateContractTypeAsync(ContractType contractType);
+        Task<ContractType> DeleteContractTypeAsync(int contractTypeId);
     }
 }

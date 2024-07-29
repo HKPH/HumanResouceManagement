@@ -12,68 +12,113 @@ namespace HumanManagement.Web.Controllers
     {
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMapper _mapper;
+
         public EmployeeController(IEmployeeRepository employeeRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
             _mapper = mapper;
         }
+
         [HttpGet("DOB")]
-        public IActionResult GetEmployeesDOB([FromQuery] int days)
-        {    
+        public async Task<IActionResult> GetEmployeesDOB([FromQuery] int days)
+        {
             if (days < 0)
             {
                 return BadRequest("Days cannot be negative.");
             }
-            var employees = _mapper.Map<List<EmployeeDto>>(_employeeRepository.GetEmployeesBirthday(days));
-            return Ok(employees);
-        }
-        [HttpGet]
-        public IActionResult GetEmployees()
-        {
-            var employees = _mapper.Map<List<EmployeeDto>>(_employeeRepository.GetEmployees());
-            return Ok(employees);
-        }
-        [HttpGet("active/{active}")]
-        public IActionResult GetEmployeesByActive(bool active)
-        {
-            var employees = _mapper.Map<List<EmployeeDto>>(_employeeRepository.GetEmployeesByActive(active));
-            return Ok(employees);
-        }
-        [HttpPost]
-        public IActionResult CreateEmployee([FromBody] EmployeeDto employeeCreate)
-        {
-            if (employeeCreate == null)
-            {
-                return BadRequest(ModelState);
-            }
-            if(!_employeeRepository.CreateEmployee(_mapper.Map<Employee>(employeeCreate)))
-            {
-                return StatusCode(500, "Can't create employee");
-            }
-            return Ok("Create employee successfully");
-        }
-        [HttpPut]
-        public IActionResult UpdateEmployee([FromBody] EmployeeDto employeeUpdate)
-        {
-            if (employeeUpdate == null)
-            {
-                return BadRequest(ModelState);
-            }
-            if (!_employeeRepository.UpdateEmployee(_mapper.Map<Employee>(employeeUpdate)))
-            {
-                return StatusCode(500, "Can't update employee");
-            }
-            return Ok("Update employee successfully");
-        }
-        [HttpDelete("{employeeId}")]
-        public IActionResult DeleteEmployee(int employeeId)
-        {
-            if (!_employeeRepository.DeleteEmployee(employeeId))
-            {
-                return StatusCode(500, "Can't delete employee");
-            }
-            return Ok("Delete employee successfully");
+
+            var employees = await _employeeRepository.GetEmployeesBirthdayAsync(days);
+            var employeeDtos = _mapper.Map<List<EmployeeDto>>(employees);
+            return Ok(employeeDtos);
         }
 
+        [HttpGet("{employeeId}")]
+        public async Task<IActionResult> GetEmployeeById(int employeeId)
+        {
+            var employee = await _employeeRepository.GetEmployeeByIdAsync(employeeId);
+            var employeeDto = _mapper.Map<List<EmployeeDto>>(employee);
+            return Ok(employeeDto);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetEmployees()
+        {
+            var employees = await _employeeRepository.GetEmployeesAsync();
+            var employeeDtos = _mapper.Map<List<EmployeeDto>>(employees);
+            return Ok(employeeDtos);
+        }
+
+        [HttpGet("active/{active}")]
+        public async Task<IActionResult> GetEmployeesByActive(bool active)
+        {
+            var employees = await _employeeRepository.GetEmployeesByActiveAsync(active);
+            var employeeDtos = _mapper.Map<List<EmployeeDto>>(employees);
+            return Ok(employeeDtos);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateEmployee([FromBody] EmployeeDto employeeDto)
+        {
+            if (employeeDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var employee = _mapper.Map<Employee>(employeeDto);
+            var createdEmployee = await _employeeRepository.CreateEmployeeAsync(employee);
+
+            if (createdEmployee == null)
+            {
+                return StatusCode(500, "Can't create");
+            }
+            
+            var createdEmployeeDto = _mapper.Map<EmployeeDto>(createdEmployee);
+            return CreatedAtAction(
+                nameof(GetEmployeeById),
+                new { employeeId = createdEmployee.Id },
+                createdEmployeeDto);
+        }
+
+        [HttpPut("{employeeId}")]
+        public async Task<IActionResult> UpdateEmployee(int employeeId, [FromBody] EmployeeDto employeeDto)
+        {
+            if (employeeDto == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+
+            }
+
+            if(employeeId != employeeDto.Id)
+            {
+                return BadRequest(ModelState);
+            }    
+
+            var employee = _mapper.Map<Employee>(employeeDto);
+            var updatedEmployee = await _employeeRepository.UpdateEmployeeAsync(employee);
+
+            if (updatedEmployee == null)
+            {
+                return StatusCode(500, "Can't update");
+            }
+
+            return Ok("Update successfully");
+        }
+
+        [HttpDelete("{employeeId}")]
+        public async Task<IActionResult> DeleteEmployee(int employeeId)
+        {
+            var deletedEmployee = await _employeeRepository.DeleteEmployeeAsync(employeeId);
+
+            if (deletedEmployee == null)
+            {
+                return StatusCode(500, "Can't delete");
+            }
+
+            return Ok("Delete successfully");
+        }
     }
 }

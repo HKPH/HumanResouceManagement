@@ -1,5 +1,9 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HumanManagement.Data.Repository
 {
@@ -11,45 +15,51 @@ namespace HumanManagement.Data.Repository
             _context = context;
         }
 
-        public bool CreateDiscipline(Discipline discipline)
+        public async Task<Discipline> CreateDisciplineAsync(Discipline discipline)
         {
-            _context.Add(discipline);
-            return Save();
+            await _context.Disciplines.AddAsync(discipline);
+            await _context.SaveChangesAsync();;
+            return discipline;
         }
 
-        public bool DeleteDiscipline(int disciplineId)
+        public async Task<Discipline> DeleteDisciplineAsync(int disciplineId)
         {
-            var discipline = GetDisciplineById(disciplineId);
-            _context.Remove(discipline);
-            return Save();
+            var discipline = await GetDisciplineByIdAsync(disciplineId);
+            if (discipline == null)
+            {
+                return null;
+            }
+
+            _context.Disciplines.Remove(discipline);
+            await _context.SaveChangesAsync();;
+            return discipline;
         }
 
-        public Discipline GetDisciplineById(int disciplineId)
+        public async Task<Discipline> GetDisciplineByIdAsync(int disciplineId)
         {
-            return _context.Disciplines.Where(d => d.Id == disciplineId).FirstOrDefault();
+            return await _context.Disciplines.FirstOrDefaultAsync(d => d.Id == disciplineId);
         }
 
-        public List<Discipline> GetDisciplines()
+        public async Task<List<Discipline>> GetDisciplinesAsync()
         {
-            return _context.Disciplines.OrderBy(d => d.Id).ToList();
+            return await _context.Disciplines.OrderBy(d => d.Id).ToListAsync();
         }
 
-        public List<Discipline> GetDisciplinesByEmployeeId(int employeeId)
+        public async Task<List<Discipline>> GetDisciplinesByEmployeeIdAsync(int employeeId)
         {
-            return _context.Disciplines.Where(d=>d.EmployeeId == employeeId).ToList();
+            return await _context.Disciplines.Where(d => d.EmployeeId == employeeId).ToListAsync();
         }
 
-        public bool Save()
+        public async Task<Discipline> UpdateDisciplineAsync(Discipline discipline)
         {
-            var check = _context.SaveChanges();
-            return check > 0 ? true : false;
-        }
-
-        public bool UpdateDiscipline(Discipline discipline)
-        {
-            var disciplineUpdate = GetDisciplineById(discipline.Id);
+            var disciplineUpdate = await GetDisciplineByIdAsync(discipline.Id);
+            if (disciplineUpdate == null)
+            {
+                return null;
+            }
             _context.Entry(disciplineUpdate).CurrentValues.SetValues(discipline);
-            return Save();
+            await _context.SaveChangesAsync();;
+            return discipline;
         }
     }
 }

@@ -2,77 +2,84 @@
 using HumanManagement.Models;
 using HumanManagement.Models.Dto;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+
 namespace HumanManagement.Data.Repository
 {
     public class BankBranchRepository : IBankBranchRepository
     {
         private readonly DBContext _context;
-        public BankBranchRepository(DBContext context) {
-            _context=context;
-
-        }
-        public BankBranch checkBankBranchByName(BankBranchDto bankBranch)
+        public BankBranchRepository(DBContext context)
         {
-            return GetBankBranches().Where(c => c.Name.Trim().ToUpper() == bankBranch.Name.TrimEnd().ToUpper()).FirstOrDefault();
+            _context = context;
         }
 
-        public bool CreateBankBranch(BankBranch bankBranch)
+        public async Task<BankBranch> CheckBankBranchByNameAsync(BankBranchDto bankBranch)
         {
-            _context.Add(bankBranch);
-            return Save();
-
-        }
-        public bool DeleteBankBranch(int bankBranchId)
-        {
-            var bankBranch=GetBankBranchById(bankBranchId);
-            _context.Remove(bankBranch);
-            return Save();
+            return await _context.BankBranches
+                .FirstOrDefaultAsync(c => c.Name.Trim().ToUpper() == bankBranch.Name.TrimEnd().ToUpper());
         }
 
-        //public bool DeleteBankBranches(List<BankBranch> bankBranches)
-        //{
-        //    _context.RemoveRange(bankBranches);
-        //    return Save();
-        //}
-
-        public List<BankBranch> GetAllBankBranchesByBankId(int bankId)
+        public async Task<BankBranch> CreateBankBranchAsync(BankBranch bankBranch)
         {
-            return GetBankBranches().Where(b=> b.BankId== bankId).ToList();
+            await _context.BankBranches.AddAsync(bankBranch);
+            await SaveAsync();
+            return bankBranch;
         }
 
-        public BankBranch GetBankBranchById(int bankBranchId)
+        public async Task<BankBranch> DeleteBankBranchAsync(int bankBranchId)
         {
-            return _context.BankBranches.Where(b=> b.Id == bankBranchId).FirstOrDefault();
+            var bankBranch = await GetBankBranchByIdAsync(bankBranchId);
+            _context.BankBranches.Remove(bankBranch);
+            await SaveAsync();
+            return bankBranch;
         }
 
-        public List<BankBranch> GetBankBranches()
+        public async Task<List<BankBranch>> GetAllBankBranchesByBankIdAsync(int bankId)
         {
-            return _context.BankBranches
-                           .OrderBy(b => b.Id)
-                           .ToList();
+            return await _context.BankBranches
+                .Where(b => b.BankId == bankId)
+                .ToListAsync();
         }
 
-        public bool HasBankBranch(int bankBranchId)
+        public async Task<BankBranch> GetBankBranchByIdAsync(int bankBranchId)
         {
-            return _context.BankBranches.Any(b=> b.Id== bankBranchId);
-
+            return await _context.BankBranches
+                .FirstOrDefaultAsync(b => b.Id == bankBranchId);
         }
 
-        public bool Save()
+        public async Task<List<BankBranch>> GetBankBranchesAsync()
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
+            return await _context.BankBranches
+                .OrderBy(b => b.Id)
+                .ToListAsync();
         }
 
-        public bool UpdateBankBranch(BankBranch bankBranch)
+        public async Task<bool> HasBankBranchAsync(int bankBranchId)
         {
-            var bankBranchUpdate=GetBankBranchById(bankBranch.Id);
+            return await _context.BankBranches
+                .AnyAsync(b => b.Id == bankBranchId);
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            var check = await _context.SaveChangesAsync();
+            return check > 0;
+        }
+
+        public async Task<BankBranch> UpdateBankBranchAsync(BankBranch bankBranch)
+        {
+            var bankBranchUpdate = await GetBankBranchByIdAsync(bankBranch.Id);
             _context.Entry(bankBranchUpdate).CurrentValues.SetValues(bankBranch);
-            return Save();
+            await SaveAsync();
+            return bankBranch;
         }
-        public List<BankBranch> GetBankBranchesByActive(bool active)
+
+        public async Task<List<BankBranch>> GetBankBranchesByActiveAsync(bool active)
         {
-            return _context.BankBranches.Where(_b => _b.Active == active).ToList();
+            return await _context.BankBranches
+                .Where(b => b.Active == active)
+                .ToListAsync();
         }
     }
 }

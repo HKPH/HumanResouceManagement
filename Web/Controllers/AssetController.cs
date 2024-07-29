@@ -3,8 +3,6 @@ using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using HumanManagement.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace HumanManagement.Web.Controllers
 {
@@ -103,10 +101,10 @@ namespace HumanManagement.Web.Controllers
 
             if (updatedAsset == null)
             {
-                return StatusCode(500, "Không thể cập nhật tài sản.");
+                return StatusCode(500, "Can't update");
             }
 
-            return Ok("Cập nhật tài sản thành công.");
+            return Ok("Update successfully");
         }
 
         [HttpDelete("{assetId}")]
@@ -116,10 +114,10 @@ namespace HumanManagement.Web.Controllers
 
             if (deletedAsset == null)
             {
-                return StatusCode(500, "Không thể xóa tài sản.");
+                return StatusCode(500, "Can't delete");
             }
 
-            return Ok("Xóa tài sản thành công.");
+            return Ok("Delete successfully");
         }
     }
 }

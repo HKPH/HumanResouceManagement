@@ -1,9 +1,6 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HumanManagement.Data.Repository
 {
@@ -62,7 +59,7 @@ namespace HumanManagement.Data.Repository
 
             _context.Entry(assetUpdate).CurrentValues.SetValues(asset);
             await SaveAsync();
-            return assetUpdate;
+            return asset;
         }
     }
 }

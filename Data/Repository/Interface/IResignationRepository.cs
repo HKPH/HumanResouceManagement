@@ -4,12 +4,11 @@ namespace HumanManagement.Data.Repository.Interface
 {
     public interface IResignationRepository
     {
-        List<Resignation> GetResignations();
-        List<Resignation> GetResignationsByAccepted(bool accepted);
-        Resignation GetResignationById(int resignationId);
-        bool Save();
-        bool CreateResignation(Resignation resignation);
-        bool UpdateResignation(Resignation resignation);
-        bool DeleteResignation(int resignationId);
+        Task<List<Resignation>> GetResignationsAsync();
+        Task<List<Resignation>> GetResignationsByAcceptedAsync(bool accepted);
+        Task<Resignation> GetResignationByIdAsync(int resignationId);
+        Task<Resignation> CreateResignationAsync(Resignation resignation);
+        Task<Resignation> UpdateResignationAsync(Resignation resignation);
+        Task<Resignation> DeleteResignationAsync(int resignationId);
     }
 }

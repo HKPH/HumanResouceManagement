@@ -1,61 +1,68 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
-using System;
-
+using Microsoft.EntityFrameworkCore;
 namespace HumanManagement.Data.Repository
 {
-    public class EmployeeProcessRepository: IEmployeeProcessRepository
+    public class EmployeeProcessRepository : IEmployeeProcessRepository
     {
         private readonly DBContext _context;
+
         public EmployeeProcessRepository(DBContext context)
         {
             _context = context;
         }
 
-        public bool CreateEmployeeProcess(EmployeeProcess employeeProcess)
+        public async Task<List<EmployeeProcess>> GetEmployeeProcessesAsync()
         {
-            _context.Add(employeeProcess);
-            return Save();
+            return await _context.EmployeeProcesses.OrderBy(ep => ep.Id).ToListAsync();
         }
 
-        public bool DeleteEmployeeProcess(int employeeProcessId)
+        public async Task<EmployeeProcess> GetEmployeeProcessByIdAsync(int employeeProcessId)
         {
-            var ep=GetEmployeeProcessById(employeeProcessId);
-            _context.Remove(ep);
-            return Save();
+            return await _context.EmployeeProcesses.FindAsync(employeeProcessId);
         }
 
-        public EmployeeProcess GetEmployeeProcessById(int employeeProcessId)
+        public async Task<List<EmployeeProcess>> GetEmployeeProcessesByActiveAsync(bool active)
         {
-            return _context.EmployeeProcesses.Where(ep=>ep.Id == employeeProcessId).FirstOrDefault();
+            return await _context.EmployeeProcesses.Where(ep => ep.Active == active).ToListAsync();
         }
 
-        public List<EmployeeProcess> GetEmployeeProcesses()
+        public async Task<List<EmployeeProcess>> GetEmployeeProcessesByEmployeeIdAsync(int employeeId)
         {
-            return _context.EmployeeProcesses.OrderBy(ep => ep.Id).ToList();
+            return await _context.EmployeeProcesses.Where(ep => ep.EmployeeId == employeeId).ToListAsync();
         }
 
-        public List<EmployeeProcess> GetEmployeeProcessesByActive(bool active)
+        public async Task<EmployeeProcess> CreateEmployeeProcessAsync(EmployeeProcess employeeProcess)
         {
-            return _context.EmployeeProcesses.Where(ep=>ep.Active == active).ToList();
+            await _context.EmployeeProcesses.AddAsync(employeeProcess);
+            await _context.SaveChangesAsync();
+            return employeeProcess;
         }
 
-        public List<EmployeeProcess> GetEmployeeProcessesByEmployeeId(int employeeId)
+        public async Task<EmployeeProcess> UpdateEmployeeProcessAsync(EmployeeProcess employeeProcess)
         {
-            return _context.EmployeeProcesses.Where(e=>e.EmployeeId == employeeId).ToList();
+            var employeeProcessUpdate = await GetEmployeeProcessByIdAsync(employeeProcess.Id);
+            if (employeeProcessUpdate == null)
+            {
+                return null;
+            }
+
+            _context.Entry(employeeProcessUpdate).CurrentValues.SetValues(employeeProcess);
+            await _context.SaveChangesAsync();
+            return employeeProcessUpdate;
         }
 
-        public bool Save()
+        public async Task<EmployeeProcess> DeleteEmployeeProcessAsync(int employeeProcessId)
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
-        }
+            var employeeProcess = await GetEmployeeProcessByIdAsync(employeeProcessId);
+            if (employeeProcess == null)
+            {
+                return null;
+            }
 
-        public bool UpdateEmployeeProcess(EmployeeProcess employeeProcess)
-        {
-            var epUpdate = GetEmployeeProcessById(employeeProcess.Id);
-            _context.Entry(epUpdate).CurrentValues.SetValues(employeeProcess);
-            return Save();
+            _context.EmployeeProcesses.Remove(employeeProcess);
+            await _context.SaveChangesAsync();
+            return employeeProcess;
         }
     }
 }

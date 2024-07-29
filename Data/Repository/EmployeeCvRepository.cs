@@ -1,55 +1,68 @@
 ﻿using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanManagement.Data.Repository
 {
     public class EmployeeCvRepository : IEmployeeCvRepository
     {
         private readonly DBContext _context;
+
         public EmployeeCvRepository(DBContext context)
         {
             _context = context;
         }
-        public bool CreateEmployeeCv(EmployeeCv employeeCv)
+
+        public async Task<EmployeeCv> CreateEmployeeCvAsync(EmployeeCv employeeCv)
         {
-            _context.Add(employeeCv);
-            return Save();
+            await _context.EmployeeCvs.AddAsync(employeeCv);
+            await _context.SaveChangesAsync();
+            return employeeCv;
         }
 
-        public bool DeleteEmployeeCv(int employeeCvId)
+        public async Task<EmployeeCv> DeleteEmployeeCvAsync(int employeeCvId)
         {
-            var employeeCv= GetEmployeeCvById(employeeCvId);
-            _context.Remove(employeeCv);
-            return Save();
+            var employeeCv = await GetEmployeeCvByIdAsync(employeeCvId);
+            if (employeeCv == null)
+            {
+                return null;
+            }
+            _context.EmployeeCvs.Remove(employeeCv);
+            await _context.SaveChangesAsync();
+            return employeeCv;
         }
 
-        public List<EmployeeCv> GetEmployeeCvs()
+        public async Task<List<EmployeeCv>> GetEmployeeCvsAsync()
         {
-            return _context.EmployeeCvs.OrderBy(cv=>cv.Id).ToList();
+            return await _context.EmployeeCvs
+                .OrderBy(cv => cv.Id)
+                .ToListAsync();
         }
 
-        public List<EmployeeCv> GetEmployeeCvsByActive(bool active)
+        public async Task<List<EmployeeCv>> GetEmployeeCvsByActiveAsync(bool active)
         {
-            return _context.EmployeeCvs.Where(cv => cv.Active==active).ToList();
+            return await _context.EmployeeCvs
+                .Where(cv => cv.Active == active)
+                .ToListAsync();
         }
 
-        public EmployeeCv GetEmployeeCvById(int employeeCvId)
+        public async Task<EmployeeCv> GetEmployeeCvByIdAsync(int employeeCvId)
         {
-            return _context.EmployeeCvs.Where(cv => cv.Id == employeeCvId).FirstOrDefault();
+            return await _context.EmployeeCvs
+                .Where(cv => cv.Id == employeeCvId)
+                .FirstOrDefaultAsync();
         }
 
-        public bool Save()
+        public async Task<EmployeeCv> UpdateEmployeeCvAsync(EmployeeCv employeeCv)
         {
-            var check=_context.SaveChanges();
-            return check>0?true:false;
-        }
-
-        public bool UpdateEmployeeCv(EmployeeCv employeeCv)
-        {
-            var employeeCvUpdate = GetEmployeeCvById(employeeCv.Id);
+            var employeeCvUpdate = await GetEmployeeCvByIdAsync(employeeCv.Id);
+            if (employeeCvUpdate == null)
+            {
+                return null;
+            }
             _context.Entry(employeeCvUpdate).CurrentValues.SetValues(employeeCv);
-            return Save();
-
+            await _context.SaveChangesAsync();
+            return employeeCvUpdate;
         }
     }
 }

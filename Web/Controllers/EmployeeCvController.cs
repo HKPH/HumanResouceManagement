@@ -8,77 +8,113 @@ namespace HumanManagement.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeCvController:ControllerBase
+    public class EmployeeCvController : ControllerBase
     {
         private readonly IEmployeeCvRepository _employeeCvRepository;
         private readonly IMapper _mapper;
 
-        public EmployeeCvController(IEmployeeCvRepository employeeCvRepository,IMapper mapper)
-        { 
+        public EmployeeCvController(IEmployeeCvRepository employeeCvRepository, IMapper mapper)
+        {
             _employeeCvRepository = employeeCvRepository;
             _mapper = mapper;
         }
+
         [HttpGet]
-        public IActionResult GetEmployeeCvs()
+        public async Task<IActionResult> GetEmployeeCvs()
         {
-            var employeeCvs=_mapper.Map<List<EmployeeCvDto>>(_employeeCvRepository.GetEmployeeCvs());
-            return Ok(employeeCvs);
-
+            var employeeCvs = await _employeeCvRepository.GetEmployeeCvsAsync();
+            var employeeCvsDto = _mapper.Map<List<EmployeeCvDto>>(employeeCvs);
+            return Ok(employeeCvsDto);
         }
+
         [HttpGet("{employeeCvId}")]
-        public IActionResult GetEmployeeCv(int employeeCvId)
+        public async Task<IActionResult> GetEmployeeCv(int employeeCvId)
         {
-            var employeeCv=_mapper.Map<EmployeeCvDto>(_employeeCvRepository.GetEmployeeCvById(employeeCvId));
-            return Ok(employeeCv);
+            var employeeCv = await _employeeCvRepository.GetEmployeeCvByIdAsync(employeeCvId);
+            if (employeeCv == null)
+            {
+                return NotFound("Employee CV not found.");
+            }
+            var employeeCvDto = _mapper.Map<EmployeeCvDto>(employeeCv);
+            return Ok(employeeCvDto);
         }
+
         [HttpGet("active/{active}")]
-        public IActionResult GetEmployeeCvByActive(bool active)
+        public async Task<IActionResult> GetEmployeeCvsByActive(bool active)
         {
-            var employeeCv = _mapper.Map<List<EmployeeCvDto>>(_employeeCvRepository.GetEmployeeCvsByActive(active));
-            return Ok(employeeCv);
+            var employeeCvs = await _employeeCvRepository.GetEmployeeCvsByActiveAsync(active);
+            var employeeCvsDto = _mapper.Map<List<EmployeeCvDto>>(employeeCvs);
+            return Ok(employeeCvsDto);
         }
+
         [HttpPost]
-        public IActionResult CreateEmployeeCv([FromBody] EmployeeCvDto employeeCv)
+        public async Task<IActionResult> CreateEmployeeCv([FromBody] EmployeeCvDto employeeCvDto)
         {
-            if (employeeCv == null)
-                return BadRequest(ModelState);
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
-            if(!_employeeCvRepository.CreateEmployeeCv(_mapper.Map<EmployeeCv>(employeeCv)))
+            if (employeeCvDto == null)
             {
-                ModelState.AddModelError("", "Can't create employeeCv");
-                return StatusCode(500,ModelState);
-            }
-            return Ok("Create employee cv successfully");
-        }
-        [HttpPut]
-        public IActionResult UpdateEmployeeCv([FromBody] EmployeeCvDto employeeCv)
-        {
-            if (employeeCv == null)
                 return BadRequest(ModelState);
+            }
+
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            if (!_employeeCvRepository.UpdateEmployeeCv(_mapper.Map<EmployeeCv>(employeeCv)))
             {
-                ModelState.AddModelError("", "Can't update employeeCv");
-                return StatusCode(500, ModelState);
+                return BadRequest(ModelState);
             }
-            return Ok("Update employee cv successfully");
+
+            var employeeCv = _mapper.Map<EmployeeCv>(employeeCvDto);
+            var createdEmployeeCv = await _employeeCvRepository.CreateEmployeeCvAsync(employeeCv);
+
+            if (createdEmployeeCv == null)
+            {
+                return StatusCode(500, "Can't create");
+            }
+
+            var createdEmployeeCvDto = _mapper.Map<EmployeeCvDto>(createdEmployeeCv);
+            return CreatedAtAction(
+                nameof(GetEmployeeCv),
+                new { employeeCvId = createdEmployeeCv.Id },
+                createdEmployeeCvDto);
         }
+
+        [HttpPut("{employeeCvId}")]
+        public async Task<IActionResult> UpdateEmployeeCv(int employeeCvId, [FromBody] EmployeeCvDto employeeCvDto)
+        {
+            if (employeeCvDto == null)
+            {
+                return BadRequest("Employee CV data is null.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if(employeeCvId != employeeCvDto.Id)
+                return BadRequest(ModelState);
+
+            var employeeCv = _mapper.Map<EmployeeCv>(employeeCvDto);
+            var updatedEmployeeCv = await _employeeCvRepository.UpdateEmployeeCvAsync(employeeCv);
+
+            if (updatedEmployeeCv == null)
+            {
+                return StatusCode(500, "Failed to update employee CV.");
+            }
+
+            var updatedEmployeeCvDto = _mapper.Map<EmployeeCvDto>(updatedEmployeeCv);
+            return Ok(updatedEmployeeCvDto);
+        }
+
         [HttpDelete("{employeeCvId}")]
-        public IActionResult DeleteEmployeeCv(int employeeCvId)
+        public async Task<IActionResult> DeleteEmployeeCv(int employeeCvId)
         {
+            var deletedEmployeeCv = await _employeeCvRepository.DeleteEmployeeCvAsync(employeeCvId);
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            if (!_employeeCvRepository.DeleteEmployeeCv(employeeCvId))
+            if (deletedEmployeeCv == null)
             {
-                ModelState.AddModelError("", "Can't delete employeeCv");
-                return StatusCode(500, ModelState);
+                return StatusCode(500, "Can't delete");
             }
-            return Ok("Delete employee cv successfully");
+
+            var deletedEmployeeCvDto = _mapper.Map<EmployeeCvDto>(deletedEmployeeCv);
+            return Ok(deletedEmployeeCvDto);
         }
-
-
     }
 }
