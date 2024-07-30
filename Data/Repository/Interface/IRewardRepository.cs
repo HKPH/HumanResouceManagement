@@ -6,6 +6,7 @@ namespace HumanManagement.Data.Repository.Interface
     {
         Task<List<Reward>> GetRewardsAsync();
         Task<List<Reward>> GetRewardsByEmployeeIdAsync(int employeeId);
+        Task<List<Reward>> GetRewardsByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<Reward> GetRewardByIdAsync(int rewardId);
         Task<Reward> CreateRewardAsync(Reward reward);
         Task<Reward> UpdateRewardAsync(Reward reward);

@@ -47,6 +47,15 @@ namespace HumanManagement.Data.Repository
             return await _context.Rewards.Where(e => e.EmployeeId == employeeId).ToListAsync();
         }
 
+        public async Task<List<Reward>> GetRewardsByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _context.Rewards
+                .Where(d => d.CreateDate >= startDate && d.CreateDate <= endDate)
+                .ToListAsync();
+        }
+
+
+
         public async Task<Reward> UpdateRewardAsync(Reward reward)
         {
             var rewardToUpdate = await GetRewardByIdAsync(reward.Id);

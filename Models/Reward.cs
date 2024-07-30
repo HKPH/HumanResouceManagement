@@ -11,8 +11,6 @@ public partial class Reward
 
     public decimal? Amount { get; set; }
 
-    public bool? Received { get; set; }
-
     public DateTime? CreateDate { get; set; }
 
     public int? EmployeeId { get; set; }

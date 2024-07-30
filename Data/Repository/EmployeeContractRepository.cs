@@ -65,5 +65,40 @@ namespace HumanManagement.Data.Repository
             await _context.SaveChangesAsync();
             return employeeContract;
         }
+
+        public async Task<List<Employee>> GetNewEmployeesAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _context.EmployeeContracts
+                .Where(ec => ec.StartDate.HasValue
+                            && ec.StartDate.Value >= startDate
+                            && ec.StartDate.Value <= endDate
+                            && ec.Active == true)
+                .Select(ec => ec.Employee)
+                .Distinct()
+                .ToListAsync();
+        }
+
+        public async Task<List<Employee>> GetTerminatedEmployeesAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _context.EmployeeContracts
+                .Where(ec => ec.EndDate.HasValue
+                            && ec.EndDate.Value >= startDate
+                            && ec.EndDate.Value <= endDate
+                            && ec.Active == false)
+                .Select(ec => ec.Employee)
+                .Distinct()
+                .ToListAsync();
+        }
+
+        public async Task<List<Employee>> GetEmployeesByDateAsync(DateTime date)
+        {
+            return await _context.EmployeeContracts
+                .Where(ec => ec.EndDate.HasValue
+                            && ec.EndDate.Value >= date
+                            && ec.Active == false)
+                .Select(ec => ec.Employee)
+                .Distinct()
+                .ToListAsync();
+        }
     }
 }

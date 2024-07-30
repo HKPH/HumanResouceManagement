@@ -36,7 +36,7 @@ namespace HumanManagement.Data.Repository
 
         public async Task<List<ContractType>> GetContractTypesByActiveAsync(bool active)
         {
-            return await _context.ContractTypes.Where(c => c.Active == active).ToListAsync();
+            return await _context.ContractTypes.Where(c => c.Active == active).Include(ct => ct.EmployeeContracts).ToListAsync();
         }
 
         public async Task<ContractType> GetContractTypeByIdAsync(int contractTypeId)

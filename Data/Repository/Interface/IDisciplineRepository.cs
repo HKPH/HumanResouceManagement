@@ -8,6 +8,7 @@ namespace HumanManagement.Data.Repository.Interface
     {
         Task<List<Discipline>> GetDisciplinesAsync();
         Task<List<Discipline>> GetDisciplinesByEmployeeIdAsync(int employeeId);
+        Task<List<Discipline>> GetDisciplinesByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<Discipline> GetDisciplineByIdAsync(int disciplineId);
         Task<Discipline> CreateDisciplineAsync(Discipline discipline);
         Task<Discipline> UpdateDisciplineAsync(Discipline discipline);

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
+using HumanManagement.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -46,21 +47,24 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEmployeeContract([FromBody] EmployeeContract employeeContract)
+        public async Task<IActionResult> CreateEmployeeContract([FromBody] EmployeeContractDto employeeContractDto)
         {
-            if (employeeContract == null)
+            if (employeeContractDto == null)
                 return BadRequest(ModelState);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var employeeContract = _mapper.Map<EmployeeContract>(employeeContractDto);
             var createdEmployeeContract = await _employeeContractRepository.CreateEmployeeContractAsync(employeeContract);
+
             if (createdEmployeeContract == null)
             {
                 ModelState.AddModelError("", "Can't create");
                 return StatusCode(500, ModelState);
             }
-            var createdEmployeeContractDto=_mapper.Map<EmployeeContract>(createdEmployeeContract);
+
+            var createdEmployeeContractDto=_mapper.Map<EmployeeContractDto>(createdEmployeeContract);
             return CreatedAtAction(
                 nameof(GetEmployeeContract),
                 new { employeeContractId = employeeContract.Id },
@@ -68,17 +72,18 @@ namespace HumanManagement.Web.Controllers
         }
 
         [HttpPut("{employeeContractId}")]
-        public async Task<IActionResult> UpdateEmployeeContract(int employeeContractId, [FromBody] EmployeeContract employeeContract)
+        public async Task<IActionResult> UpdateEmployeeContract(int employeeContractId, [FromBody] EmployeeContractDto employeeContractDto)
         {
-            if (employeeContract == null)
+            if (employeeContractDto == null)
                 return BadRequest(ModelState);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if(employeeContract.Id != employeeContractId)
+            if(employeeContractDto.Id != employeeContractId)
                 return BadRequest(ModelState);
 
+            var employeeContract = _mapper.Map<EmployeeContract>(employeeContractDto);
             var updatedEmployeeContract = await _employeeContractRepository.UpdateEmployeeContractAsync(employeeContract);
             if (updatedEmployeeContract == null)
             {

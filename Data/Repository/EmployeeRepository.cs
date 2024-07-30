@@ -47,15 +47,22 @@ namespace HumanManagement.Data.Repository
             DateTime today = DateTime.Now.Date;
             DateTime startDate = today.AddDays(-days);
 
-            var startMonthDay = new DateTime(today.Year, startDate.Month, startDate.Day);
-            var endMonthDay = new DateTime(today.Year, today.Month, today.Day);
+            var employees = await GetEmployeesAsync();
 
-            return await _context.Employees
-                .Where(e => e.Dob.Month == startMonthDay.Month && e.Dob.Day >= startMonthDay.Day ||
-                            e.Dob.Month == endMonthDay.Month && e.Dob.Day <= endMonthDay.Day)
-                .ToListAsync();
+            int daysth = (today - new DateTime(today.Year, 1, 1)).Days + 1;
+
+            var employeesByDOB = employees
+                .Where(e =>
+                {
+                    var dob = e.Dob;
+                    int daysFromStartOfYearToBirth = (dob - new DateTime(today.Year, 1, 1)).Days + 1;
+                    return daysFromStartOfYearToBirth <= daysth &&
+                           daysFromStartOfYearToBirth >= (daysth - days);
+                })
+                .ToList();
+
+            return employeesByDOB;
         }
-
 
         public async Task<List<Employee>> GetEmployeesByActiveAsync(bool active)
         {

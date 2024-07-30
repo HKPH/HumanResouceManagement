@@ -73,6 +73,10 @@ namespace HumanManagement.Common.Helper
             CreateMap<EmployeeBenefit, EmployeeBenefitDto>();
             CreateMap<EmployeeBenefitDto, EmployeeBenefit>();
 
+            CreateMap<EmployeeContractDto, EmployeeContract>();
+            CreateMap<EmployeeContract, EmployeeContractDto>();
+
+
         }
     }
 }

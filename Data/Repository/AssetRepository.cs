@@ -61,5 +61,6 @@ namespace HumanManagement.Data.Repository
             await SaveAsync();
             return asset;
         }
+
     }
 }

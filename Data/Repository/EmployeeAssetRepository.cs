@@ -64,6 +64,12 @@ namespace HumanManagement.Data.Repository
             await _context.SaveChangesAsync();;
             return employeeAsset;
         }
+        public async Task<List<Asset>> GetBorrowedAssetsAsync()
+        {
+            return await _context.EmployeeAssets
+                .Select(ea => ea.Asset)
+                .ToListAsync();
+        }
 
     }
 }

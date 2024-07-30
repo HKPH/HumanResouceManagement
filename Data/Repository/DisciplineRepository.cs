@@ -34,6 +34,12 @@ namespace HumanManagement.Data.Repository
             await _context.SaveChangesAsync();;
             return discipline;
         }
+        public async Task<List<Discipline>> GetDisciplinesByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _context.Disciplines
+                .Where(d => d.CreateDate >= startDate && d.CreateDate <= endDate)
+                .ToListAsync();
+        }
 
         public async Task<Discipline> GetDisciplineByIdAsync(int disciplineId)
         {

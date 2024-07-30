@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using HumanManagement.Services;
+using HumanManagement.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -61,6 +62,11 @@ builder.Services.AddScoped<IEmployeeAllowanceRepository, EmployeeAllowanceReposi
 builder.Services.AddScoped<IEmployeeBenefitRepository, EmployeeBenefitRepository>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IContractReportService, ContractReportService>();
+builder.Services.AddScoped<IRewardAndDisciplineReportService, RewardAndDisciplineReportService>();
+builder.Services.AddScoped<IEmployeeContractReportService, EmployeeContractReportService>();
+builder.Services.AddScoped<IAssetReportService, AssetReportService>();
+
 
 
 

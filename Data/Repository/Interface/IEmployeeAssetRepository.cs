@@ -11,5 +11,6 @@ namespace HumanManagement.Data.Repository.Interface
         Task<EmployeeAsset> CreateEmployeeAssetAsync(EmployeeAsset employeeAsset);
         Task<EmployeeAsset> UpdateEmployeeAssetAsync(EmployeeAsset employeeAsset);
         Task<EmployeeAsset> DeleteEmployeeAssetAsync(int employeeId, int assetId);
+        Task<List<Asset>> GetBorrowedAssetsAsync();
     }
 }

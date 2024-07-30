@@ -11,5 +11,6 @@ namespace HumanManagement.Data.Repository.Interface
         Task<ContractType> CreateContractTypeAsync(ContractType contractType);
         Task<ContractType> UpdateContractTypeAsync(ContractType contractType);
         Task<ContractType> DeleteContractTypeAsync(int contractTypeId);
+
     }
 }

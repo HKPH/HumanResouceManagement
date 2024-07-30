@@ -12,5 +12,8 @@ namespace HumanManagement.Data.Repository.Interface
         Task<EmployeeContract> CreateEmployeeContractAsync(EmployeeContract employeeContract);
         Task<EmployeeContract> UpdateEmployeeContractAsync(EmployeeContract employeeContract);
         Task<EmployeeContract> DeleteEmployeeContractAsync(int employeeContractId);
+        Task<List<Employee>> GetEmployeesByDateAsync(DateTime date);
+        Task<List<Employee>> GetNewEmployeesAsync(DateTime startDate, DateTime endDate);
+        Task<List<Employee>> GetTerminatedEmployeesAsync(DateTime startDate, DateTime endDate);
     }
 }
