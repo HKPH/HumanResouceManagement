@@ -13,16 +13,15 @@ const Login = () => {
         try {
             const account = await login(values);
             message.success('Đăng nhập thành công');
-            const userId = account.id;
+            const userId = account.employeeId;
             console.log('UserId:', userId);
-            setCookie('userId', account.id, { path: '/' });
+            setCookie('userId', account.employeeId, { path: '/' });
             setTimeout(() => {
                 const savedUserId = cookies.userId;
                 console.log('UserId từ cookie:', savedUserId);
 
                 navigate('/homepage');
             }, 100);
-            // Xử lý logic sau khi đăng nhập thành công
         } catch (error) {
             message.error('Đăng nhập thất bại');
             console.error('Login error:', error);

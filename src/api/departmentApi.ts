@@ -4,15 +4,14 @@ const BASE_URL = 'https://localhost:7005/api/Department';
 
 export const getDepartments = async () => {
   const response = await axios.get(`${BASE_URL}`);
-  return response.data.$values;
+  return response.data;
 };
 
 export const getActiveDepartments = async () => {
   const response = await axios.get(`${BASE_URL}/active/true`);
-  return response.data.$values;
+  return response.data;
 };
 
-// Add other API calls like POST, PUT, DELETE
 export const createDepartment = async (department: Department) => {
   const response = await axios.post(`${BASE_URL}`, department);
   return response.data;

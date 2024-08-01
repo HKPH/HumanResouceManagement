@@ -9,7 +9,7 @@ const BankList: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editingBank, setEditingBank] = useState<any>(null);
   const [form] = Form.useForm();
-  const [filterActive, setFilterActive] = useState(true); // Đặt mặc định là true
+  const [filterActive, setFilterActive] = useState(true);
 
   useEffect(() => {
     fetchBanks();
@@ -19,12 +19,12 @@ const BankList: React.FC = () => {
     try {
       const data = await getBanks(filterActive);
       console.log('Fetched banks data:', data);
-      const banksData = data.$values;
+      const banksData = data;
       if (Array.isArray(banksData)) {
         const banksWithIndex = banksData.map((bank, index) => ({
           ...bank,
           key: bank.id,
-          stt: index + 1 // Thêm thuộc tính STT
+          stt: index + 1 
         }));
         setBanks(banksWithIndex);
       } else {
@@ -38,7 +38,7 @@ const BankList: React.FC = () => {
   const handleAddBank = async (values: any) => {
     try {
       if (isEditMode && editingBank) {
-        const updatedBank = { ...editingBank, ...values }; // Kết hợp id với các trường được chỉnh sửa
+        const updatedBank = { ...editingBank, ...values }; 
         await updateBank(editingBank.id, updatedBank);
         notification.success({ message: 'Bank updated successfully' });
       } else {
@@ -63,7 +63,7 @@ const BankList: React.FC = () => {
       phoneNumber: record.phoneNumber,
       email: record.email,
       web: record.web,
-      active: record.active, // Set giá trị cho active
+      active: record.active, 
     });
     setIsModalVisible(true);
   };
@@ -83,13 +83,13 @@ const BankList: React.FC = () => {
   };
 
   const columns = [
-    { title: 'STT', dataIndex: 'stt', key: 'stt' }, // Cột STT
+    { title: 'STT', dataIndex: 'stt', key: 'stt' }, 
     { title: 'Name', dataIndex: 'name', key: 'name' },
     { title: 'Description', dataIndex: 'description', key: 'description' },
     { title: 'Address', dataIndex: 'address', key: 'address' },
     { title: 'Phone Number', dataIndex: 'phoneNumber', key: 'phoneNumber' },
     { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Website', dataIndex: 'web', key: 'web' }, // Hiển thị thông tin website
+    { title: 'Website', dataIndex: 'web', key: 'web' }, 
     { title: 'Active', dataIndex: 'active', key: 'active', render: (text: boolean) => (text ? 'Yes' : 'No') },
     {
       title: 'Action',
@@ -134,7 +134,7 @@ const BankList: React.FC = () => {
       <Table
         dataSource={banks}
         columns={columns}
-        rowKey="id" // Sử dụng id làm khóa duy nhất cho hàng
+        rowKey="id"
       />
       <Modal
         title={isEditMode ? 'Chỉnh sửa Ngân Hàng' : 'Thêm Ngân Hàng'}
@@ -188,7 +188,7 @@ const BankList: React.FC = () => {
             <Form.Item
               name="active"
               label="Active"
-              valuePropName="checked" // Set giá trị cho Switch
+              valuePropName="checked"
             >
               <Switch />
             </Form.Item>
