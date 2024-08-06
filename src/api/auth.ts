@@ -19,3 +19,12 @@ export const login = async (credentials: AccountDto) => {
         throw error;
     }
 };
+export const createAccount = async (accountDto: any) => {
+    try {
+        const response = await axios.post(`${API_URL}`, accountDto);
+        return response.data;
+    } catch (error) {
+        console.error('Error creating account:', error);
+        throw error;
+    }
+};

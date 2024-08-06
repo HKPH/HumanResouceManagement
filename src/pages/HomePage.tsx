@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import logo from '../assets/images/logo.png';
+import defaultImage from '../assets/images/home.png';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -162,6 +163,11 @@ const HomePage: React.FC = () => {
           </Button>
         </Header>
         <Content style={{ margin: '24px 16px', padding: 24, background: colorBgContainer, minHeight: 280, borderRadius: borderRadiusLG }}>
+          {selectedMenu === null && (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+              <img src={defaultImage} alt="Default" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+            </div>
+          )}
           {selectedMenu === '1-7' && <BankList />}
           {selectedMenu === '3-4' && <DepartmentList />}
           {selectedMenu === '2-11' && <FileManagement />}

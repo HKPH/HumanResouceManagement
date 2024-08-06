@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Pie } from '@ant-design/charts';
 import { DatePicker, Button, Typography, message } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
+import { fetchEmployeeContractReport } from '../api/reportApi';
 
 const { RangePicker } = DatePicker;
-const { Title, Paragraph } = Typography;
+const { Title } = Typography;
 
 interface ReportData {
   newEmployeesCount: number;
@@ -26,29 +27,12 @@ const EmployeeContractReport: React.FC = () => {
 
     setRequestParams({ startDate: startDateISO, endDate: endDateISO });
 
-    // Fake data for testing
-    const fakeData: ReportData = {
-      newEmployeesCount: 10,
-      terminatedEmployeesCount: 5,
-      totalEmployeeCount: 100,
-    };
-
-    setReportData(fakeData);
-
-    // Uncomment the below lines to use the actual API
-    // try {
-    //   const response = await axios.get('https://localhost:7005/api/employee-contract-report', {
-    //     params: {
-    //       startDate: startDateISO,
-    //       endDate: endDateISO,
-    //     },
-    //   });
-
-    //   setReportData(response.data);
-    // } catch (error) {
-    //   console.error('Failed to fetch data', error);
-    //   message.error('Không thể lấy dữ liệu từ API.');
-    // }
+    try {
+      const data = await fetchEmployeeContractReport(startDate, endDate);
+      setReportData(data);
+    } catch (error) {
+      message.error('Không thể lấy dữ liệu từ API.');
+    }
   };
 
   const handleFetchData = () => {
@@ -59,9 +43,9 @@ const EmployeeContractReport: React.FC = () => {
 
   const pieData = reportData
     ? [
-        { type: 'New Employees', value: reportData.newEmployeesCount },
-        { type: 'Terminated Employees', value: reportData.terminatedEmployeesCount },
-        { type: 'Remaining Employees', value: reportData.totalEmployeeCount - reportData.newEmployeesCount - reportData.terminatedEmployeesCount },
+        { type: 'Nhân viên mới', value: reportData.newEmployeesCount },
+        { type: 'Nhân viên nghỉ việc', value: reportData.terminatedEmployeesCount },
+        { type: 'Nhân viên cũ', value: reportData.totalEmployeeCount - reportData.newEmployeesCount - reportData.terminatedEmployeesCount },
       ]
     : [];
 
@@ -92,18 +76,6 @@ const EmployeeContractReport: React.FC = () => {
       >
         Lấy dữ liệu
       </Button>
-      {requestParams && (
-        <Paragraph>
-          <strong>JSON gửi đi:</strong>
-          <pre>{JSON.stringify(requestParams, null, 2)}</pre>
-        </Paragraph>
-      )}
-      {reportData && (
-        <Paragraph>
-          <strong>Dữ liệu nhận về:</strong>
-          <pre>{JSON.stringify(reportData, null, 2)}</pre>
-        </Paragraph>
-      )}
       {reportData && pieData.length > 0 && <Pie {...config} />}
     </div>
   );

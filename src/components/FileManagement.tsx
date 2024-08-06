@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useCookies } from 'react-cookie';
-
-const API_URL = "https://localhost:7005/api/Attachments";
+import { fetchFiles, uploadFile, deleteFile, downloadFile } from '../api/fileApi';
 
 const FileManagement: React.FC = () => {
   const [files, setFiles] = useState<any[]>([]);
@@ -10,56 +8,61 @@ const FileManagement: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   useEffect(() => {
-    const fetchFiles = async () => {
+    const loadFiles = async () => {
       try {
-        const response = await axios.get(API_URL);
-        setFiles(response.data); // Ensure response.data.$values is an array
+        const data = await fetchFiles();
+        setFiles(data);
       } catch (error) {
-        console.error('There was an error fetching the files!', error);
+        console.error('Error fetching files:', error);
       }
     };
 
-    fetchFiles();
+    loadFiles();
   }, []);
 
   useEffect(() => {
     if (selectedFile && cookies.userId) {
-      const uploadFile = async () => {
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-        formData.append('employeeId', cookies.userId.toString());
-
+      const handleUpload = async () => {
         try {
-          const response = await axios.post(`${API_URL}/upload`, formData);
-          const uploadedFile = response.data;
-          setFiles([...files, {
-            id: uploadedFile.id,
-            fileName: selectedFile.name
-          }]);
+          const uploadedFile = await uploadFile(selectedFile, cookies.userId.toString());
+          setFiles([...files, { id: uploadedFile.id, fileName: selectedFile.name }]);
           setSelectedFile(null);
         } catch (error) {
-          console.error('There was an error uploading the file!', error);
+          console.error('Error uploading file:', error);
         }
       };
 
-      uploadFile();
+      handleUpload();
     }
   }, [selectedFile, cookies.userId, files]);
 
-  const deleteFile = async (id: number) => {
+  const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await deleteFile(id);
       setFiles(files.filter(file => file.id !== id));
     } catch (error) {
-      console.error('There was an error deleting the file!', error);
+      console.error('Error deleting file:', error);
+    }
+  };
+
+  const handleDownload = async (id: number) => {
+    try {
+      const fileBlob = await downloadFile(id);
+      const url = window.URL.createObjectURL(new Blob([fileBlob]));
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `file_${id}`; // You can adjust the file name as needed
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (error) {
+      console.error('Error downloading file:', error);
     }
   };
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
       <h1 style={{ textAlign: 'center' }}>File Management</h1>
-      
-      {/* Upload File Form */}
       <div style={{ marginBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <input
           type="file"
@@ -71,26 +74,23 @@ const FileManagement: React.FC = () => {
           style={{ marginBottom: '10px' }}
         />
       </div>
-      
-      {/* File List */}
       <ul style={{ listStyleType: 'none', padding: '0' }}>
         {files.map(file => (
           <li key={file.id} style={{ marginBottom: '10px', padding: '10px', border: '1px solid #ddd', borderRadius: '5px' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <span style={{ flexGrow: 1 }}>{file.fileName}</span>
               <button 
-                onClick={() => deleteFile(file.id)}
+                onClick={() => handleDelete(file.id)}
                 style={{ backgroundColor: '#dc3545', color: '#fff', border: 'none', padding: '5px 10px', cursor: 'pointer', marginRight: '5px' }}
               >
                 Delete
               </button>
-              <a 
-                href={`${API_URL}/download/${file.id}`} 
-                download
-                style={{ textDecoration: 'none', color: '#007bff' }}
+              <button 
+                onClick={() => handleDownload(file.id)}
+                style={{ backgroundColor: '#007bff', color: '#fff', border: 'none', padding: '5px 10px', cursor: 'pointer' }}
               >
                 Download
-              </a>
+              </button>
             </div>
           </li>
         ))}

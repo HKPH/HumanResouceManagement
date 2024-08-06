@@ -23,14 +23,14 @@ const DepartmentList: React.FC = () => {
   const fetchDepartments = async () => {
     try {
       const response = showActive ? await getActiveDepartments() : await getDepartments();
-      console.log('API Response:', response);  // Debugging line
-      const data = response as Department[];  // Giả định response là mảng trực tiếp
-      console.log('Data:', data);  // Debugging line
+      console.log('API Response:', response);  
+      const data = response as Department[];  
+      console.log('Data:', data);  
       const treeData = transformToTreeData(data);
-      console.log('Tree Data:', treeData);  // Debugging line
+      console.log('Tree Data:', treeData); 
       setDepartments(treeData);
     } catch (error) {
-      console.error('Failed to fetch departments:', error);  // Debugging line
+      console.error('Failed to fetch departments:', error); 
       message.error('Failed to fetch departments');
     }
   };
