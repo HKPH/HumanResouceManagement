@@ -1,0 +1,2310 @@
+[
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AccountController",
+    "Method": "GetAccounts",
+    "RelativePath": "api/Account",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AccountController",
+    "Method": "CreateAccount",
+    "RelativePath": "api/Account",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountCreate",
+        "Type": "HumanManagement.Models.Dto.AccountDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AccountController",
+    "Method": "GetAccount",
+    "RelativePath": "api/Account/{accountId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AccountController",
+    "Method": "UpdateAccount",
+    "RelativePath": "api/Account/{accountId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountUpdate",
+        "Type": "HumanManagement.Models.Dto.AccountDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "accountId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AccountController",
+    "Method": "DeleteAccount",
+    "RelativePath": "api/Account/{accountId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accountId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AccountController",
+    "Method": "GetAccountsByActive",
+    "RelativePath": "api/Account/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AllowanceController",
+    "Method": "GetAllowances",
+    "RelativePath": "api/Allowance",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AllowanceController",
+    "Method": "CreateAllowance",
+    "RelativePath": "api/Allowance",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "allowanceDto",
+        "Type": "HumanManagement.Models.Dto.AllowanceDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AllowanceController",
+    "Method": "GetAllowance",
+    "RelativePath": "api/Allowance/{allowanceId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "allowanceId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AllowanceController",
+    "Method": "UpdateAllowance",
+    "RelativePath": "api/Allowance/{allowanceId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "allowanceId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "allowanceDto",
+        "Type": "HumanManagement.Models.Dto.AllowanceDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AllowanceController",
+    "Method": "DeleteAllowance",
+    "RelativePath": "api/Allowance/{allowanceId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "allowanceId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AllowanceController",
+    "Method": "GetAllowanceByActive",
+    "RelativePath": "api/Allowance/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AssetController",
+    "Method": "GetAssets",
+    "RelativePath": "api/Asset",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AssetController",
+    "Method": "CreateAsset",
+    "RelativePath": "api/Asset",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "assetDto",
+        "Type": "HumanManagement.Models.Dto.AssetDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AssetController",
+    "Method": "GetAsset",
+    "RelativePath": "api/Asset/{assetId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "assetId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AssetController",
+    "Method": "UpdateAsset",
+    "RelativePath": "api/Asset/{assetId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "assetId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "assetDto",
+        "Type": "HumanManagement.Models.Dto.AssetDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AssetController",
+    "Method": "DeleteAsset",
+    "RelativePath": "api/Asset/{assetId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "assetId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AssetController",
+    "Method": "GetAssetsByActive",
+    "RelativePath": "api/Asset/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AttachmentsController",
+    "Method": "GetAttachments",
+    "RelativePath": "api/Attachments",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AttachmentsController",
+    "Method": "GetAttachment",
+    "RelativePath": "api/Attachments/{attachmentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "attachmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AttachmentsController",
+    "Method": "UpdateAttachment",
+    "RelativePath": "api/Attachments/{attachmentId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "attachmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "attachment",
+        "Type": "HumanManagement.Models.Attachment",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AttachmentsController",
+    "Method": "DeleteAttachment",
+    "RelativePath": "api/Attachments/{attachmentId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "attachmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AttachmentsController",
+    "Method": "DownloadAttachment",
+    "RelativePath": "api/Attachments/download/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AttachmentsController",
+    "Method": "Upload",
+    "RelativePath": "api/Attachments/upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ContentType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ContentDisposition",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Headers",
+        "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+        "IsRequired": false
+      },
+      {
+        "Name": "Length",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FileName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "employeeId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "HumanManagement.Models.Dto.AccountDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankController",
+    "Method": "GetBanks",
+    "RelativePath": "api/Bank",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankController",
+    "Method": "CreateBank",
+    "RelativePath": "api/Bank",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bankCreate",
+        "Type": "HumanManagement.Models.Dto.BankDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankController",
+    "Method": "GetBank",
+    "RelativePath": "api/Bank/{bankId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bankId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankController",
+    "Method": "UpdateBank",
+    "RelativePath": "api/Bank/{bankId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bankId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "bankUpdate",
+        "Type": "HumanManagement.Models.Dto.BankDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankController",
+    "Method": "DeleteBank",
+    "RelativePath": "api/Bank/{bankId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bankId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankController",
+    "Method": "GetBankByActive",
+    "RelativePath": "api/Bank/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankController",
+    "Method": "ChangeBankActive",
+    "RelativePath": "api/Bank/active/{bankId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bankId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankBranchController",
+    "Method": "GetBankBranches",
+    "RelativePath": "api/BankBranch",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankBranchController",
+    "Method": "CreateBankBranch",
+    "RelativePath": "api/BankBranch",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bankBranchDto",
+        "Type": "HumanManagement.Models.Dto.BankBranchDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "bankId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankBranchController",
+    "Method": "GetBankBranch",
+    "RelativePath": "api/BankBranch/{bankBranchId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bankBranchId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankBranchController",
+    "Method": "DeleteBankBranch",
+    "RelativePath": "api/BankBranch/{bankBranchId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bankBranchId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankBranchController",
+    "Method": "GetBankBranchByActive",
+    "RelativePath": "api/BankBranch/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankBranchController",
+    "Method": "GetBankBranchByBankId",
+    "RelativePath": "api/BankBranch/bankBranches/{bankId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bankId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BankBranchController",
+    "Method": "UpdateBankBranch",
+    "RelativePath": "api/BankBranch/branch/{bankBranchId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "bankBranchId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "bankBranchUpdate",
+        "Type": "HumanManagement.Models.Dto.BankBranchDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BenefitController",
+    "Method": "GetBenefits",
+    "RelativePath": "api/Benefit",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BenefitController",
+    "Method": "CreateBenefit",
+    "RelativePath": "api/Benefit",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "benefitDto",
+        "Type": "HumanManagement.Models.Dto.BenefitDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BenefitController",
+    "Method": "GetBenefit",
+    "RelativePath": "api/Benefit/{benefitId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "benefitId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BenefitController",
+    "Method": "UpdateBenefit",
+    "RelativePath": "api/Benefit/{benefitId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "benefitId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "benefitDto",
+        "Type": "HumanManagement.Models.Dto.BenefitDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BenefitController",
+    "Method": "DeleteBenefit",
+    "RelativePath": "api/Benefit/{benefitId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "benefitId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.BenefitController",
+    "Method": "GetBenefitByActive",
+    "RelativePath": "api/Benefit/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractAllowanceController",
+    "Method": "CreateContractAllowance",
+    "RelativePath": "api/ContractAllowance",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "caCreate",
+        "Type": "HumanManagement.Models.ContractAllowanceDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractAllowanceController",
+    "Method": "UpdateContractAllowance",
+    "RelativePath": "api/ContractAllowance",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "caUpdate",
+        "Type": "HumanManagement.Models.ContractAllowanceDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractAllowanceController",
+    "Method": "DeleteContractAllowance",
+    "RelativePath": "api/ContractAllowance",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "caDelete",
+        "Type": "HumanManagement.Models.ContractAllowanceDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractAllowanceController",
+    "Method": "GetAllowancesByContract",
+    "RelativePath": "api/ContractAllowance/{contractId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contractId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractBenefitController",
+    "Method": "GetBenefitContract",
+    "RelativePath": "api/ContractBenefit",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contractId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "benefitId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractBenefitController",
+    "Method": "CreateContractBenefit",
+    "RelativePath": "api/ContractBenefit",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cbCreate",
+        "Type": "HumanManagement.Models.ContractBenefitDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractBenefitController",
+    "Method": "UpdateContractBenefit",
+    "RelativePath": "api/ContractBenefit",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cbUpdate",
+        "Type": "HumanManagement.Models.ContractBenefitDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractBenefitController",
+    "Method": "DeleteContractBenefit",
+    "RelativePath": "api/ContractBenefit",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "cbDelete",
+        "Type": "HumanManagement.Models.ContractBenefitDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractBenefitController",
+    "Method": "GetBenefitsByContract",
+    "RelativePath": "api/ContractBenefit/{contractId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contractId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractTypeController",
+    "Method": "GetContractTypes",
+    "RelativePath": "api/ContractType",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractTypeController",
+    "Method": "CreateContractType",
+    "RelativePath": "api/ContractType",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contractTypeDto",
+        "Type": "HumanManagement.Models.Dto.ContractTypeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractTypeController",
+    "Method": "GetContractType",
+    "RelativePath": "api/ContractType/{contractTypeId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contractTypeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractTypeController",
+    "Method": "UpdateContractType",
+    "RelativePath": "api/ContractType/{contractTypeId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contractTypeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "contractTypeDto",
+        "Type": "HumanManagement.Models.Dto.ContractTypeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractTypeController",
+    "Method": "DeleteContractType",
+    "RelativePath": "api/ContractType/{contractTypeId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "contractTypeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ContractTypeController",
+    "Method": "GetContractTypesByActive",
+    "RelativePath": "api/ContractType/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DepartmentController",
+    "Method": "GetDepartments",
+    "RelativePath": "api/Department",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DepartmentController",
+    "Method": "CreateDepartment",
+    "RelativePath": "api/Department",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "departmentDto",
+        "Type": "HumanManagement.Models.Dto.DepartmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DepartmentController",
+    "Method": "GetDepartment",
+    "RelativePath": "api/Department/{departmentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "departmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DepartmentController",
+    "Method": "UpdateDepartment",
+    "RelativePath": "api/Department/{departmentId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "departmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "departmentDto",
+        "Type": "HumanManagement.Models.Dto.DepartmentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DepartmentController",
+    "Method": "DeleteDepartment",
+    "RelativePath": "api/Department/{departmentId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "departmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DepartmentController",
+    "Method": "GetDepartmentByActive",
+    "RelativePath": "api/Department/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DepartmentJobTitleController",
+    "Method": "CreateDepartmentJobTitle",
+    "RelativePath": "api/DepartmentJobTitle",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "djCreate",
+        "Type": "HumanManagement.Models.DepartmentJobTitleDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DepartmentJobTitleController",
+    "Method": "UpdateDepartmentJobTitle",
+    "RelativePath": "api/DepartmentJobTitle",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "djUpdate",
+        "Type": "HumanManagement.Models.DepartmentJobTitleDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DepartmentJobTitleController",
+    "Method": "DeleteDepartmentJobTitle",
+    "RelativePath": "api/DepartmentJobTitle",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "djDelete",
+        "Type": "HumanManagement.Models.DepartmentJobTitleDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DepartmentJobTitleController",
+    "Method": "GetJobTitlesByDepartment",
+    "RelativePath": "api/DepartmentJobTitle/{departmentId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "departmentId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DisciplineController",
+    "Method": "GetDisciplinesByEmployeeId",
+    "RelativePath": "api/Discipline",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DisciplineController",
+    "Method": "CreateDiscipline",
+    "RelativePath": "api/Discipline",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "disciplineDto",
+        "Type": "HumanManagement.Models.Dto.DisciplineDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DisciplineController",
+    "Method": "GetDisciplineById",
+    "RelativePath": "api/Discipline/{disciplineId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "disciplineId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DisciplineController",
+    "Method": "DeleteDiscipline",
+    "RelativePath": "api/Discipline/{disciplineId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "disciplineId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.DisciplineController",
+    "Method": "UpdateDiscipline",
+    "RelativePath": "api/Discipline/{disciplineUpdateId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "disciplineDto",
+        "Type": "HumanManagement.Models.Dto.DisciplineDto",
+        "IsRequired": true
+      },
+      {
+        "Name": "disciplineUpdateId",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeController",
+    "Method": "GetEmployees",
+    "RelativePath": "api/Employee",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeController",
+    "Method": "CreateEmployee",
+    "RelativePath": "api/Employee",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeDto",
+        "Type": "HumanManagement.Models.Dto.EmployeeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeController",
+    "Method": "GetEmployeeById",
+    "RelativePath": "api/Employee/{employeeId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeController",
+    "Method": "UpdateEmployee",
+    "RelativePath": "api/Employee/{employeeId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "employeeDto",
+        "Type": "HumanManagement.Models.Dto.EmployeeDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeController",
+    "Method": "DeleteEmployee",
+    "RelativePath": "api/Employee/{employeeId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeController",
+    "Method": "GetEmployeesByActive",
+    "RelativePath": "api/Employee/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeController",
+    "Method": "GetEmployeesDOB",
+    "RelativePath": "api/Employee/DOB",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "days",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeAllowanceController",
+    "Method": "CreateEmployeeAllowance",
+    "RelativePath": "api/EmployeeAllowance",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eaCreate",
+        "Type": "HumanManagement.Models.Dto.EmployeeAllowanceDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeAllowanceController",
+    "Method": "UpdateEmployeeAllowance",
+    "RelativePath": "api/EmployeeAllowance",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eaUpdate",
+        "Type": "HumanManagement.Models.Dto.EmployeeAllowanceDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeAllowanceController",
+    "Method": "DeleteEmployeeAllowance",
+    "RelativePath": "api/EmployeeAllowance",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eaDelete",
+        "Type": "HumanManagement.Models.Dto.EmployeeAllowanceDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeAllowanceController",
+    "Method": "GetAllowancesByEmployee",
+    "RelativePath": "api/EmployeeAllowance/{employeeId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeAssetController",
+    "Method": "CreateEmployeeAsset",
+    "RelativePath": "api/EmployeeAsset",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eaCreate",
+        "Type": "HumanManagement.Models.Dto.EmployeeAssetDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeAssetController",
+    "Method": "UpdateEmployeeAsset",
+    "RelativePath": "api/EmployeeAsset",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eaUpdate",
+        "Type": "HumanManagement.Models.Dto.EmployeeAssetDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeAssetController",
+    "Method": "DeleteEmployeeAsset",
+    "RelativePath": "api/EmployeeAsset",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "eaDelete",
+        "Type": "HumanManagement.Models.Dto.EmployeeAssetDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeAssetController",
+    "Method": "GetAssetsByEmployee",
+    "RelativePath": "api/EmployeeAsset/{employeeId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeBenefitController",
+    "Method": "CreateEmployeeBenefit",
+    "RelativePath": "api/EmployeeBenefit",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ebCreate",
+        "Type": "HumanManagement.Models.Dto.EmployeeBenefitDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeBenefitController",
+    "Method": "UpdateEmployeeBenefit",
+    "RelativePath": "api/EmployeeBenefit",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ebUpdate",
+        "Type": "HumanManagement.Models.Dto.EmployeeBenefitDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeBenefitController",
+    "Method": "DeleteEmployeeBenefit",
+    "RelativePath": "api/EmployeeBenefit",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ebDelete",
+        "Type": "HumanManagement.Models.Dto.EmployeeBenefitDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeBenefitController",
+    "Method": "GetBenefitsByEmployee",
+    "RelativePath": "api/EmployeeBenefit/{employeeId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeContractController",
+    "Method": "GetEmployeeContracts",
+    "RelativePath": "api/EmployeeContract",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeContractController",
+    "Method": "CreateEmployeeContract",
+    "RelativePath": "api/EmployeeContract",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeContractDto",
+        "Type": "HumanManagement.Models.Dto.EmployeeContractDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeContractController",
+    "Method": "GetEmployeeContract",
+    "RelativePath": "api/EmployeeContract/{employeeContractId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeContractId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeContractController",
+    "Method": "UpdateEmployeeContract",
+    "RelativePath": "api/EmployeeContract/{employeeContractId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeContractId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "employeeContractDto",
+        "Type": "HumanManagement.Models.Dto.EmployeeContractDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeContractController",
+    "Method": "DeleteEmployeeContract",
+    "RelativePath": "api/EmployeeContract/{employeeContractId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeContractId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeContractController",
+    "Method": "GetEmployeeContractsByActive",
+    "RelativePath": "api/EmployeeContract/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeCvController",
+    "Method": "GetEmployeeCvs",
+    "RelativePath": "api/EmployeeCv",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeCvController",
+    "Method": "CreateEmployeeCv",
+    "RelativePath": "api/EmployeeCv",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeCvDto",
+        "Type": "HumanManagement.Models.Dto.EmployeeCvDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeCvController",
+    "Method": "GetEmployeeCv",
+    "RelativePath": "api/EmployeeCv/{employeeCvId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeCvId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeCvController",
+    "Method": "UpdateEmployeeCv",
+    "RelativePath": "api/EmployeeCv/{employeeCvId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeCvId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "employeeCvDto",
+        "Type": "HumanManagement.Models.Dto.EmployeeCvDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeCvController",
+    "Method": "DeleteEmployeeCv",
+    "RelativePath": "api/EmployeeCv/{employeeCvId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeCvId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeCvController",
+    "Method": "GetEmployeeCvsByActive",
+    "RelativePath": "api/EmployeeCv/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeProcessAndFamilyController",
+    "Method": "CreateEmployeesProcessAndFamily",
+    "RelativePath": "api/EmployeeProcessAndFamily",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "epfDto",
+        "Type": "HumanManagement.Models.Dto.EmployeeProcessAndFamilyDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeProcessAndFamilyController",
+    "Method": "UpdateEmployeesProcessAndFamily",
+    "RelativePath": "api/EmployeeProcessAndFamily",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "epfDto",
+        "Type": "HumanManagement.Models.Dto.EmployeeProcessAndFamilyDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeProcessAndFamilyController",
+    "Method": "DeleteEmployee",
+    "RelativePath": "api/EmployeeProcessAndFamily",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "epId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "efId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.EmployeeProcessAndFamilyController",
+    "Method": "GetEmployeesProcessAndFamily",
+    "RelativePath": "api/EmployeeProcessAndFamily/{employeeId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.HealthCareController",
+    "Method": "GetHealthCares",
+    "RelativePath": "api/HealthCare",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.HealthCareController",
+    "Method": "PostHealthCare",
+    "RelativePath": "api/HealthCare",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "healthCareDto",
+        "Type": "HumanManagement.Models.Dto.HealthCareDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.HealthCareController",
+    "Method": "GetHealthCare",
+    "RelativePath": "api/HealthCare/{healthCareId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "healthCareId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.HealthCareController",
+    "Method": "UpdateHealthCare",
+    "RelativePath": "api/HealthCare/{healthCareId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "healthCareId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "healthCareDto",
+        "Type": "HumanManagement.Models.Dto.HealthCareDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.HealthCareController",
+    "Method": "DeleteHealthCare",
+    "RelativePath": "api/HealthCare/{healthCareId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "healthCareId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.HealthCareController",
+    "Method": "GetHealthCareByActive",
+    "RelativePath": "api/HealthCare/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.JobTitleController",
+    "Method": "GetJobTitles",
+    "RelativePath": "api/JobTitle",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.JobTitleController",
+    "Method": "CreateJobTitle",
+    "RelativePath": "api/JobTitle",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "jobTitleDto",
+        "Type": "HumanManagement.Models.Dto.JobTitleDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.JobTitleController",
+    "Method": "GetJobTitle",
+    "RelativePath": "api/JobTitle/{jobTitleId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "jobTitleId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.JobTitleController",
+    "Method": "UpdateJobTitle",
+    "RelativePath": "api/JobTitle/{jobTitleId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "jobTitleId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "jobTitleDto",
+        "Type": "HumanManagement.Models.Dto.JobTitleDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.JobTitleController",
+    "Method": "DeleteJobTitle",
+    "RelativePath": "api/JobTitle/{jobTitleId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "jobTitleId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.JobTitleController",
+    "Method": "GetJobTitleByActive",
+    "RelativePath": "api/JobTitle/active/{active}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "active",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ReportController",
+    "Method": "GetContractTypesWithActiveEmployeeContracts",
+    "RelativePath": "api/Report/active-contracts",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ReportController",
+    "Method": "GetAssetReport",
+    "RelativePath": "api/Report/asset-report",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ReportController",
+    "Method": "GetEmployeeContractReport",
+    "RelativePath": "api/Report/employee-contract-report",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ReportController",
+    "Method": "GetMonthlyReport",
+    "RelativePath": "api/Report/monthly-report",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ResignationController",
+    "Method": "GetResignations",
+    "RelativePath": "api/Resignation",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ResignationController",
+    "Method": "CreateResignation",
+    "RelativePath": "api/Resignation",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resignationDto",
+        "Type": "HumanManagement.Models.Dto.ResignationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ResignationController",
+    "Method": "GetResignationById",
+    "RelativePath": "api/Resignation/{resignationId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resignationId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ResignationController",
+    "Method": "UpdateResignation",
+    "RelativePath": "api/Resignation/{resignationId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resignationId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "resignationDto",
+        "Type": "HumanManagement.Models.Dto.ResignationDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ResignationController",
+    "Method": "DeleteResignation",
+    "RelativePath": "api/Resignation/{resignationId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "resignationId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.ResignationController",
+    "Method": "GetResignationsByAccepted",
+    "RelativePath": "api/Resignation/accepted/{accepted}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "accepted",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.RewardController",
+    "Method": "CreateReward",
+    "RelativePath": "api/Reward",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rewardDto",
+        "Type": "HumanManagement.Models.Dto.RewardDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.RewardController",
+    "Method": "GetRewardsByEmployeeId",
+    "RelativePath": "api/Reward/{employeeId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "employeeId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.RewardController",
+    "Method": "UpdateReward",
+    "RelativePath": "api/Reward/{rewardId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rewardId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "rewardDto",
+        "Type": "HumanManagement.Models.Dto.RewardDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.RewardController",
+    "Method": "DeleteReward",
+    "RelativePath": "api/Reward/{rewardId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "rewardId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.SalaryController",
+    "Method": "GetSalaries",
+    "RelativePath": "api/Salary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.SalaryController",
+    "Method": "CreateSalary",
+    "RelativePath": "api/Salary",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "salaryDto",
+        "Type": "HumanManagement.Models.Dto.SalaryDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.SalaryController",
+    "Method": "GetSalaryById",
+    "RelativePath": "api/Salary/{salaryId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "salaryId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.SalaryController",
+    "Method": "UpdateSalary",
+    "RelativePath": "api/Salary/{salaryId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "salaryId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "salaryDto",
+        "Type": "HumanManagement.Models.Dto.SalaryDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.SalaryController",
+    "Method": "DeleteSalary",
+    "RelativePath": "api/Salary/{salaryId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "salaryId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "HumanManagement.Web.Controllers.SalaryController",
+    "Method": "GetSalariesNotUsing",
+    "RelativePath": "api/Salary/unused",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]
