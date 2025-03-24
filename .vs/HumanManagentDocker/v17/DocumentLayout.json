@@ -1,7 +1,24 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Project\\ASP.NET\\HumanManagentDocker\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9272B992-C6AF-4A71-AE26-0F0887BBC381}|HumanManagement\\HumanManagement.csproj|d:\\project\\asp.net\\humanmanagentdocker\\humanmanagement\\humanmanagement.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{9272B992-C6AF-4A71-AE26-0F0887BBC381}|HumanManagement\\HumanManagement.csproj|solutionrelative:humanmanagement\\humanmanagement.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9272B992-C6AF-4A71-AE26-0F0887BBC381}|HumanManagement\\HumanManagement.csproj|d:\\project\\asp.net\\humanmanagentdocker\\humanmanagement\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{9272B992-C6AF-4A71-AE26-0F0887BBC381}|HumanManagement\\HumanManagement.csproj|solutionrelative:humanmanagement\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9272B992-C6AF-4A71-AE26-0F0887BBC381}|HumanManagement\\HumanManagement.csproj|d:\\project\\asp.net\\humanmanagentdocker\\humanmanagement\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9272B992-C6AF-4A71-AE26-0F0887BBC381}|HumanManagement\\HumanManagement.csproj|solutionrelative:humanmanagement\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9272B992-C6AF-4A71-AE26-0F0887BBC381}|HumanManagement\\HumanManagement.csproj|d:\\project\\asp.net\\humanmanagentdocker\\humanmanagement\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{9272B992-C6AF-4A71-AE26-0F0887BBC381}|HumanManagement\\HumanManagement.csproj|solutionrelative:humanmanagement\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +26,60 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HumanManagement",
+              "DocumentMoniker": "D:\\Project\\ASP.NET\\HumanManagentDocker\\HumanManagement\\HumanManagement.csproj",
+              "RelativeDocumentMoniker": "HumanManagement\\HumanManagement.csproj",
+              "ToolTip": "D:\\Project\\ASP.NET\\HumanManagentDocker\\HumanManagement\\HumanManagement.csproj",
+              "RelativeToolTip": "HumanManagement\\HumanManagement.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-03-24T15:58:54.557Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Project\\ASP.NET\\HumanManagentDocker\\HumanManagement\\appsettings.json",
+              "RelativeDocumentMoniker": "HumanManagement\\appsettings.json",
+              "ToolTip": "D:\\Project\\ASP.NET\\HumanManagentDocker\\HumanManagement\\appsettings.json",
+              "RelativeToolTip": "HumanManagement\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-03-24T15:57:26.034Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Project\\ASP.NET\\HumanManagentDocker\\HumanManagement\\Program.cs",
+              "RelativeDocumentMoniker": "HumanManagement\\Program.cs",
+              "ToolTip": "D:\\Project\\ASP.NET\\HumanManagentDocker\\HumanManagement\\Program.cs",
+              "RelativeToolTip": "HumanManagement\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-24T15:56:58.979Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "D:\\Project\\ASP.NET\\HumanManagentDocker\\HumanManagement\\Dockerfile",
+              "RelativeDocumentMoniker": "HumanManagement\\Dockerfile",
+              "ToolTip": "D:\\Project\\ASP.NET\\HumanManagentDocker\\HumanManagement\\Dockerfile",
+              "RelativeToolTip": "HumanManagement\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-03-24T15:48:55.989Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"

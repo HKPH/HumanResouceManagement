@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
 using HumanManagement.Models.Dto;
+using HumanManagement.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanManagement.Web.Controllers

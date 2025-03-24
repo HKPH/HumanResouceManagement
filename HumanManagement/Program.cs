@@ -1,4 +1,3 @@
-using HumanManagement.Data;
 using HumanManagement.Data.Repository;
 using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models;
@@ -6,14 +5,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+
 using HumanManagement.Services;
 using HumanManagement.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
-
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(80);  // L?ng nghe c?ng 80 (ho?c 8080 n?u b?n gi? nguyên)
+    options.ListenAnyIP(81);  // L?ng nghe c?ng 81
+});
 // Add services to the container.
 builder.Services.AddCors(options =>
 {

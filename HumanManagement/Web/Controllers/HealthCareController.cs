@@ -2,7 +2,7 @@
 using HumanManagement.Models.Dto;
 using HumanManagement.Models;
 using Microsoft.AspNetCore.Mvc;
-using HumanManagement.Data.Repository.Interface;
+using HumanManagement.Repository.Interface;
 
 namespace HumanManagement.Web.Controllers
 {

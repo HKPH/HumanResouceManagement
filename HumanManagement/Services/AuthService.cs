@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using HumanManagement.Data.Repository.Interface;
 using HumanManagement.Models.Dto;
+using HumanManagement.Repository.Interface;
 using Microsoft.AspNetCore.Identity.Data;
 
 namespace HumanManagement.Services

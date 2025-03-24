@@ -1,6 +1,6 @@
-﻿using HumanManagement.Data.Repository.Interface;
-using HumanManagement.Models;
+﻿using HumanManagement.Models;
 using HumanManagement.Models.Dto;
+using HumanManagement.Repository.Interface;
 using HumanManagement.Services.Interfaces;
 
 

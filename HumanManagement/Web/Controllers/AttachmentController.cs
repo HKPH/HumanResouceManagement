@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using HumanManagement.Models;
-using HumanManagement.Data.Repository.Interface;
+using HumanManagement.Repository.Interface;
 
 namespace HumanManagement.Web.Controllers
 {
